@@ -1,0 +1,53 @@
+{{extend 'layout.html'}}
+
+    <h1>Group Calendar</h1>
+
+    <!-- Lists days over grid-->
+
+  <link rel="stylesheet" href="css/calendar.css">
+    <table class="header">
+      <tr>
+        <td></td>
+        <td>Sunday</td>
+        <td>Monday</td>
+        <td>Tuesday</td>
+        <td>Wednesday</td>
+        <td>Thursday</td>
+        <td>Friday</td>
+        <td>Saturday</td>
+      </tr>
+    </table>  
+
+    <canvas id="myCanvas" width="800" height="400">
+    Your browser does not support the HTML5 canvas tag.
+    </canvas>
+
+
+
+
+
+  
+<br>
+
+<font size="4">Member:</font>
+
+<ul id="list" style="list-style:none" vertical-align:top></ul>
+
+<form class="" action="index.html" method="get">
+
+
+      <input id="member" type="text" name="member"
+       onkeydown = "if (event.keyCode == 13) {add();event.returnValue=false;event.cancel=true;}"  >
+
+      <input type="button" name="" value="add memeber" onclick="add()">
+      <input type="button" value="Return" onClick = "returnEdit()" />
+    </form>
+<br>
+<br>
+<br>
+    <script src = "{{=URL('static','js/CalendarGenerator.js')}}">
+    </script>
+    <script src ="{{=URL('static','js/BoxGenerator.js')}}">
+    </script>
+    <script src ="{{=URL('static','js/GroupCalendar.js')}}">
+    </script>
