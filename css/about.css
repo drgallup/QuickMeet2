@@ -1,0 +1,35 @@
+/*
+    about.css
+    the css file for our about page.
+*/
+
+.picture{
+    max-width: 200px;
+    max-height: 200px;
+    transform: rotate(90deg);
+    margin: 0px;
+    margin-top: 30px;
+}
+
+.table{
+    margin: 0 auto;
+}
+
+.cell{
+    width: 270px;
+    height: 500px;
+    border-width: 0px;
+    border-color: #000;
+    border-style: solid;
+    box-sizing:border-box;
+    background-color: #fffee2;
+    float: left;
+    margin: 10px;
+}
+
+p{
+  margin: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+  }
