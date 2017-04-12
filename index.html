@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+    <h1>QuickMeet</h1>
+
+    <!-- Lists days over grid-->
+
+  <link rel="stylesheet" href="css/calendar.css">
+    <table class="header">
+      <tr>
+        <td></td>
+        <td>Sunday</td>
+        <td>Monday</td>
+        <td>Tuesday</td>
+        <td>Wednesday</td>
+        <td>Thursday</td>
+        <td>Friday</td>
+        <td>Saturday</td>
+      </tr>
+    </table>
+
+
+    <canvas id="myCanvas" width="800" height="400">
+    Your browser does not support the HTML5 canvas tag.
+    </canvas>
+
+    <script src ="js/CalendarGenerator.js">
+    </script>
+  
+    <script src = "js/CoordinateTracker.js">
+    </script>
+
+    <script src ="js/BoxGenerator.js">
+    </script>
+    <script src ="js/undo.js">
+    </script>
+
+
+
+
+
+
+
+<form>
+    <font size="4">username:</font>
+<input type="text" name="username" value="">
+
+<input type="submit" value="Submit">
+<input type="button" value="Create Group" onClick = "group()" />
+</form>
+<br><br><br>
