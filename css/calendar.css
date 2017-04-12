@@ -1,0 +1,48 @@
+/*
+    calendar.css
+    The css file for our webpage.
+    
+    Version 0.1 - 1/30/2017 - Removed the default margin and padding from the browser.
+    Version 0.2 - 2/3/2017 - Centered everything and added global color variable set for easy editing.
+    Version 1.2 - 2/8/2017 - Changed font to Palatino
+*/
+
+:root{
+    --background: #edbbbb;
+}
+
+.calendar{
+  margin: 5;
+  padding: 5;
+}
+
+* {
+   padding: 0;
+   text-align: center;
+   font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+text {
+       margin: 5;
+       font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+h1 {
+    font-size: 20;
+    
+    font-style: Bold;
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+.header {
+    empty-cells:show;
+    table-layout: fixed;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+li {
+vertical-align:top;
+  margin-left:10px;
+}
