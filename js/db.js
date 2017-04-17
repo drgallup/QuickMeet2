@@ -57,10 +57,10 @@ function deleteUser(userID){
 }
 function addUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
     db.transaction(function(tx){
-        tx.executeSql("UPDATE USERTABLE SET bTimeStart   = '"+bTimeStart+"', \
-                                            bTimeEnd     = '"+bTimeEnd  +"', \
-                                            bDayStart    = '"+bDayStart +"', \
-                                            bDayEnd      = '"+bDayEnd   +"'  \
+        tx.executeSql("UPDATE USERTABLE SET bTimeStart   = bTimeStart || '"+bTimeStart+"', \
+                                            bTimeEnd     = bTimeEnd   || '"+bTimeEnd  +"', \
+                                            bDayStart    = bDayStart  || '"+bDayStart +"', \
+                                            bDayEnd      = bTimeStart || '"+bDayEnd   +"'  \
                                             WHERE userID = "+ userID);
         });
         console.log("We are in addUsersCal");
@@ -78,10 +78,9 @@ function addUserGroups(userID,groupID){
 function doAll(){
     openUserDatabase();
     createUserTable();
-    createUser(1234,"afhenry","a","b","c","d","e");
+    createUser(1234,"afhenry","ap","b","c","d","e");
     
-    var newBtimeStart = "foo";
-    addUserCal(1234,newBtimeStart,2,2,2);
+    addUserCal(1234,"lol",2,2,2);
     addUserGroups(1234,"poobar");
     deleteUser(1234);
 }
