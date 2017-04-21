@@ -64,10 +64,10 @@ function addUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 					var row = result.rows.item(0);
 					if(row['bDayEnd'] != "")
 					{	
-						bTimeStart ="," + bTimeStart;
+						bTimeStart =","   + bTimeStart;
 						bTimeEnd =	","   + bTimeEnd;
-						bDayStart = ","  + bDayStart;
-						bDayEnd = 	","    + bDayEnd;
+						bDayStart = ","   + bDayStart;
+						bDayEnd = 	","   + bDayEnd;
 					}
 			});
 			
@@ -136,6 +136,7 @@ function removeUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 	
 	
 	console.log(upbts,upbte,upbds,upbde);
+    
 	db.transaction(function(tx){
         tx.executeSql("UPDATE USERTABLE SET bTimeStart   = '"+upbts  +"', \
                                             bTimeEnd     = '"+upbte  +"', \
@@ -173,16 +174,9 @@ function removegroupID(userID,groupID){
 function doAll(){
     openUserDatabase();
     createUserTable();
-    createUser(1234,"afhenry","timeS","timeE","dayS","dayE","group");
-    
-    addUserCal(1234,"a","b","c","d");
-	addUserCal(1234,"2","3","4","5");
-	
-    removeUserCal(1234,"a","b","c","d");
+    createUser(1234,"afhenry","","","","","group");
 	showUsers();
-    addUserGroups(1234,"poobar");
-    addUserGroups(1234,"Quickmeet");
-	removegroupID(1234,"poobar");
-	showUsers();
-    deleteUser(1234);
+}
+function doClean(){
+    deleteAllUsers();
 }
