@@ -42,10 +42,12 @@ var can = document.getElementById('myCanvas'),
 
 //create these 4 array to store calendar's events data
 //Already defined in setup
-//var btimeStart = [];
-//var btimeEnd = [];
-//var bdayStart = [];
-//var bdayEnd = [];
+var btimeStart = ["830"];
+var btimeEnd = ["900"];
+var bdayStart = ["Monday"];
+var bdayEnd = ["Tuesday"];
+
+//xdrawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 //get the calendar owner's all events, and then draw the box
 /*get_data("/QuickMeet/default/api/"+ user +".json",function(data){
     var jsonData = JSON.parse(data);
@@ -132,7 +134,7 @@ function mouseMove(eve) {
     ctx.clearRect(0,0,c.width,c.height);
     drawGrid();
     // mouse position 
-    //drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
     var pos = getMousePos(canvas, eve);
 
     // do drag box
@@ -142,14 +144,14 @@ function mouseMove(eve) {
         if(endX>maxX || endY>maxY){
         	ctx.clearRect(0,0,c.width,c.height);
     		drawGrid(); 
-            //drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
         	maxX=endX;
         	maxY=endY;
         }
         if(endX<maxX || endY<maxY){
    	 	ctx.clearRect(0,0,c.width,c.height);
     	drawGrid();
-            //drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
         	maxX = endX;
         	maxY = endY;
 
@@ -324,7 +326,8 @@ function findLocation (){
   
   //test add to database
   doAll();
-  addUserCal(1234, timeStart, timeEnd, dayMap(dayStart), dayMap(dayEnd));
+  console.log(timeStart, timeEnd, dayMap(dayStart), dayMap(dayEnd));
+  addUserCal(2913, timeStart, timeEnd, dayMap(dayStart), dayMap(dayEnd));
 
   console.log("Posted data");
   showUsers();

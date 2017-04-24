@@ -12,7 +12,14 @@ function createUserTable(){
             
     });
 }
-function createUser(userID, userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd, groupID){
+function createUser(){
+    var userName = document.getElementById("name").value;
+    var userID = genUserID();
+    var bTimeStart ="";
+    var bTimeEnd   ="";
+    var bDayStart  ="";
+    var bDayEnd    ="";
+    var groupID    ="";
     db.transaction(function(tx){
         tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", [userID, userName, bTimeStart, 
                                                                     bTimeEnd, bDayStart, bDayEnd, groupID]);
@@ -20,6 +27,24 @@ function createUser(userID, userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd, 
         console.log("We are in createUser");
         showUsers();    
 
+}
+function genUserID(){
+    var userID = Math.floor((Math.random() * 10000 ) + 1);
+
+    db.transaction(function(tx){
+        tx.executeSql("SELECT * userID FROM USERTABLE", [userID],function(tx,result){
+    
+            for(var i = 0; i < result.rows.length-1;i++){
+                console.log("hello",i);
+                var row = result.rows.item(i);
+                if(row['userID'] == userID){
+                    userID = Math.floor((Math.random() * 10000 ) + 1);
+                    i=0;
+                }
+            }
+        });
+    });
+    return userID;
 }
 function showUsers(){
     db.transaction(function(tx){
@@ -32,7 +57,6 @@ function showUsers(){
                 console.log(row['userID'], row['userName'], row['bTimeStart'], row['bTimeEnd'], row['bDayStart'], row['bDayEnd'], row['groupID']);
             }
         });
-        
     });
     
 }
@@ -62,8 +86,9 @@ function addUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 			console.log(tx);
 			tx.executeSql("SELECT userID FROM USERTABLE", [], function(tx,result){
 					var row = result.rows.item(0);
-					if(row['bDayEnd'] != "")
+					if(row['bDayEnd'] != " ")
 					{	
+                        console.log("bdayEnd "+row['bDayEnd']);
 						bTimeStart =","   + bTimeStart;
 						bTimeEnd =	","   + bTimeEnd;
 						bDayStart = ","   + bDayStart;
@@ -174,7 +199,8 @@ function removegroupID(userID,groupID){
 function doAll(){
     openUserDatabase();
     createUserTable();
-    createUser(1234,"afhenry","","","","","group");
+    //ADD ONLY WORKS WHEN NOT EMPTY
+    //HAS LEFTOVER STARTING COMMA 
 	showUsers();
 }
 function doClean(){
