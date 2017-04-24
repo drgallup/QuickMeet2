@@ -6,7 +6,7 @@ var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
 function drawBox(tStart, tEnd, dStart, dEnd){
-    console.log("we in it");
+    //console.log("we in it");
     for(var i = 0; i < tStart.length; i++){
         //starting x coordinate is determined by the day first clicked on.
         var X_coordinate = dStart[i]*tileWidth+tileWidth;
