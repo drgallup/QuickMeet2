@@ -1,3 +1,4 @@
+
 //BoxGenerator.js
 //draws a box given start and end times as well as the start and end days
 //takes these times from the findLocation() function in coordinateTracker.js
