@@ -1,9 +1,18 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
+
+=======
+<html>
+>>>>>>> refs/remotes/origin/dylan
     <h1>QuickMeet</h1>
 
-    <!-- Lists days over grid-->
+    
 
   <link rel="stylesheet" href="css/calendar.css">
+      <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <body>
+    <!-- Lists days over grid-->
     <table class="header">
       <tr>
         <td></td>
@@ -21,10 +30,60 @@
     <canvas id="myCanvas" width="800" height="400">
     Your browser does not support the HTML5 canvas tag.
     </canvas>
+    
+    <form>
+      <font size="4">username:</font>
+      <input id= "name" type="text" name="username" value="">
 
-    <script src ="js/CalendarGenerator.js">
-    </script>
+      <input type="submit" value="Submit" onClick = "createUser()">
+      <input type="button" value="Create Group" onClick = "group()" />
+          <div layout-align="center center" ng-controller="appCtrl" ng-cloak="" ng-app="MyApp">
+            <md-switch ng-model="data.cb1" aria-label="Switch 1">
+                Switch 1: {{ data.cb1 }}
+            </md-switch>
+          </div>
+    </form>
+    
+
+      
+  </body>
+    
+      <!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
   
+  <!-- Add our Source Files here -->
+  <script src="js/angularController.js"></script>
+
+    <!-- Script sources: add yours here -->
+    <script src ="js/CalendarGenerator.js"></script>
+  
+<<<<<<< HEAD
+    <script src = "js/CoordinateTracker.js"></script>
+
+    <script src ="js/BoxGenerator.js"></script>
+    
+    <script src ="js/undo.js"></script>
+    
+    <script src ="js/angular.js"></script>
+    
+    <script src ="js/Menu.js"></script>
+
+<form>
+    <font size="4">username:</font>
+<input type="text" name="username" value="">
+
+<input type="submit" value="Submit">
+<input type="button" value="Create Group" onClick = "group()" />
+</form>
+<br><br><br>
+</div>
+=======
     <script src = "js/CoordinateTracker.js">
     </script>
 
@@ -34,18 +93,7 @@
     </script>
 	<script src ="js/db.js">
     </script>
-
-
-
-
-
-
-
-<form>
-    <font size="4">username:</font>
-<input id= "name" type="text" name="username" value="">
-
-<input type="submit" value="Submit" onClick = "createUser()">
-<input type="button" value="Create Group" onClick = "group()" />
-</form>
+    
 <br><br><br>
+</html>
+>>>>>>> refs/remotes/origin/dylan
