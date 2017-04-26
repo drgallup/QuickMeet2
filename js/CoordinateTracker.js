@@ -42,10 +42,10 @@ var can = document.getElementById('myCanvas'),
 
 //create these 4 array to store calendar's events data
 //Already defined in setup
-var btimeStart = ["830"];
-var btimeEnd = ["900"];
-var bdayStart = ["Monday"];
-var bdayEnd = ["Tuesday"];
+var btimeStart = [];
+var btimeEnd = [];
+var bdayStart = [];
+var bdayEnd = [];
 
 //xdrawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 //get the calendar owner's all events, and then draw the box
@@ -113,7 +113,7 @@ function mouseUp(eve) {
     if(deletion==true){
       findDeletion();
     }*/
-    //drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 }
 
 // Tracks user's initial click
@@ -255,8 +255,8 @@ function findDeletion(){
       hourTemp.push(i);
     }
   }
-  var timeStart = timeCalc(hourTemp[0]);
-  var timeEnd = timeCalc(hourTemp[hourTemp.length-1]);
+  var timeStart = hourTemp[0];
+  var timeEnd = hourTemp[hourTemp.length-1];
 
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
@@ -308,12 +308,10 @@ function findLocation (){
     }
   }
 
-  
-  var timeStart = timeCalc(hourTemp[0]);
-  var timeEnd = timeCalc(hourTemp[hourTemp.length-1]);
+  //setting variables for one instance of drawBox()
+  var timeStart = hourTemp[0];
+  var timeEnd = hourTemp[hourTemp.length-1];
 
-  //var timeStart = hourTemp[0];
- //var timeEnd = hourTemp[hourTemp.length-1];
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
 
@@ -331,11 +329,21 @@ function findLocation (){
 
   console.log("Posted data");
   showUsers();
-  //btimeStart.push(timeStart);
-  //btimeEnd.push(timeEnd);
- // bdayStart.push(dayStart);
-  //bdayEnd.push(dayEnd);
-  //return btimeStart, btimeEnd, bdayStart, bdayEnd;
+  
+  //passing variables from local to global for use in drawBox()
+  if(timeStart == null){
+      btimeStart.push(0);
+  }else{
+      btimeStart.push(timeStart);
+  }
+  if(timeEnd == null){
+      btimeEnd.push(0);
+  }else{
+      btimeEnd.push(timeEnd);
+  }
+  bdayStart.push(dayStart);
+  bdayEnd.push(dayEnd);
+  return btimeStart, btimeEnd, bdayStart, bdayEnd;
 
 }
 
