@@ -19,7 +19,7 @@ function drawBox(tStart, tEnd, dStart, dEnd){
         //starting x coordinate is determined by the day first clicked on.
         var X_coordinate = dStart[i]*tileWidth+tileWidth;
         //starting y coordinate is determined by the time first clicked on.
-        var Y_coordinate = (tStart[i]*height/84);
+        var Y_coordinate = (tStart[i]*height/rows*7);
         //width is change in days times the width of the tile + 1
         var Width = ((dEnd[i]-dStart[i])*tileWidth)+tileWidth;
         //length is the difference in times
