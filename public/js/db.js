@@ -20,13 +20,16 @@ function createUser(){
     var bDayStart  ="";
     var bDayEnd    ="";
     var groupID    ="";
-    db.transaction(function(tx){
-        tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", [userID, userName, bTimeStart, 
-                                                                    bTimeEnd, bDayStart, bDayEnd, groupID]);
-    });
-        console.log("We are in createUser");
+    console.log("hello"+userName);
+    if(checkUser(userName)  ){
+        //alert will be sent
+    }else{
+        db.transaction(function(tx){
+            tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", [userID, userName, bTimeStart, 
+                                                                        bTimeEnd, bDayStart, bDayEnd, groupID]);
+        });
         showUsers();    
-
+    }
 }
 function genUserID(){
     var userID = Math.floor((Math.random() * 10000 ) + 1);
@@ -196,11 +199,23 @@ function removegroupID(userID,groupID){
                                             WHERE userID = "+ userID);
         });
 }
+function checkUser(username){
+    db.transaction(function(tx){
+        console.log(tx);
+        tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+username+"'", [], function(tx,result){
+            if(result.rows.item(0) != undefined){
+                alert("Username: "+ username +" already exists.\nPlease enter a different one.");
+                    return false;
+            }else{
+                return true;
+            }
+ 
+        });
+    });  
+}
 function doAll(){
     openUserDatabase();
     createUserTable();
-    //ADD ONLY WORKS WHEN NOT EMPTY
-    //HAS LEFTOVER STARTING COMMA 
 	showUsers();
 }
 function doClean(){
