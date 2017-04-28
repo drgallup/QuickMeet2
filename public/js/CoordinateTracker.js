@@ -343,7 +343,7 @@ function findLocation (){
   //post_data("/QuickMeet/default/api/"+ user + "/0" +".json", timeStart, timeEnd, dayStart, dayEnd);
   
   //test add to database
-  drawBox([3], [80], [3],[4]);
+  //drawBox([3], [80], [3],[4]);
   doAll();
   currentUser = window.location.href.split("username=");
     
