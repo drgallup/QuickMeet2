@@ -1,5 +1,5 @@
 //get the username
-var user = getParameterByName("username")
+var user = getParameterByName("userID");
 
 //create array to store the events, days is a [][] array
 var btimeStart = []
@@ -111,8 +111,10 @@ function removeByValue(arr, val) {
 
 //return the calendar owner's edit page
 function returnEdit(){
-        var user = getParameterByName("username")
-        window.location.href = "http://127.0.0.1:8000/Quickmeet/default/index?"+"username="+user
+        var userID = getParameterByName("userID");
+        
+        console.log("userID:"+userID);
+        window.location.href = "http://127.0.0.1:8000/Quickmeet/default/index?"+"userID="+userID
 }
 
 
@@ -121,11 +123,14 @@ function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;
     }
+    
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
+    
+    name = name.replace()
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
