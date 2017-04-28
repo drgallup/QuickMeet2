@@ -336,19 +336,20 @@ function findLocation (){
   var dayEnd = dayTemp[dayTemp.length-1];
     
   
-  console.log("Busy from " + timeStart + " to " + timeEnd + " " + dayMap(dayStart) + " through " + dayMap(dayEnd));
+  console.log("Busy from " + timeCalc(timeStart) + " to " + timeCalc(timeEnd)+ " " + dayMap(dayStart) + " through " + dayMap(dayEnd));
   //post
   //console.log("Before posting"); 
   //post_data("/QuickMeet/default/api/"+ user +".json", timeStart, timeEnd, dayStart, dayEnd);
   //post_data("/QuickMeet/default/api/"+ user + "/0" +".json", timeStart, timeEnd, dayStart, dayEnd);
   
   //test add to database
+  drawBox([3], [80], [3],[4]);
   doAll();
   currentUser = window.location.href.split("username=");
     
   console.log(currentUser[1]);
     
-  addUserCal(currentUser[1], timeCalcStart, timeCalcEnd, dayMap(dayStart), dayMap(dayEnd));
+  addUserCal(currentUser[1], timeCalcStart, timeCalcEnd, dayStart, dayEnd);
 
   console.log("Posted data");
   showUsers();
