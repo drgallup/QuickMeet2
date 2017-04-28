@@ -213,6 +213,42 @@ function checkUser(username){
         });
     });  
 }
+
+// pass method into callback param
+// ex: getCalbyUser("username",getdata);
+function getCalbyUser(username, callback){
+	var result;
+	var arra;
+    db.transaction(function(tx){
+        console.log(tx);
+        result = tx.executeSql("SELECT userName, bTimeStart, bTimeEnd, bDayStart, bdayEnd \
+						FROM USERTABLE \
+						WHERE userName ='"+username+"'", [], function(tx,result){
+							
+							
+				var row = result.rows.item(0);
+				arra = [row['bTimeStart']
+					  , row['bTimeEnd']
+				      , row['bDayStart']
+				      , row['bDayEnd'] ] 
+				
+		if(callback){
+			arra =  callback(arra);
+			console.log("here");
+			console.log(arra);
+			return arra;
+		}
+ 
+        });
+
+		
+    });  
+		
+}
+
+function getdata(data){
+	return data;
+}
 function doAll(){
     openUserDatabase();
     createUserTable();
