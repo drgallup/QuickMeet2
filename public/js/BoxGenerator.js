@@ -13,18 +13,20 @@ function drawBox(tStart, tEnd, dStart, dEnd){
 
     
     //console.log("tStart is " + tStart);
-    //console.log("tEnd is " + tEnd);
-    //console.log("dStart is " + dStart);
+    
     for(var i = 0; i < tStart.length; i++){
+        
+        
         
         //starting x coordinate is determined by the day first clicked on.
         var X_coordinate = dStart[i]*tileWidth+tileWidth;
         //starting y coordinate is determined by the time first clicked on.
-        var Y_coordinate = (tStart[i]*height/rows*7);
+        var Y_coordinate = (tStart[i]*height/84);
         //width is change in days times the width of the tile + 1
         var Width = ((dEnd[i]-dStart[i])*tileWidth)+tileWidth;
         //length is the difference in times
         var Length = ((tEnd[i]-tStart[i])*tileHeight/7);
+        //console.log("Y coor" + Y_coordinate);
 
         ctx.fillStyle = "rgba(128,0,0,0.5)";
         ctx.fillRect(X_coordinate, Y_coordinate, Width, Length);
