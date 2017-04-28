@@ -47,18 +47,29 @@ var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
 
+doAll();
+var currentUser = window.location.href.split("username=");
+var allData = getCalbyUser(currentUser[1],startUpload);
+console.log("all data: "+    allData); 
+//drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+console.log(btimeEnd);
+
 //xdrawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 //get the calendar owner's all events, and then draw the box
-/*get_data("/QuickMeet/default/api/"+ user +".json",function(data){
-    var jsonData = JSON.parse(data);
-    for (var i = 0; i < jsonData.length; i++) {
-        btimeStart.push(jsonData[i].startTime)
-        btimeEnd.push(jsonData[i].endTime)
-        bdayStart.push(jsonData[i].days[0])
-        bdayEnd.push(jsonData[i].days[jsonData[i].days.length -1])
-    }
+function startUpload(allData){
+
+    btimeStart = allData[0].split(',');
+    btimeEnd   = allData[1].split(',');
+    bdayStart  = allData[2].split(',');
+    bdayEnd    = allData[3].split(',');
+    
+    console.log(btimeEnd);
+    console.log(btimeStart);
+
+
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
-})*/
+
+}
 //console.log(jsonData);
 
 
@@ -318,8 +329,8 @@ function findLocation (){
   var timeEnd = hourTemp[hourTemp.length-1];
 
       
-  var timeCalcStart = timeCalc(hourTemp[0]);
-  var timeCalcEnd = timeCalc(hourTemp[hourTemp.length-1]);
+  var timeCalcStart = (hourTemp[0]);
+  var timeCalcEnd = (hourTemp[hourTemp.length-1]);
     
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
@@ -333,12 +344,17 @@ function findLocation (){
   
   //test add to database
   doAll();
-  addUserCal(6231, timeCalcStart, timeCalcEnd, dayMap(dayStart), dayMap(dayEnd));
+  currentUser = window.location.href.split("username=");
+    
+  console.log(currentUser[1]);
+    
+  addUserCal(currentUser[1], timeCalcStart, timeCalcEnd, dayMap(dayStart), dayMap(dayEnd));
 
   console.log("Posted data");
   showUsers();
   
   //passing variables from local to global for use in drawBox()
+    
   if(timeStart == null){
       btimeStart.push(0);
   }else{

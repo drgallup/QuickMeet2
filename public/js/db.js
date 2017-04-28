@@ -13,6 +13,7 @@ function createUserTable(){
     });
 }
 function createUser(){
+    doAll();
     var userName = document.getElementById("name").value;
     var userID = genUserID();
     var bTimeStart ="";
@@ -21,15 +22,15 @@ function createUser(){
     var bDayEnd    ="";
     var groupID    ="";
     console.log("hello"+userName);
-    if(checkUser(userName)  ){
+    //if(checkUser(userName)  ){
         //alert will be sent
-    }else{
+    //}else{
         db.transaction(function(tx){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", [userID, userName, bTimeStart, 
                                                                         bTimeEnd, bDayStart, bDayEnd, groupID]);
         });
-        showUsers();    
-    }
+        //showUsers();    
+    //}
 }
 function genUserID(){
     var userID = Math.floor((Math.random() * 10000 ) + 1);
@@ -83,20 +84,35 @@ function deleteUser(userID){
 
 }
 // the || is used as a concatenation operator in sqlite
-function addUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
+function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 		
 	db.transaction(function(tx){
 			console.log(tx);
-			tx.executeSql("SELECT userID FROM USERTABLE", [], function(tx,result){
-					var row = result.rows.item(0);
-					if(row['bDayEnd'] != " ")
+			tx.executeSql("SELECT bDayEnd FROM USERTABLE WHERE userName = '"+username+"'", [], function(tx,result){
+                try{
+                    var row = result.rows.item(0);
+                    console.log(row);
+                    bTimeStart =","   + bTimeStart;
+                    bTimeEnd =	","   + bTimeEnd;
+                    bDayStart = ","   + bDayStart;
+                    bDayEnd = 	","   + bDayEnd;
+                }catch(err){
+                    console.log("we see it is empty");
+                }
+					/*var row = result.rows.item(0).catch(function(err){
+                                                        console.log("we see it is empty");
+                                                        bTimeStart =","   + bTimeStart;
+						                                bTimeEnd =	","   + bTimeEnd;
+						                                bDayStart = ","   + bDayStart;
+						                                bDayEnd = 	","   + bDayEnd;});*/
+					/*if(row == undefined)
 					{	
                         console.log("bdayEnd "+row['bDayEnd']);
 						bTimeStart =","   + bTimeStart;
 						bTimeEnd =	","   + bTimeEnd;
 						bDayStart = ","   + bDayStart;
 						bDayEnd = 	","   + bDayEnd;
-					}
+					}*/
 			});
 			
 		});
@@ -104,8 +120,8 @@ function addUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
         tx.executeSql("UPDATE USERTABLE SET bTimeStart   = bTimeStart || '"+bTimeStart+"', \
                                             bTimeEnd     = bTimeEnd   || '"+bTimeEnd  +"', \
                                             bDayStart    = bDayStart  || '"+bDayStart +"', \
-                                            bDayEnd      = bDayEnd || '"+bDayEnd   +"'  \
-                                            WHERE userID = "+ userID);
+                                            bDayEnd      = bDayEnd    || '"+bDayEnd   +"'  \
+                                            WHERE userName = '"+username+"'");
         });
         console.log("We are in addUsersCal");
         showUsers();
@@ -199,51 +215,44 @@ function removegroupID(userID,groupID){
                                             WHERE userID = "+ userID);
         });
 }
-function checkUser(username){
+/*function checkUser(username){
     db.transaction(function(tx){
         console.log(tx);
         tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+username+"'", [], function(tx,result){
-            if(result.rows.item(0) != undefined){
+            try{
+                var row = result.rows.item(0);
                 alert("Username: "+ username +" already exists.\nPlease enter a different one.");
-                    return false;
-            }else{
+                return false;
+            }catch(err){
                 return true;
             }
- 
         });
     });  
-}
+}*/
 
 // pass method into callback param
 // ex: getCalbyUser("username",getdata);
 function getCalbyUser(username, callback){
 	var result;
 	var arra;
+    console.log('we in it');
     db.transaction(function(tx){
         console.log(tx);
         result = tx.executeSql("SELECT userName, bTimeStart, bTimeEnd, bDayStart, bdayEnd \
 						FROM USERTABLE \
 						WHERE userName ='"+username+"'", [], function(tx,result){
-							
-							
-				var row = result.rows.item(0);
-				arra = [row['bTimeStart']
-					  , row['bTimeEnd']
-				      , row['bDayStart']
-				      , row['bDayEnd'] ] 
-				
-		if(callback){
-			arra =  callback(arra);
-			console.log("here");
-			console.log(arra);
-			return arra;
-		}
- 
-        });
-
-		
+                            try{
+                                var row = result.rows.item(0);
+                                arra = [row['bTimeStart']
+                                      , row['bTimeEnd']
+                                      , row['bDayStart']
+                                      , row['bDayEnd']] 
+                                callback(arra);
+                            }catch(err){
+                                console.log("caught");
+                            }
+        });	
     });  
-		
 }
 
 function getdata(data){
