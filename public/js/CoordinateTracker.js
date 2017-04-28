@@ -234,8 +234,10 @@ function getMousePos(canvas, evt) {
 }
 
 function findDeletion(){
+    
   var dayTemp = [];
-  var hourTemp = [];    
+  var hourTemp = [];  
+    
   for (var i = 0; i<day.length-1; i++){
     if( day[i] < startX && startX < day[i+1] ){
       dayTemp.push(i);
@@ -255,9 +257,11 @@ function findDeletion(){
       hourTemp.push(i);
     }
   }
+    
   var timeStart = hourTemp[0];
   var timeEnd = hourTemp[hourTemp.length-1];
 
+    
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
   var counter = 0;
@@ -297,6 +301,7 @@ function findLocation (){
       dayTemp.push(i);
     }
   }
+    
   // figure out which hours were selected
   for (var i = 0; i<hour.length-1; i++){
     if( hour[i] < startY && startY < hour[i+1] ){
@@ -312,9 +317,13 @@ function findLocation (){
   var timeStart = hourTemp[0];
   var timeEnd = hourTemp[hourTemp.length-1];
 
+      
+  var timeCalcStart = timeCalc(hourTemp[0]);
+  var timeCalcEnd = timeCalc(hourTemp[hourTemp.length-1]);
+    
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
-
+    
   
   console.log("Busy from " + timeStart + " to " + timeEnd + " " + dayMap(dayStart) + " through " + dayMap(dayEnd));
   //post
@@ -324,8 +333,7 @@ function findLocation (){
   
   //test add to database
   doAll();
-  console.log(timeStart, timeEnd, dayMap(dayStart), dayMap(dayEnd));
-  addUserCal(2913, timeStart, timeEnd, dayMap(dayStart), dayMap(dayEnd));
+  addUserCal(6231, timeCalcStart, timeCalcEnd, dayMap(dayStart), dayMap(dayEnd));
 
   console.log("Posted data");
   showUsers();
