@@ -47,18 +47,29 @@ var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
 
+doAll();
+var currentUser = window.location.href.split("username=");
+var allData = getCalbyUser(currentUser[1],startUpload);
+console.log("all data: "+    allData); 
+//drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+console.log(btimeEnd);
+
 //xdrawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 //get the calendar owner's all events, and then draw the box
-/*get_data("/QuickMeet/default/api/"+ user +".json",function(data){
-    var jsonData = JSON.parse(data);
-    for (var i = 0; i < jsonData.length; i++) {
-        btimeStart.push(jsonData[i].startTime)
-        btimeEnd.push(jsonData[i].endTime)
-        bdayStart.push(jsonData[i].days[0])
-        bdayEnd.push(jsonData[i].days[jsonData[i].days.length -1])
-    }
+function startUpload(allData){
+
+    btimeStart = allData[0].split(',');
+    btimeEnd   = allData[1].split(',');
+    bdayStart  = allData[2].split(',');
+    bdayEnd    = allData[3].split(',');
+    
+    console.log(btimeEnd);
+    console.log(btimeStart);
+
+
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
-})*/
+
+}
 //console.log(jsonData);
 
 
@@ -234,8 +245,10 @@ function getMousePos(canvas, evt) {
 }
 
 function findDeletion(){
+    
   var dayTemp = [];
-  var hourTemp = [];    
+  var hourTemp = [];  
+    
   for (var i = 0; i<day.length-1; i++){
     if( day[i] < startX && startX < day[i+1] ){
       dayTemp.push(i);
@@ -255,9 +268,11 @@ function findDeletion(){
       hourTemp.push(i);
     }
   }
+    
   var timeStart = hourTemp[0];
   var timeEnd = hourTemp[hourTemp.length-1];
 
+    
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
   var counter = 0;
@@ -297,6 +312,7 @@ function findLocation (){
       dayTemp.push(i);
     }
   }
+    
   // figure out which hours were selected
   for (var i = 0; i<hour.length-1; i++){
     if( hour[i] < startY && startY < hour[i+1] ){
@@ -312,25 +328,34 @@ function findLocation (){
   var timeStart = hourTemp[0];
   var timeEnd = hourTemp[hourTemp.length-1];
 
+      
+  var timeCalcStart = (hourTemp[0]);
+  var timeCalcEnd = (hourTemp[hourTemp.length-1]);
+    
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
-
+    
   
-  console.log("Busy from " + timeStart + " to " + timeEnd + " " + dayMap(dayStart) + " through " + dayMap(dayEnd));
+  console.log("Busy from " + timeCalc(timeStart) + " to " + timeCalc(timeEnd)+ " " + dayMap(dayStart) + " through " + dayMap(dayEnd));
   //post
   //console.log("Before posting"); 
   //post_data("/QuickMeet/default/api/"+ user +".json", timeStart, timeEnd, dayStart, dayEnd);
   //post_data("/QuickMeet/default/api/"+ user + "/0" +".json", timeStart, timeEnd, dayStart, dayEnd);
   
   //test add to database
+  //drawBox([3], [80], [3],[4]);
   doAll();
-  console.log(timeStart, timeEnd, dayMap(dayStart), dayMap(dayEnd));
-  addUserCal(2913, timeStart, timeEnd, dayMap(dayStart), dayMap(dayEnd));
+  currentUser = window.location.href.split("username=");
+    
+  console.log(currentUser[1]);
+    
+  addUserCal(currentUser[1], timeCalcStart, timeCalcEnd, dayStart, dayEnd);
 
   console.log("Posted data");
   showUsers();
   
   //passing variables from local to global for use in drawBox()
+    
   if(timeStart == null){
       btimeStart.push(0);
   }else{
