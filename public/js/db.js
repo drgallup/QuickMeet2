@@ -15,23 +15,59 @@ function createUserTable(){
 function createUser(){
     doAll();
     var userName = document.getElementById("name").value;
+    //var link = window.location.href.split("username=");
+    //var userName = link[1];
     var userID = genUserID();
     var bTimeStart ="";
     var bTimeEnd   ="";
     var bDayStart  ="";
     var bDayEnd    ="";
     var groupID    ="";
-    console.log("hello"+userName);
-    //if(checkUser(userName)  ){
-        //alert will be sent
-    //}else{
-        db.transaction(function(tx){
-            tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", [userID, userName, bTimeStart, 
-                                                                        bTimeEnd, bDayStart, bDayEnd, groupID]);
+    if(userName.length < 4){
+        alert("Username cannot be that short");
+        return;
+    }
+    console.log("making new user:  " + userName);
+    var length;
+    db.transaction(function(tx){
+        tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+userName+"'", [], function(tx,result){
+                length = result.rows.length;
+                console.log(length);
+                if(length > 0 ){
+                    alert("Username: "+ userName +" already exists.\nIf you are "+userName+", click go to page.");
+                }
         });
-        //showUsers();    
-    //}
+
+    });
+    
+    db.transaction(function(tx){
+        if(length == 0){
+            console.log("We have it");
+            tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
+                          [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
+
+            alert("New User: " +userName+ " has been made");
+        }
+    });
+    
+    showUsers();    
 }
+
+
+function checkUser(){
+    db.transaction(function(tx){
+        var username = document.getElementById("name").value;
+        tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+username+"'", [], function(tx,result){
+            try{
+                var row = result.rows.item(0);
+                return false;
+            }catch(err){
+                return true;
+            }
+        });
+    });  
+}
+
 function genUserID(){
     var userID = Math.floor((Math.random() * 10000 ) + 1);
 
@@ -52,7 +88,6 @@ function genUserID(){
 }
 function showUsers(){
     db.transaction(function(tx){
-        console.log(tx);
         tx.executeSql("SELECT userID, userName, bTimeStart, \
                        bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE", [], function(tx,result){
             
@@ -215,20 +250,7 @@ function removegroupID(userID,groupID){
                                             WHERE userID = "+ userID);
         });
 }
-/*function checkUser(username){
-    db.transaction(function(tx){
-        console.log(tx);
-        tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+username+"'", [], function(tx,result){
-            try{
-                var row = result.rows.item(0);
-                alert("Username: "+ username +" already exists.\nPlease enter a different one.");
-                return false;
-            }catch(err){
-                return true;
-            }
-        });
-    });  
-}*/
+
 
 // pass method into callback param
 // ex: getCalbyUser("username",getdata);
@@ -264,5 +286,4 @@ function doAll(){
 	showUsers();
 }
 function doClean(){
-    deleteAllUsers();
-}
+    deleteAllUsers();}
