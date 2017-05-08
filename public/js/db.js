@@ -8,7 +8,7 @@ var db = null;
    What it does: opens the USERTABLE
 */
 function openUserDatabase(){
-    db = openDatabase("test1", "1.0", "Example", 200000);
+    db = openDatabase("users_group", "1.0", "Example", 200000);
 }
 /* input:void
    output: opened USERTABLE
@@ -186,8 +186,6 @@ function addUserGroups(userName,groupID){
     showUsers();
 }
 
-//this does not remove the commas that seperates the data
-//does not work with current implementation
 /* input:userName,bTimeStart, bTimeEnd, bDayStart, bDayEnd
    output: edited USERTABLE
    What it does: removes  specific timeframe for specific user
@@ -197,27 +195,27 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 	var upbte;
 	var upbds;
 	var upbde;
-	    db.transaction(function(tx){
-        console.log(tx);
-        tx.executeSql("SELECT userID, userName, bTimeStart, \
-                       bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE WHERE userName "+ userName+"'", [], function(tx,result){
-				
-                var row = result.rows.item(0);
-				upbts = row['bTimeStart'].split(",");
-				upbte = row['bTimeEnd'].split(",");
-				upbds = row['bDayStart'].split(",");
-				upbde = row['bDayEnd'].split(",");
-				
-				for(var i = 0; i < upbts.length; i++){
-					if(upbts[i] == bTimeStart && upbte[i] == bTimeEnd && upbds[i] == bDayStart && upbde[i] == bDayEnd){
-						upbts.splice(i,1);//splice deletes index i
-						upbte.splice(i,1);
-						upbds.splice(i,1);
-						upbde.splice(i,1);
-						
-					}// looks like no need for edge cases
-					
-				}
+    db.transaction(function(tx){
+    console.log(tx);
+    tx.executeSql("SELECT userName, bTimeStart, \
+                   bTimeEnd, bDayStart, bDayEnd \
+                   FROM USERTABLE WHERE userName = '"+ userName+"'", [], function(tx,result){
+
+            var row = result.rows.item(0);
+            upbts = row['bTimeStart'].split(",");
+            upbte = row['bTimeEnd'].split(",");
+            upbds = row['bDayStart'].split(",");
+            upbde = row['bDayEnd'].split(",");
+
+            for(var i = 0; i < upbts.length; i++){
+                if(upbts[i] == bTimeStart && upbte[i] == bTimeEnd && upbds[i] == bDayStart && upbde[i] == bDayEnd){
+                    upbts.splice(i,1);//splice deletes index i
+                    upbte.splice(i,1);
+                    upbds.splice(i,1);
+                    upbde.splice(i,1);
+
+                }// looks like no need for edge cases
+            }
         });
         
     });
@@ -227,8 +225,9 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
                                             bTimeEnd     = '"+upbte  +"', \
                                             bDayStart    = '"+upbds  +"', \
                                             bDayEnd      = '"+upbde  +"'  \
-                                            WHERE userName = "+ userName+"'");
-        });
+                                            WHERE userName = '"+ userName+"'");
+    });
+    
     showUsers();
 }
 
