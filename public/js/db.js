@@ -1,7 +1,19 @@
+//quickmeet2.0 public/db.js
+
+
 var db = null;
+
+/* input: void
+   output: DB opened
+   What it does: opens the USERTABLE
+*/
 function openUserDatabase(){
     db = openDatabase("test1", "1.0", "Example", 200000);
 }
+/* input:void
+   output: opened USERTABLE
+   What it does: make USERTABLE if not already made
+*/
 function createUserTable(){
     db.transaction(function(tx){
         tx.executeSql("create table USERTABLE (userID REAL UNIQUE,  userName TEXT, bTimeStart TEXT, \
@@ -12,6 +24,10 @@ function createUserTable(){
             
     });
 }
+/* input: takes input from text box on index.html
+   output: edited USERTABLE
+   What it does: creates a new user, makes sure the name is OK
+*/
 function createUser(){
     doAll();
     var userName = document.getElementById("name").value;
@@ -28,7 +44,7 @@ function createUser(){
         return;
     }
     console.log("making new user:  " + userName);
-    var length;
+    var length = 0;
     db.transaction(function(tx){
         tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+userName+"'", [], function(tx,result){
                 length = result.rows.length;
@@ -39,13 +55,12 @@ function createUser(){
         });
 
     });
-    
+    console.log(length);
+        
     db.transaction(function(tx){
         if(length == 0){
-            console.log("We have it");
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
-
             alert("New User: " +userName+ " has been made");
         }
     });
@@ -53,21 +68,10 @@ function createUser(){
     showUsers();    
 }
 
-
-function checkUser(){
-    db.transaction(function(tx){
-        var username = document.getElementById("name").value;
-        tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+username+"'", [], function(tx,result){
-            try{
-                var row = result.rows.item(0);
-                return false;
-            }catch(err){
-                return true;
-            }
-        });
-    });  
-}
-
+/* input: void
+   output: uniqueID, extra field for identification
+   What it does: generates a userID that is random and unique
+*/
 function genUserID(){
     var userID = Math.floor((Math.random() * 10000 ) + 1);
 
@@ -86,6 +90,10 @@ function genUserID(){
     });
     return userID;
 }
+/* input:void
+   output: void
+   What it does: displays USERTABLE to console
+*/
 function showUsers(){
     db.transaction(function(tx){
         tx.executeSql("SELECT userID, userName, bTimeStart, \
@@ -99,6 +107,10 @@ function showUsers(){
     });
     
 }
+/* input:void
+   output: wiped USERTABLE
+   What it does: removes ALL users/their info
+*/
 function deleteAllUsers(){
     db.transaction(function(tx){
         console.log(tx);
@@ -108,46 +120,39 @@ function deleteAllUsers(){
     showUsers();
 
 }
-
-function deleteUser(userID){
+/* input:userName
+   output: edited USERTABLE
+   What it does: removes specific user from table
+*/
+function deleteUser(userName){
      db.transaction(function(tx){
         console.log(tx);
-        tx.executeSql("DELETE FROM USERTABLE WHERE userID = "+userID);
+        tx.executeSql("DELETE FROM USERTABLE WHERE userName = "+userName+"'");
     });
         console.log("We are in deleteUser");
         showUsers();
 
 }
-// the || is used as a concatenation operator in sqlite
+/* input:userName,bTimeStart, bTimeEnd, bDayStart, bDayEnd
+   output: edited USERTABLE
+   What it does: adds specific timebox for specific user
+*/
 function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
-		
 	db.transaction(function(tx){
 			console.log(tx);
 			tx.executeSql("SELECT bDayEnd FROM USERTABLE WHERE userName = '"+username+"'", [], function(tx,result){
-                try{
-                    var row = result.rows.item(0);
-                    console.log(row);
+                var row = result.rows.item(0);
+                var times = row['bDayEnd'];
+                console.log(times.length);
+                
+                if(times.length > 0 ){
                     bTimeStart =","   + bTimeStart;
                     bTimeEnd =	","   + bTimeEnd;
                     bDayStart = ","   + bDayStart;
                     bDayEnd = 	","   + bDayEnd;
-                }catch(err){
-                    console.log("we see it is empty");
+                }else{
+                    console.log("We see it is empty, and insert as normal");
                 }
-					/*var row = result.rows.item(0).catch(function(err){
-                                                        console.log("we see it is empty");
-                                                        bTimeStart =","   + bTimeStart;
-						                                bTimeEnd =	","   + bTimeEnd;
-						                                bDayStart = ","   + bDayStart;
-						                                bDayEnd = 	","   + bDayEnd;});*/
-					/*if(row == undefined)
-					{	
-                        console.log("bdayEnd "+row['bDayEnd']);
-						bTimeStart =","   + bTimeStart;
-						bTimeEnd =	","   + bTimeEnd;
-						bDayStart = ","   + bDayStart;
-						bDayEnd = 	","   + bDayEnd;
-					}*/
 			});
 			
 		});
@@ -160,30 +165,34 @@ function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
         });
         console.log("We are in addUsersCal");
         showUsers();
-
 }
-
-
-function addUserGroups(userID,groupID){
-		db.transaction(function(tx){
-			console.log(tx);
-			tx.executeSql("SELECT userID FROM USERTABLE", [], function(tx,result){
-					var row = result.rows.item(0);
-					if(row['groupID'] != "")
-					{	
-						groupID ="," + groupID;
-					}
-			});
-			
-		});
+/* input:userName,groupID
+   output: edited USERTABLE
+   What it does: adds  specific group for specific user
+*/
+function addUserGroups(userName,groupID){
     db.transaction(function(tx){
-        tx.executeSql("UPDATE USERTABLE SET groupID = groupID ||'"+groupID +"' WHERE userID = "+ userID);
+        console.log(tx);
+        tx.executeSql("SELECT groupID FROM USERTABLE WHERE userName = '"+userName+"'", [], function(tx,result){
+                var row = result.rows.item(0);
+                var group = row['groupID']
+                console.log(group.length);
+                if(group.length > 0){groupID ="," + groupID;}
+        });
     });
-    console.log("We are in addUsersGroup");
+    db.transaction(function(tx){
+        tx.executeSql("UPDATE USERTABLE SET groupID = groupID ||'"+groupID +"' WHERE userName = '"+ userName+"'");
+    });
     showUsers();
 }
+
 //this does not remove the commas that seperates the data
-function removeUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
+//does not work with current implementation
+/* input:userName,bTimeStart, bTimeEnd, bDayStart, bDayEnd
+   output: edited USERTABLE
+   What it does: removes  specific timeframe for specific user
+*/
+function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 	var upbts;
 	var upbte;
 	var upbds;
@@ -191,7 +200,7 @@ function removeUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 	    db.transaction(function(tx){
         console.log(tx);
         tx.executeSql("SELECT userID, userName, bTimeStart, \
-                       bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE", [], function(tx,result){
+                       bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE WHERE userName "+ userName+"'", [], function(tx,result){
 				
                 var row = result.rows.item(0);
 				upbts = row['bTimeStart'].split(",");
@@ -212,48 +221,58 @@ function removeUserCal(userID, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
         });
         
     });
-	
-	
 	console.log(upbts,upbte,upbds,upbde);
-    
 	db.transaction(function(tx){
         tx.executeSql("UPDATE USERTABLE SET bTimeStart   = '"+upbts  +"', \
                                             bTimeEnd     = '"+upbte  +"', \
                                             bDayStart    = '"+upbds  +"', \
                                             bDayEnd      = '"+upbde  +"'  \
-                                            WHERE userID = "+ userID);
+                                            WHERE userName = "+ userName+"'");
         });
+    showUsers();
 }
 
-function removegroupID(userID,groupID){
+/* input:userName,groupID to delete
+   output: edited USERTABLE
+   What it does: removes  specific groupID from user table
+*/
+function removegroupID(userName,groupID){
 	var upgroupID;
+    var newGroupList;
 	    db.transaction(function(tx){
-        tx.executeSql("SELECT userID, groupID FROM USERTABLE", [], function(tx,result){
+        tx.executeSql("SELECT groupID FROM USERTABLE WHERE userName ='"+userName+"'", [], function(tx,result){
 				
                 var row = result.rows.item(0);
 				upgroupID = row['groupID'].split(",");
-				
 				for(var i = 0; i < upgroupID.length; i++){
 					if(upgroupID[i] == groupID){
-						upgroupID.splice(i,1);//splice deletes index i
-						
+				        newGroupList = upgroupID.splice(i,1);//splice deletes index i
+                        console.log("items to remove",  newGroupList );
 					}// looks like no need for edge cases
-					console.log(upgroupID);
-					
 				}
+                
+
+
         });
-        
     });
-	
+	console.log(upgroupID);//this prints empty
 	db.transaction(function(tx){
-        tx.executeSql("UPDATE USERTABLE SET groupID   = '"+ upgroupID  +"' \
-                                            WHERE userID = "+ userID);
+        console.log("set to", upgroupID);  
+        tx.executeSql("UPDATE USERTABLE SET groupID   = '"+ upgroupID +"' \
+                                            WHERE userName ='"+ userName+"'");
         });
+    showUsers();
 }
 
 
-// pass method into callback param
-// ex: getCalbyUser("username",getdata);
+
+
+/* input:userName,groupID to delete
+   output: editted USERTABLE
+   What it does: removes  specific groupID from user table
+   Special callback EX: getCalbyUser("username",getdata);
+*/
+
 function getCalbyUser(username, callback){
 	var result;
 	var arra;
@@ -276,14 +295,19 @@ function getCalbyUser(username, callback){
         });	
     });  
 }
-
+/* input:data
+   output: data
+   What it does: callback for some operations
+*/
 function getdata(data){
 	return data;
 }
+/* input:void
+   output: sets up tables so we can edit it
+   What it does: calls other functions to make sure table is ready to edit
+*/
 function doAll(){
     openUserDatabase();
     createUserTable();
 	showUsers();
 }
-function doClean(){
-    deleteAllUsers();}
