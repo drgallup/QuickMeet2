@@ -19,7 +19,7 @@ function createUserTable(){
         tx.executeSql("create table USERTABLE (userID REAL UNIQUE,  userName TEXT, bTimeStart TEXT, \
                                               bTimeEnd TEXT, bDayStart TEXT, bDayEnd TEXT, groupID TEXT)"
                       ,[],function(result){
-        alert("created notes table: "+ result);
+        alert("created user table: "+ result);
     });
             
     });
@@ -64,7 +64,6 @@ function createUser(){
             alert("New User: " +userName+ " has been made");
         }
     });
-    
     showUsers();    
 }
 
@@ -98,14 +97,12 @@ function showUsers(){
     db.transaction(function(tx){
         tx.executeSql("SELECT userID, userName, bTimeStart, \
                        bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE", [], function(tx,result){
-            
             for(var i = 0; i< result.rows.length;i++){
                 var row = result.rows.item(i);
                 console.log(row['userID'], row['userName'], row['bTimeStart'], row['bTimeEnd'], row['bDayStart'], row['bDayEnd'], row['groupID']);
             }
         });
     });
-    
 }
 /* input:void
    output: wiped USERTABLE
