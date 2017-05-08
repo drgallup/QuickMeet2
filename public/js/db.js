@@ -45,7 +45,6 @@ function createUser(){
             console.log("We have it");
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
-
             alert("New User: " +userName+ " has been made");
         }
     });
