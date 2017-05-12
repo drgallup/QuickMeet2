@@ -124,7 +124,7 @@ function deleteAllUsers(){
 function deleteUser(userName){
      db.transaction(function(tx){
         console.log(tx);
-        tx.executeSql("DELETE FROM USERTABLE WHERE userName = "+userName+"'");
+        tx.executeSql("DELETE FROM USERTABLE WHERE userName = '"+userName+"'");
     });
         console.log("We are in deleteUser");
         showUsers();
@@ -167,7 +167,7 @@ function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
    output: edited USERTABLE
    What it does: adds  specific group for specific user
 */
-function addUserGroups(userName,groupID){
+function addGroupToUser(userName,groupID){
     db.transaction(function(tx){
         console.log(tx);
         tx.executeSql("SELECT groupID FROM USERTABLE WHERE userName = '"+userName+"'", [], function(tx,result){
@@ -232,7 +232,7 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
    output: edited USERTABLE
    What it does: removes  specific groupID from user table
 */
-function removegroupID(userName,groupID){
+function removeGroupFromUser(userName,groupID){
 	var upgroupID;
     var newGroupList;
 	    db.transaction(function(tx){
