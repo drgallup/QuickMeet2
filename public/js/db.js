@@ -8,7 +8,7 @@ var db = null;
    What it does: opens the USERTABLE
 */
 function openUserDatabase(){
-    db = openDatabase("test1", "1.0", "Example", 200000);
+    db = openDatabase("users_group", "1.0", "Example", 200000);
 }
 /* input:void
    output: opened USERTABLE
@@ -19,7 +19,7 @@ function createUserTable(){
         tx.executeSql("create table USERTABLE (userID REAL UNIQUE,  userName TEXT, bTimeStart TEXT, \
                                               bTimeEnd TEXT, bDayStart TEXT, bDayEnd TEXT, groupID TEXT)"
                       ,[],function(result){
-        alert("created notes table: "+ result);
+        alert("created user table: "+ result);
     });
             
     });
@@ -64,7 +64,6 @@ function createUser(){
             alert("New User: " +userName+ " has been made");
         }
     });
-    
     showUsers();    
 }
 
@@ -98,14 +97,12 @@ function showUsers(){
     db.transaction(function(tx){
         tx.executeSql("SELECT userID, userName, bTimeStart, \
                        bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE", [], function(tx,result){
-            
             for(var i = 0; i< result.rows.length;i++){
                 var row = result.rows.item(i);
                 console.log(row['userID'], row['userName'], row['bTimeStart'], row['bTimeEnd'], row['bDayStart'], row['bDayEnd'], row['groupID']);
             }
         });
     });
-    
 }
 /* input:void
    output: wiped USERTABLE
@@ -127,7 +124,7 @@ function deleteAllUsers(){
 function deleteUser(userName){
      db.transaction(function(tx){
         console.log(tx);
-        tx.executeSql("DELETE FROM USERTABLE WHERE userName = "+userName+"'");
+        tx.executeSql("DELETE FROM USERTABLE WHERE userName = '"+userName+"'");
     });
         console.log("We are in deleteUser");
         showUsers();
@@ -170,7 +167,7 @@ function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
    output: edited USERTABLE
    What it does: adds  specific group for specific user
 */
-function addUserGroups(userName,groupID){
+function addGroupToUser(userName,groupID){
     db.transaction(function(tx){
         console.log(tx);
         tx.executeSql("SELECT groupID FROM USERTABLE WHERE userName = '"+userName+"'", [], function(tx,result){
@@ -186,8 +183,6 @@ function addUserGroups(userName,groupID){
     showUsers();
 }
 
-//this does not remove the commas that seperates the data
-//does not work with current implementation
 /* input:userName,bTimeStart, bTimeEnd, bDayStart, bDayEnd
    output: edited USERTABLE
    What it does: removes  specific timeframe for specific user
@@ -197,27 +192,27 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 	var upbte;
 	var upbds;
 	var upbde;
-	    db.transaction(function(tx){
-        console.log(tx);
-        tx.executeSql("SELECT userID, userName, bTimeStart, \
-                       bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE WHERE userName "+ userName+"'", [], function(tx,result){
-				
-                var row = result.rows.item(0);
-				upbts = row['bTimeStart'].split(",");
-				upbte = row['bTimeEnd'].split(",");
-				upbds = row['bDayStart'].split(",");
-				upbde = row['bDayEnd'].split(",");
-				
-				for(var i = 0; i < upbts.length; i++){
-					if(upbts[i] == bTimeStart && upbte[i] == bTimeEnd && upbds[i] == bDayStart && upbde[i] == bDayEnd){
-						upbts.splice(i,1);//splice deletes index i
-						upbte.splice(i,1);
-						upbds.splice(i,1);
-						upbde.splice(i,1);
-						
-					}// looks like no need for edge cases
-					
-				}
+    db.transaction(function(tx){
+    console.log(tx);
+    tx.executeSql("SELECT userName, bTimeStart, \
+                   bTimeEnd, bDayStart, bDayEnd \
+                   FROM USERTABLE WHERE userName = '"+ userName+"'", [], function(tx,result){
+
+            var row = result.rows.item(0);
+            upbts = row['bTimeStart'].split(",");
+            upbte = row['bTimeEnd'].split(",");
+            upbds = row['bDayStart'].split(",");
+            upbde = row['bDayEnd'].split(",");
+
+            for(var i = 0; i < upbts.length; i++){
+                if(upbts[i] == bTimeStart && upbte[i] == bTimeEnd && upbds[i] == bDayStart && upbde[i] == bDayEnd){
+                    upbts.splice(i,1);//splice deletes index i
+                    upbte.splice(i,1);
+                    upbds.splice(i,1);
+                    upbde.splice(i,1);
+
+                }// looks like no need for edge cases
+            }
         });
         
     });
@@ -227,8 +222,9 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
                                             bTimeEnd     = '"+upbte  +"', \
                                             bDayStart    = '"+upbds  +"', \
                                             bDayEnd      = '"+upbde  +"'  \
-                                            WHERE userName = "+ userName+"'");
-        });
+                                            WHERE userName = '"+ userName+"'");
+    });
+    
     showUsers();
 }
 
@@ -236,7 +232,7 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
    output: edited USERTABLE
    What it does: removes  specific groupID from user table
 */
-function removegroupID(userName,groupID){
+function removeGroupFromUser(userName,groupID){
 	var upgroupID;
     var newGroupList;
 	    db.transaction(function(tx){
