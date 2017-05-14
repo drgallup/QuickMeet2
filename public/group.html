@@ -1,10 +1,25 @@
-{{extend 'layout.html'}}
+<!DOCTYPE html>
 
-    <h1>Group Calendar</h1>
+<html>
 
-    <!-- Lists days over grid-->
+    <h1>QuickMeet</h1>
 
+  <link rel="stylesheet" href="css/menu.css">
+  <div class="container" ng-app="MyApp">
+      <div ng-controller="SidebarController" class="sidebar" sidebar-directive="state">
+          <a href="#" id="navigation-toggle" ng-click="toggleState()">Menu</a>
+          <ul class="navigation">
+              <li class="navigation-items"> <a href="/">Home</a> </li>
+              <li class="navigation-items"> <a href="/">About</a> </li>
+          </ul>
+      </div>
+  </div>
+    
   <link rel="stylesheet" href="css/calendar.css">
+      <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <body>
+    <!-- Lists days over grid-->
     <table class="header">
       <tr>
         <td></td>
@@ -16,38 +31,61 @@
         <td>Friday</td>
         <td>Saturday</td>
       </tr>
-    </table>  
+    </table>
+
 
     <canvas id="myCanvas" width="800" height="400">
     Your browser does not support the HTML5 canvas tag.
     </canvas>
+    
+    <form>
+      <font size="4">username:</font>
+      <input id= "name" type="text" name="username" value="">
 
+      <input type="button" value="Submit" onClick = "createUser()">
+      <input type="submit" value="Go to your user page">
 
-
-
-
-  
-<br>
-
-<font size="4">Member:</font>
-
-<ul id="list" style="list-style:none" vertical-align:top></ul>
-
-<form class="" action="index.html" method="get">
-
-
-      <input id="member" type="text" name="member"
-       onkeydown = "if (event.keyCode == 13) {add();event.returnValue=false;event.cancel=true;}"  >
-
-      <input type="button" name="" value="add memeber" onclick="add()">
-      <input type="button" value="Return" onClick = "returnEdit()" />
+      <input type="button" value="Create Group" onClick = "group()" />
+          <div layout-align="center center" ng-controller="appCtrl" ng-cloak="" ng-app="MyApp">
+            <md-switch ng-model="data.cb1" aria-label="Switch 1">
+                Switch 1: {{ data.cb1 }}
+            </md-switch>
+          </div>
     </form>
-<br>
-<br>
-<br>
-    <script src = "{{=URL('static','js/CalendarGenerator.js')}}">
-    </script>
-    <script src ="{{=URL('static','js/BoxGenerator.js')}}">
-    </script>
-    <script src ="{{=URL('static','js/GroupCalendar.js')}}">
-    </script>
+    
+
+      
+  </body>
+    
+      <!-- Angular Material requires Angular.js Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+  
+  <!-- Add our Source Files here -->
+  <script src="js/angularController.js"></script>
+
+    <!-- Script sources: add yours here -->
+    <script src ="js/db.js"></script>
+    
+    <script src ="js/groupDB.js"></script>
+
+    <script src ="js/CalendarGenerator.js"></script>
+
+    <script src = "js/CoordinateTracker.js"></script>
+
+    <script src ="js/BoxGenerator.js"></script>
+    
+    <script src ="js/undo.js"></script>
+    
+    <script src ="js/angular.js"></script>
+    
+    <script src ="js/coordinateHelper.js"></script>
+
+<br><br><br>
+
+</html>

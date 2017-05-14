@@ -42,7 +42,9 @@
       <font size="4">username:</font>
       <input id= "name" type="text" name="username" value="">
 
-      <input type="submit" value="Submit" onClick = "createUser()">
+      <input type="button" value="Submit" onClick = "createUser()">
+      <input type="submit" value="Go to your user page">
+
       <input type="button" value="Create Group" onClick = "group()" />
           <div layout-align="center center" ng-controller="appCtrl" ng-cloak="" ng-app="MyApp">
             <md-switch ng-model="data.cb1" aria-label="Switch 1">
@@ -68,8 +70,11 @@
   <script src="js/angularController.js"></script>
 
     <!-- Script sources: add yours here -->
+    <script src ="js/db.js"></script>
+    <script src ="js/groupDB.js"></script>
+
+
     <script src ="js/CalendarGenerator.js"></script>
-  
 
     <script src = "js/CoordinateTracker.js"></script>
 
@@ -79,7 +84,7 @@
     
     <script src ="js/angular.js"></script>
     
-    <script src ="js/db.js"></script>
+    <script src ="js/coordinateHelper.js"></script>
 
 <br><br><br>
 

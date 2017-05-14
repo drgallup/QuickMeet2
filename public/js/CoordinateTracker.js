@@ -14,8 +14,9 @@
 // // --------------------------------------------------------------------
 
 // ~~~~~~~~~~~~~~~~
-// Variables
+// Global Variables
 
+// array filled with pixel locations of days used.
 var day = [ 100, 200,
             300, 400,
             500, 600,
@@ -26,7 +27,7 @@ var hour = [];
 
 var currentDataSet = [];
 
-var canvas, startX, endX, startY, endY, maxX, maxY;
+var startX, endX, startY, endY, maxX, maxY;
 var mouseIsDown = false;
 
 var can = document.getElementById('myCanvas'),
@@ -47,21 +48,30 @@ var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
 
+doAll();
+var currentUser = window.location.href.split("username=");
+var allData = getCalbyUser(currentUser[1],startUpload);
+console.log("all data: "+    allData); 
+//drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+console.log(btimeEnd);
+
 //xdrawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 //get the calendar owner's all events, and then draw the box
-/*get_data("/QuickMeet/default/api/"+ user +".json",function(data){
-    var jsonData = JSON.parse(data);
-    for (var i = 0; i < jsonData.length; i++) {
-        btimeStart.push(jsonData[i].startTime)
-        btimeEnd.push(jsonData[i].endTime)
-        bdayStart.push(jsonData[i].days[0])
-        bdayEnd.push(jsonData[i].days[jsonData[i].days.length -1])
-    }
+function startUpload(allData){
+
+    btimeStart = allData[0].split(',');
+    btimeEnd   = allData[1].split(',');
+    bdayStart  = allData[2].split(',');
+    bdayEnd    = allData[3].split(',');
+    
+    console.log(btimeEnd);
+    console.log(btimeStart);
+
+
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
-})*/
+
+}
 //console.log(jsonData);
-
-
 
 
 // ~~~~~~~~~~~~~~~~
@@ -72,20 +82,11 @@ can.addEventListener('mouseup', mouseUp, false);
 
 //Continue off from the setup script, load the user's data and draw
 
-
-// tooltip
-// http://stackoverflow.com/questions/15702867/html-tooltip-position-relative-to-mouse-pointer
-var tooltipSpan = document.getElementById('tooltip-span');
-
-/*window.onmousemove = function (e) {
-    var x = e.clientX,
-        y = e.clientY;
-    tooltipSpan.style.top = (y + 20) + 'px';
-    tooltipSpan.style.left = (x + 20) + 'px';
-};*/
-
+// hourChange()
+// input:  global rows (hours in calendar)
+// output: global hour[] (initialized to pixel location of 1/7 each hour in calendar)
+// generates the pixel area of each time
 hourChange();
-// hourChange generates the pixel area of each hour
 function hourChange(){
   var tempHeight = 400/(rows*7);
   for(var i=0; i<=(rows*7); i++){
@@ -93,7 +94,13 @@ function hourChange(){
   }
 }
 
-
+// mouseUp()
+// input:  local eve (mouse event)
+//         global btimeStart, btimeEnd, bdayStart, bdayEnd
+//                (arrays for current busy blocks)
+//                mouseIsDown (tells function if mouse is down)
+// output: global mouseIsDown (turns to false)
+//                canvas updated with new time blocks
 // Updates coordinates to generate box
 function mouseUp(eve) {
 	//var deletion = document.getElementById('deleteswitch').checked;
@@ -102,7 +109,7 @@ function mouseUp(eve) {
         //var pos = getMousePos(canvas, eve);
         //endX = pos.x;
         //endY = pos.y;
-        //drawSquare(); 
+        //drawSelector(); 
     }
     //console.log("Inside mouseup");
     ctx.clearRect(0,0,c.width,c.height);
@@ -116,26 +123,41 @@ function mouseUp(eve) {
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 }
 
+// mouseDown(eve)
+// input:   local eve (mouse event)
+// output:  global startX, startY, endX, endY,
+//          maxX, maxY. All set to mouse position at call time
 // Tracks user's initial click
 function mouseDown(eve) {
     
     mouseIsDown = true;
-    var pos = getMousePos(canvas, eve);
-    startX = endX = pos.x;
-    startY = endY = pos.y;
-    maxX = startX;
-    maxY = startY;
+    var pos = getMousePos(can, eve);
+    maxX = startX = endX = pos.x;
+    maxY = startY = endY = pos.y;
 }
 
+// global tooltip variables used in drawTooltip (coordinateHelper.js)
 var toolX;
 var toolY;
-// Tracks user's drag
+
+/*  mouseMove(eve)
+    
+    input:  local eve (mouse move event), 
+            global btimeStart, btimeEnd, bdayStart, bdayEnd 
+                  (arrays for current busy blocks)
+                  
+    output: void, tooltip, live rendering selection box
+    
+    functions called: drawGrid, drawBox, drawSelector, 
+                      drawTooltip, getMousePos
+                      
+    Tracks user's drag                                        */
 function mouseMove(eve) {
     ctx.clearRect(0,0,c.width,c.height);
     drawGrid();
     // mouse position 
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
-    var pos = getMousePos(canvas, eve);
+    var pos = getMousePos(can, eve);
 
     // do drag box
     if (mouseIsDown !== false) {
@@ -156,83 +178,17 @@ function mouseMove(eve) {
         	maxY = endY;
 
         }
-        drawSquare();
+        drawSelector();
     }
-    
-    // tooltip:
-    
-    // current time
-    // figure out which hours were selected
-    var tipDisplay;
-    for (var i = 0; i<hour.length-1; i++){
-      if( hour[i] <= pos.y && pos.y < hour[i+1] ){
-        tipDisplay = timeCalc(i);
-      }
-    }
-    
-    // change tipDisplay to standard time
-    if(tipDisplay > 1250){
-      tipDisplay -= 1200;
-    }else if(!tipDisplay){
-      tipDisplay = 700;
-    }
-    
-    // change the size of the tooltip based on the length of the string
-    if(tipDisplay >= 1000){
-      toolX = [pos.x - 50, pos.x - 8];
-    }else if (tipDisplay < 1000){
-      toolX = [pos.x - 44, pos.x - 8];
-    }
-    toolY = [pos.y, pos.y+20];
-    if(toolY[1] > 350){
-      toolY[0] -= 20;
-      toolY[1] -= 20;
-    }
-    
-    // box
-    //ctx.fillStyle = "rgba(30,30,30,1)";
-    //roundRect(ctx, toolX[0], toolY[0], toolX[1]-toolX[0], toolY[1]-toolY[0], 2, true, false)
-    ctx.beginPath();
-    ctx.fillStyle = "rgba(30,30,30,1)";
-    ctx.fillRect(toolX[0], toolY[0], toolX[1]-toolX[0], toolY[1]-toolY[0]);
-    ctx.lineWidth = 1;
-    
-    // add the colon
-    tipDisplay = addColon(tipDisplay);
-    
-    // text
-		ctx.font = "14px Palatino";
-		ctx.fillStyle = 'white';
-		ctx.fillText(tipDisplay,toolX[0]+4,toolY[1]-5);
-    
-    
+    drawTooltip(pos);
 }
 
-// Draws live rendering box
-function drawSquare() {
-    // creating a square
-    var w = maxX - startX;
-    var h = maxY - startY;
-    var offsetX = (w < 0) ? w : 0;
-    var offsetY = (h < 0) ? h : 0;
-    var width = Math.abs(w);
-    var height = Math.abs(h);
-               
-    ctx.beginPath();
-    ctx.fillStyle = "rgba(128,0,0,1)";
-    ctx.fillRect(startX + offsetX, startY + offsetY, width, height);
-    ctx.lineWidth = 1;
-   
-}
-
-function getMousePos(canvas, evt) {
-    var rect = can.getBoundingClientRect();
-    return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    };
-}
-
+// findDeletion()
+// input:   global variables startX, startY, endX, endY (mouse pos)
+//          day[] (pixel map for days), hour[] (pixel map for times)
+// output:  local void, global updates to database
+// Maps the location of the mouse to a set of days and times
+// then removes that data from the server and calendar.
 function findDeletion(){
     
   var dayTemp = [];
@@ -287,6 +243,12 @@ function findDeletion(){
     }
 }
 
+// input:   global variables startX, startY, endX, endY (mouse pos)
+//          day[] (pixel map for days), hour[] (pixel map for times)
+// output:  local void, global updates to database
+// Maps the location of the mouse to a set of days and times
+// then pushes that data to the server and calendar.
+// NOTE: could combine findLocation and findDeletion
 function findLocation (){
   // figures out which hours on the calendar have been selected
   var dayTemp = [];
@@ -318,27 +280,33 @@ function findLocation (){
   var timeEnd = hourTemp[hourTemp.length-1];
 
       
-  var timeCalcStart = timeCalc(hourTemp[0]);
-  var timeCalcEnd = timeCalc(hourTemp[hourTemp.length-1]);
+  var timeCalcStart = (hourTemp[0]);
+  var timeCalcEnd = (hourTemp[hourTemp.length-1]);
     
   var dayStart = dayTemp[0];
   var dayEnd = dayTemp[dayTemp.length-1];
     
   
-  console.log("Busy from " + timeStart + " to " + timeEnd + " " + dayMap(dayStart) + " through " + dayMap(dayEnd));
+  console.log("Busy from " + timeCalc(timeStart) + " to " + timeCalc(timeEnd)+ " " + dayMap(dayStart) + " through " + dayMap(dayEnd));
   //post
   //console.log("Before posting"); 
   //post_data("/QuickMeet/default/api/"+ user +".json", timeStart, timeEnd, dayStart, dayEnd);
   //post_data("/QuickMeet/default/api/"+ user + "/0" +".json", timeStart, timeEnd, dayStart, dayEnd);
   
   //test add to database
+  //drawBox([3], [80], [3],[4]);
   doAll();
-  addUserCal(6231, timeCalcStart, timeCalcEnd, dayMap(dayStart), dayMap(dayEnd));
+  currentUser = window.location.href.split("username=");
+    
+  console.log(currentUser[1]);
+    
+  addUserCal(currentUser[1], timeCalcStart, timeCalcEnd, dayStart, dayEnd);
 
   console.log("Posted data");
   showUsers();
   
   //passing variables from local to global for use in drawBox()
+    
   if(timeStart == null){
       btimeStart.push(0);
   }else{
@@ -355,61 +323,12 @@ function findLocation (){
 
 }
 
-// maps the hour selected to the time displayed
-function timeCalc(x){
-  return (Math.floor(x/7)*100 + (x%7 < 6 ? x%7 : 10)*10 + 700);
-}
 
-// adds a colon on to a time, returns a string
-function addColon(x){
-  var temp = x.toString();
-  var tempArray = [];
-  // walk through each number and separate them into the array
-  for (var i = 0, len = temp.length; i < len; i ++) {
-    tempArray.push(+temp.charAt(i));
-  }
-  var output = '';
-  if(tempArray.length===3){
-    output += tempArray[0];
-    output += ':';
-    output += tempArray[1];
-    output += tempArray[2];
-  }else if(tempArray.length===4){
-    output += tempArray[0];
-    output += tempArray[1];
-    output += ':';
-    output += tempArray[2];
-    output += tempArray[3];
-  }
-  //console.log(output);
-  return output;
-}
-
-// maps the days to strings
-function dayMap(x){
-  switch(x){
-    case 0:
-      return "Sunday";
-    case 1:
-      return "Monday";
-    case 2:
-      return "Tuesday";
-    case 3:
-      return "Wednesday";
-    case 4:
-      return "Thursday";
-    case 5:
-      return "Friday";
-    case 6:
-      return "Saturday";
-    default:
-      return "Error: Invalid Day";
-  }
-}
-
-/*
 //link the 'CREATE GROUP' button in the main page, redirect user to group calendar
 function group(){
-        window.location.href = "/QuickMeet/default/group?"+"username="+user
-}*/
+        var groupName = document.getElementById("name").value;
+        createGroup(groupName);
+        window.location.href = "/public/group.html?"+"groupName="+groupName;
+        
+}
 
