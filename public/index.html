@@ -46,7 +46,7 @@
       <input id= "name" type="text" name="username" value="">
 
       <input type="button" value="Submit" onClick = "createUser()">
-      <input type="submit" value="Go to your user page">
+      <input type="button" value="Go to your user page" onClick="userRedirect()">
 
       <input type="button" value="Create Group" onClick = "group()" />
           
@@ -120,13 +120,17 @@
     // Get a reference to the database service
     var database = firebase.database();
 
-    function writeUserData(username) {
-      firebase.database().ref('user/'+username).set(dataJSON);
+    function writeUserData() {
+        var link = window.location.href.split("username=");
+        var username = link[1];
+        firebase.database().ref('user/'+username+'/').set(dataJSON);
     }
 
     function readUserData(){
-        return firebase.database().ref('user/').once('value').then(function(snapshot) {
-        var username = snapshot.val()   ;
+        var link = window.location.href.split("username=");
+        var username = link[1];
+        return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
+        var username = snapshot.val();
         console.log(username);
         });
     }

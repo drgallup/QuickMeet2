@@ -301,6 +301,19 @@ function getCalbyUser(username, callback){
      });  
  		
  }
+
+function USERtoJSON(){
+    db.transaction(function(tx){
+        result = tx.executeSql("SELECT * FROM USERTABLE",[],function(tx,result){
+             var row = result.rows;
+             dataJSON.users = row;
+             console.log(dataJSON);
+        });
+    });
+}
+function JSONtoUSER(){
+    console.log(dataJSON.users);
+}
 /* input:data
    output: data
    What it does: callback for some operations

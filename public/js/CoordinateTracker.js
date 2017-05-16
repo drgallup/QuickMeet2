@@ -341,4 +341,10 @@ function group(){
         window.location.href = "/public/group.html?"+"groupName="+groupName;
         
 }
+function userRedirect(){
+        var username = document.getElementById("name").value;
+        window.location.href = "/public/index.html?"+"username="+username;
+        console.log(username);
+        
+}
 
