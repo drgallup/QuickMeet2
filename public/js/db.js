@@ -68,15 +68,16 @@ function createUser(){
 }
 function loadUser(dataJSON){
     doAll();
-    var userName = dataJSON.users.userName;
+    console.log(dataJSON.users[0].userName);
+    var userName = dataJSON.users[0].userName;
     //var link = window.location.href.split("username=");
     //var userName = link[1];
-    var userID     = dataJSON.users.userID;
-    var bTimeStart = dataJSON.users.bTimeStart;
-    var bTimeEnd   = dataJSON.users.bTimeEnd;
-    var bDayStart  = dataJSON.users.bDayStart;
-    var bDayEnd    = dataJSON.users.bDayEnd;
-    var groupID    = dataJSON.users.groupID;
+    var userID     = dataJSON.users[0].userID;
+    var bTimeStart = dataJSON.users[0].bTimeStart;
+    var bTimeEnd   = dataJSON.users[0].bTimeEnd;
+    var bDayStart  = dataJSON.users[0].bDayStart;
+    var bDayEnd    = dataJSON.users[0].bDayEnd;
+    var groupID    = dataJSON.users[0].groupID;
     db.transaction(function(tx){
         if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
@@ -332,7 +333,7 @@ function USERtoJSON(){
 }
 function JSONtoUSER(){
     console.log(dataJSON.users);
-    loadUser(dataJSON.users);
+    loadUser(dataJSON);
 }
 /* input:data
    output: data

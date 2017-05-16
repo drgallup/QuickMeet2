@@ -15,7 +15,8 @@
       </div>
   </div>
   
-    
+  <script src = "js/redir.js"></script>
+
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
@@ -109,6 +110,7 @@
 <script>
   // Initialize Firebase
   // TODO: Replace with your project's customized code snippet
+  var loadedDB;
   var config = {
     apiKey: "AIzaSyBetNrKXVXpI6OrSjOpwVIm_HQSZ0p64tw",
     authDomain: "quickmeet2-c69c9.firebaseapp.com",
@@ -131,7 +133,7 @@
         var link = window.location.href.split("username=");
         var username = link[1];
         return firebase.database().ref('user/').once('value').then(function(snapshot) {
-        var username = snapshot.val();
+        loadedDB = snapshot.val();
         console.log(username);
         });
     }
