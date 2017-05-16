@@ -58,7 +58,9 @@ console.log(btimeEnd);
 //xdrawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 //get the calendar owner's all events, and then draw the box
 function startUpload(allData){
-
+	if(allData == 0 || allData == undefined){
+		return;
+	}
     btimeStart = allData[0].split(',');
     btimeEnd   = allData[1].split(',');
     bdayStart  = allData[2].split(',');
@@ -70,6 +72,14 @@ function startUpload(allData){
 
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 
+}
+
+function startGroupUpload(groupUserData){
+
+	var usersInGroup = groupUserData.split(',');
+	for(var i = 0; i < usersInGroup.length; i++){
+		getCalbyUser(usersInGroup[i],startUpload );
+	}
 }
 //console.log(jsonData);
 

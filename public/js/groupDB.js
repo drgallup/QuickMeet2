@@ -23,13 +23,72 @@ function createGroup(){
     });
     showGroups();
 }
-
-function getUserTimesInGroup(groupname){
-    
+/* Expected to return string of users. must be split(',') elsewhere
+Usage: getUserTimesInGroup("group3",startGroupUpload);
+Output: Draw boxes for all user times.
+Problem: as soon as you hover over box, it disapears.
+*/ 
+function getUserTimesInGroup(groupname,callback){
+    var result;
+ 	var userArray;
+     db.transaction(function(tx){
+         console.log(tx);
+         tx.executeSql("SELECT users FROM GROUPTABLE WHERE groupName = '"+groupname+"'", [], function(tx,result){
+ 							
+ 				var length = result.rows.length;
+				if(length > 0)
+				{
+					var row = result.rows.item(0);
+					userArray = row['users'];
+				}
+ 				
+				if(callback){
+					userArray =  callback(userArray);
+/* 					console.log("here");
+					console.log(userArray); */
+					return userArray;
+				}
+  
+         });
+ 
+ 		
+     });  
 }
+/*
+Usage: remove userName from groupName in table
+Input: removeUserFromGroup("userName","groupName")
+Output: removes userName from field of users of that groupName in table
+*/
+function removeUserFromGroup(userName,groupName){
+	
+	var realUsers;
+	var updatedUsers;
+	    db.transaction(function(tx){
+        tx.executeSql("SELECT users FROM GROUPTABLE WHERE groupName = '"+groupName+"'", [], function(tx,result){
+				
+				var rlength = result.rows.length;
+				if(rlength > 0){
+					var row = result.rows.item(0);
+					updatedUsers = row['users'].split(',');
+					
+					for(var x = 0; x < updatedUsers.length; x++){
 
-function removeUserFromGroup(username){
-    
+						if(userName == updatedUsers[x]){
+							realUsers = updatedUsers.splice(x,1);
+						}
+/* 						console.log(updatedUsers + "    her2\n");
+						console.log(realUsers + "       real2\n"); */
+					}
+					
+				}
+
+        });
+    });
+	db.transaction(function(tx){
+        tx.executeSql("UPDATE GROUPTABLE SET users   = '"+ updatedUsers +"' \
+                                            WHERE groupName ='"+ groupName+"'");
+        });
+		showGroups();
 }
 function deleteGroup(groupname){
     db.transaction(function(tx){
