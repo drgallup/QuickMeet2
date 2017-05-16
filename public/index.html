@@ -15,7 +15,8 @@
       </div>
   </div>
   
-    
+  <script src = "js/redir.js"></script>
+
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
@@ -91,8 +92,9 @@
     <script src ="js/pdfGenerator.js"></script>
 
     <script src ="js/CalendarGenerator.js"></script>
-
+    
     <script src = "js/CoordinateTracker.js"></script>
+
 
     <script src ="js/BoxGenerator.js"></script>
     
@@ -108,6 +110,7 @@
 <script>
   // Initialize Firebase
   // TODO: Replace with your project's customized code snippet
+  var loadedDB;
   var config = {
     apiKey: "AIzaSyBetNrKXVXpI6OrSjOpwVIm_HQSZ0p64tw",
     authDomain: "quickmeet2-c69c9.firebaseapp.com",
@@ -116,21 +119,21 @@
     messagingSenderId: "admin",
   };
   firebase.initializeApp(config);
-  console.log("sucess");
+  console.log("success");
     // Get a reference to the database service
     var database = firebase.database();
 
     function writeUserData() {
         var link = window.location.href.split("username=");
         var username = link[1];
-        firebase.database().ref('user/'+username+'/').set(dataJSON);
+        firebase.database().ref('user/').set(dataJSON);
     }
 
     function readUserData(){
         var link = window.location.href.split("username=");
         var username = link[1];
-        return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
-        var username = snapshot.val();
+        return firebase.database().ref('user/').once('value').then(function(snapshot) {
+        loadedDB = snapshot.val();
         console.log(username);
         });
     }
