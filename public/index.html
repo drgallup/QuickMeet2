@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
-<html>
+<!-- -->
+<html ng-app="MyApp">
 
     <h1>QuickMeet</h1>
 
   <link rel="stylesheet" href="css/menu.css">
-  <div class="container" ng-app="MyApp">
+  <div class="container">
       <div ng-controller="SidebarController" class="sidebar" sidebar-directive="state">
           <a href="#" id="navigation-toggle" ng-click="toggleState()">Menu</a>
           <ul class="navigation">
@@ -14,12 +14,14 @@
           </ul>
       </div>
   </div>
-  <div id = "cal">  
+  
+    
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
   <body>
     <!-- Lists days over grid-->
+    <div id = "cal">
     <table class="header">
       <tr>
         <td></td>
@@ -38,6 +40,7 @@
     Your browser does not support the HTML5 canvas tag.
     </canvas>
     </div>
+    
     <form>
       <font size="4">username:</font>
       <input id= "name" type="text" name="username" value="">
@@ -46,13 +49,20 @@
       <input type="submit" value="Go to your user page">
 
       <input type="button" value="Create Group" onClick = "group()" />
-          <div layout-align="center center" ng-controller="appCtrl" ng-cloak="" ng-app="MyApp">
-            <md-switch ng-model="data.cb1" aria-label="Switch 1">
-                Switch 1: {{ data.cb1 }}
-            </md-switch>
-          </div>
+          
       <input type="button" value="Generate PDF" onClick = "genPDF()" />
+      
+        <!-- delete / no delete switch -->
+        <div style="margin: auto">
+            <div div layout="row" layout-align="center center"  style="min-height: 10px" ng-controller="AppCtrl" ng-cloak="">
+                <md-switch ng-model="data.cb1" aria-label="Switch 1">
+                    Switch 1: {{ data.cb1 }}
+                </md-switch>
+            </div>
+        </div>
+    
     </form>
+    
     
 
       
@@ -88,7 +98,7 @@
     
     <script src ="js/undo.js"></script>
     
-    <script src ="js/angular.js"></script>
+    <!-- <script src ="js/angular.js"></script> -->
     
     <script src ="js/coordinateHelper.js"></script>
 
