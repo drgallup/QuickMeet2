@@ -2,7 +2,7 @@
 
 
 var db = null;
-
+var dataJSON = {"users":""};
 /* input: void
    output: DB opened
    What it does: opens the USERTABLE
@@ -64,9 +64,28 @@ function createUser(){
             alert("New User: " +userName+ " has been made");
         }
     });
-    showUsers();    
+    showUsers();  
 }
-
+function loadUser(dataJSON){
+    doAll();
+    var userName = dataJSON.users.userName;
+    //var link = window.location.href.split("username=");
+    //var userName = link[1];
+    var userID     = dataJSON.users.userID;
+    var bTimeStart = dataJSON.users.bTimeStart;
+    var bTimeEnd   = dataJSON.users.bTimeEnd;
+    var bDayStart  = dataJSON.users.bDayStart;
+    var bDayEnd    = dataJSON.users.bDayEnd;
+    var groupID    = dataJSON.users.groupID;
+    db.transaction(function(tx){
+        if(length == 0){
+            tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
+                          [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
+            alert("User: " +userName+ " has been loaded");
+        }
+    });
+    showUsers();  
+}
 /* input: void
    output: uniqueID, extra field for identification
    What it does: generates a userID that is random and unique
@@ -313,6 +332,7 @@ function USERtoJSON(){
 }
 function JSONtoUSER(){
     console.log(dataJSON.users);
+    loadUser(dataJSON.users);
 }
 /* input:data
    output: data

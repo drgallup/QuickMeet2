@@ -333,7 +333,6 @@ function findLocation (){
 
 }
 
-
 //link the 'CREATE GROUP' button in the main page, redirect user to group calendar
 function group(){
         var groupName = document.getElementById("name").value;

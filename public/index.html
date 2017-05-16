@@ -91,8 +91,9 @@
     <script src ="js/pdfGenerator.js"></script>
 
     <script src ="js/CalendarGenerator.js"></script>
-
+    
     <script src = "js/CoordinateTracker.js"></script>
+
 
     <script src ="js/BoxGenerator.js"></script>
     
@@ -116,20 +117,20 @@
     messagingSenderId: "admin",
   };
   firebase.initializeApp(config);
-  console.log("sucess");
+  console.log("success");
     // Get a reference to the database service
     var database = firebase.database();
 
     function writeUserData() {
         var link = window.location.href.split("username=");
         var username = link[1];
-        firebase.database().ref('user/'+username+'/').set(dataJSON);
+        firebase.database().ref('user/').set(dataJSON);
     }
 
     function readUserData(){
         var link = window.location.href.split("username=");
         var username = link[1];
-        return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
+        return firebase.database().ref('user/').once('value').then(function(snapshot) {
         var username = snapshot.val();
         console.log(username);
         });
