@@ -120,12 +120,12 @@
     // Get a reference to the database service
     var database = firebase.database();
 
-    function writeUserData() {
-      firebase.database().ref('tables/').set(dataJSON);
+    function writeUserData(username) {
+      firebase.database().ref('user/'+username).set(dataJSON);
     }
 
     function readUserData(){
-        return firebase.database().ref('tables/').once('value').then(function(snapshot) {
+        return firebase.database().ref('user/').once('value').then(function(snapshot) {
         var username = snapshot.val()   ;
         console.log(username);
         });
