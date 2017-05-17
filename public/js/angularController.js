@@ -1,11 +1,9 @@
 // controller.js
 
 var app = angular.module('MyApp', ['ngMaterial']);
-app.controller('appCtrl', function($scope) {
+app.controller('AppCtrl', function($scope) {
   $scope.data = {
-    cb1: true,
-    cb4: true,
-    cb5: false
+    cb1: true
   };
 
   $scope.message = 'false';
