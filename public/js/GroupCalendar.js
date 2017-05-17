@@ -16,7 +16,7 @@ get_Data("/QuickMeet/default/api/"+ user +".json",function(data){
         bdayStart.push(jsonData[i].days[0])
         bdayEnd.push(jsonData[i].days[jsonData[i].days.length -1])
     }
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colorUser[i]);
 } )
 
 //generate the First name of Member which is calendar owner
@@ -27,7 +27,11 @@ var groupMember = []
 
 
 
-
+var colors = ["rgba(0,114,229,0.5)","rgba(0,255,0,0.5)",
+              "rgba(255,255,0,0.5)","rgba(255,0,255,0.5)","rgba(255,102,0,0.5)",
+              "rgba(102,102,102,0.5)","rgba(102,51,0,0.5)"];
+var colorsBoolean = [false, false, false, false, false, false, false];
+var colorUser = ["test","test","test","test","test","test","test"];
 
 
 
@@ -52,11 +56,20 @@ function add() {
                 newdayStart.push(realData[i].days[0])
                 newdayEnd.push(realData[i].days[realData[i].days.length -1])
             }
-            drawBox(newTimeStart, newTimeEnd, newdayStart, newdayEnd);
-            groupMember.push(newUser);
-              console.log(groupMember)
-//auto append all the name of group member
-            var str = $('#list').html();
+              
+            for(i = 0; i<colorsBoolean.length; i++){
+               if(colorsBoolean[i]==false){
+                   colorUser[i] = "\"" + newUser + "\"";
+                   drawBox(newTimeStart, newTimeEnd, newdayStart, newdayEnd, colorUser[i]);
+                   colorsBoolean[i]=true;
+                   console.log("Color: " + colorUser[i]);
+                   break;
+               }
+            }            groupMember.push(newUser);
+        
+          console.log(groupMember)
+          //auto append all the name of group member
+          var str = $('#list').html();
           $('#list').html(str + '<li>' + newUser + "<button type='button' onClick='deleteMember(this)'>delete</button>" + '</li>');
           })
       }
@@ -66,7 +79,7 @@ function add() {
 function refresh(){
         ctx.clearRect(0,0,c.width,c.height);
         drawGrid();
-        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colorUser[i]);
         $('li').empty();
         $('#list').html('<li>' + user + '</li>');
         for(var i = 0; i < groupMember.length; i++){
@@ -94,7 +107,17 @@ function deleteMember(ele){
     var clone = $(ele).parent().clone();
     clone.children().remove();
     var message = clone.text();
+    
+    for(i = 0; i<colorsBoolean.length; i++){
+      var username = "\""+message+"\"";
+      if(username==colorUser[i]){
+        colorsBoolean[i] = false;
+        colorUser[i] = "\"test\"";
+      }
+    }
+    
     removeByValue(groupMember, message);
+    //console.log("Group member: " + message);
     refresh();
 }
 
