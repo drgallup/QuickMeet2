@@ -61,10 +61,10 @@ function startUpload(allData){
 	if(allData == 0 || allData == undefined){
 		return;
 	}
-    btimeStart = allData[0].split(',');
-    btimeEnd   = allData[1].split(',');
-    bdayStart  = allData[2].split(',');
-    bdayEnd    = allData[3].split(',');
+    btimeStart = btimeStart.concat(allData[0].split(','));
+    btimeEnd   = btimeEnd.concat(allData[1].split(','));
+    bdayStart  = bdayStart.concat(allData[2].split(','));
+    bdayEnd    = bdayEnd.concat(allData[3].split(','));
     
     console.log(btimeEnd);
     console.log(btimeStart);
@@ -78,7 +78,7 @@ function startGroupUpload(groupUserData){
 
 	var usersInGroup = groupUserData.split(',');
 	for(var i = 0; i < usersInGroup.length; i++){
-		getCalbyUser(usersInGroup[i],startUpload );
+		getCalbyUser(usersInGroup[i],startUpload);
 	}
 }
 //console.log(jsonData);
