@@ -1,4 +1,10 @@
-function genPDF() {
+/*
+Input: nothing, just call this
+Output: a pdf
+This how to generate a pdf using the jsPDF library and html2canvas
+*/
+function genPDF() 
+{
   var pdf = new jsPDF('landscape');
   var options = 
   {

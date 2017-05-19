@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-  <body id="popupContainer">
+  <body id="popupContainer" onload="displayGroups()">
     <!-- Lists days over grid-->
     <div id = "cal">
     <table class="header">
@@ -110,6 +110,8 @@
     <script src ="js/BoxGenerator.js"></script>
     
     <script src ="js/undo.js"></script>
+
+    <script src = "js/displayGroupsofUser.js"></script>
     
     <!-- <script src ="js/angular.js"></script> -->
     
