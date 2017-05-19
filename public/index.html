@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-  <body>
+  <body id="popupContainer">
     <!-- Lists days over grid-->
     <div id = "cal">
     <table class="header">
@@ -43,23 +43,34 @@
     </div>
     
     <form>
-      <font size="4">username:</font>
-      <input id= "name" type="text" name="username" value="">
+      <md-button class="md-primary md-raised" ng-click = "userRedirect()">
+        Go to user page
+      </md-button>
 
-      <input type="button" value="Submit" onClick = "createUser()">
-      <input type="button" value="Go to your user page" onClick="userRedirect()">
-
-      <input type="button" value="Create Group" onClick = "group()" />
+      <md-button class="md-primary md-raised" ng-click = "group">
+        Create Group
+      </md-button>
           
-      <input type="button" value="Generate PDF" onClick = "genPDF()" />
+      <md-button class="md-primary md-raised" ng-click = "genPDF()">
+        Generate PDF
+      </md-button>
       
         <!-- delete / no delete switch -->
         <div style="margin: auto">
             <div div layout="row" layout-align="center center"  style="min-height: 10px" ng-controller="AppCtrl" ng-cloak="">
                 <md-switch ng-model="data.cb1" aria-label="Switch 1">
-                    Switch 1: {{ data.cb1 }}
+                    Delete Mode: {{ data.cb1 }}
                 </md-switch>
             </div>
+        </div>
+        
+        <!-- alert -->
+        <div ng-controller="PopCtrl" class="md-padding" ng-cloak>
+          <div class="dialog-demo-content" layout="row" layout-wrap layout-margin layout-align="center">
+            <md-button class="md-primary md-raised" ng-click="showAlert($event)"   >
+              Login
+            </md-button>
+          </div>
         </div>
     
     </form>
@@ -103,6 +114,50 @@
     <!-- <script src ="js/angular.js"></script> -->
     
     <script src ="js/coordinateHelper.js"></script>
+    
+    <script type="text/ng-template" id="dialog1.tmpl.html"><md-dialog aria-label="Login Page">
+        <form ng-cloak>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>Login Page</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <md-dialog-content>
+            <div class="md-dialog-content">
+              <h2>Welcome to QuickMeet</h2>
+              <p>
+                Enter your username and name, and then let us know if you already made an account.
+              </p>
+              
+              <md-input-container>
+                <font size="4">Username:</font>
+                <input aria-label="username" id= "name" type="text" name="username" value="">
+              </md-input-container>
+              
+              <md-input-container>
+                <font size="4">Name:</font>
+                <input aria-label="name" type="text" value="">
+              </md-input-container>
+              
+            </div>
+          </md-dialog-content>
+
+          <md-dialog-actions layout="row">
+            <md-button ng-click="answer('New User')">
+             New User
+            </md-button>
+            <md-button ng-click="answer('Returning User')">
+              Returning User
+            </md-button>
+          </md-dialog-actions>
+        </form>
+      </md-dialog>
+    </script>
 
 <br><br><br>
     
