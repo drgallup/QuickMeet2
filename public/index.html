@@ -115,7 +115,7 @@
     
     <script src ="js/coordinateHelper.js"></script>
     
-    <script type="text/ng-template" id="dialog1.tmpl.html"><md-dialog aria-label="Mango (Fruit)">
+    <script type="text/ng-template" id="dialog1.tmpl.html"><md-dialog aria-label="Login Page">
         <form ng-cloak>
           <md-toolbar>
             <div class="md-toolbar-tools">
@@ -135,18 +135,19 @@
               </p>
               
               <md-input-container>
-                <font size="4">username:</font>
+                <font size="4">Username:</font>
                 <input aria-label="username" id= "name" type="text" name="username" value="">
+              </md-input-container>
+              
+              <md-input-container>
+                <font size="4">Name:</font>
+                <input aria-label="name" type="text" value="">
               </md-input-container>
               
             </div>
           </md-dialog-content>
 
           <md-dialog-actions layout="row">
-            <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
-              Mango
-            </md-button>
-            <span flex></span>
             <md-button ng-click="answer('New User')">
              New User
             </md-button>
