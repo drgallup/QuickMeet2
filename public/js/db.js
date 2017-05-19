@@ -321,6 +321,34 @@ function getCalbyUser(username, callback){
      });  
  		
  }
+ /*
+ Input: Username and callback function that needs the list of groups the user is in
+ OUtput: and array of strings showing the groups the user is in
+ Example: getGroupForUser("Petar", getdata );
+ */
+function getGroupForUser(username, callback){
+	var groupArray;
+	db.transaction(function(tx){
+         console.log(tx);
+         result = tx.executeSql("SELECT groupID, bdayEnd FROM USERTABLE WHERE userName ='"+username+"'", [], function(tx,result){
+ 							
+ 				var length = result.rows.length;
+				if(length > 0)
+				{
+					var row = result.rows.item(0);
+					groupArray = row['groupID'].split(',');
+				}
+ 				
+				if(callback){
+					groupArray =  callback(groupArray);
+					return groupArray;
+				}
+  
+         });
+ 
+ 		
+     });  
+}
 
 function USERtoJSON(){
     db.transaction(function(tx){
@@ -340,6 +368,7 @@ function JSONtoUSER(){
    What it does: callback for some operations
 */
 function getdata(data){
+	console.log(data);
 	return data;
 }
 /* input:void
