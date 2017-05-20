@@ -8,7 +8,7 @@ var ctx = c.getContext("2d");
 var colors = ["rgba(0,114,229,0.5)","rgba(0,255,0,0.5)",
               "rgba(255,255,0,0.5)","rgba(255,0,255,0.5)","rgba(255,102,0,0.5)",
               "rgba(102,102,102,0.5)","rgba(102,51,0,0.5)"];
-var numgroups = 0;
+
 function drawBox(tStart, tEnd, dStart, dEnd, usernum){
     
     /*NOTES FOR DB: tStart and tEnd are the FIRST and LAST indeces in the array hourTemp calculated in the findlocation() function in coordinateTracker.js. (example: if you click from 7:00am to 8:00am, hourTemp = [0,1,2,3,4,5,6,7])*/
@@ -36,7 +36,6 @@ function drawBox(tStart, tEnd, dStart, dEnd, usernum){
         ctx.fillRect(X_coordinate, Y_coordinate, Width, Length);
 
     }
-	console.log(usernum);
     
 }
 /*

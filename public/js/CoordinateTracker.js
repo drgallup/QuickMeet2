@@ -47,8 +47,8 @@ var btimeStart = [];
 var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
+//to pick the color for each user
 var colornumarr = [];
-var usercolornum = 0;
 
 doAll();
 var currentUser = window.location.href.split("username=");
@@ -71,9 +71,8 @@ function startUpload(allData){
     console.log(btimeEnd);
     console.log(btimeStart);
 
-	console.log(usercolornum);
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
-	usercolornum++;
+
 
 }
 
@@ -172,7 +171,7 @@ function mouseMove(eve) {
     drawGrid();
     // mouse position 
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
-	usercolornum++;
+
     var pos = getMousePos(can, eve);
 
     // do drag box
