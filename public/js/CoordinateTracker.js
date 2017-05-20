@@ -47,7 +47,7 @@ var btimeStart = [];
 var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
-//to pick the color for each user
+//to show the length of the data of the array; to be a certain color
 var colornumarr = [];
 
 doAll();
@@ -67,7 +67,7 @@ function startUpload(allData){
     btimeEnd   = btimeEnd.concat(allData[1].split(','));
     bdayStart  = bdayStart.concat(allData[2].split(','));
     bdayEnd    = bdayEnd.concat(allData[3].split(','));
-    
+    colornumarr.push(bdayEnd.length);
     console.log(btimeEnd);
     console.log(btimeStart);
 
@@ -81,7 +81,6 @@ function startGroupUpload(groupUserData){
 	var usersInGroup = groupUserData.split(',');
 	for(var m = 0; m < usersInGroup.length; m++){
 		getCalbyUser(usersInGroup[m],startUpload);
-		colornumarr.push(m);
 	}
 }
 //console.log(jsonData);
