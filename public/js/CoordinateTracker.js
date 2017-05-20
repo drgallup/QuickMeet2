@@ -132,8 +132,7 @@ function mouseUp(eve) {
     if(deletion==true){
       findDeletion();
     }*/
-	console.log(usercolornum);
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,usercolornum);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
 }
 
 // mouseDown(eve)
