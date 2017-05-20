@@ -47,6 +47,8 @@ var btimeStart = [];
 var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
+var colornumarr = [];
+var usercolornum = 0;
 
 doAll();
 var currentUser = window.location.href.split("username=");
@@ -69,16 +71,18 @@ function startUpload(allData){
     console.log(btimeEnd);
     console.log(btimeStart);
 
-
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+	console.log(usercolornum);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
+	usercolornum++;
 
 }
 
 function startGroupUpload(groupUserData){
-
+	
 	var usersInGroup = groupUserData.split(',');
-	for(var i = 0; i < usersInGroup.length; i++){
-		getCalbyUser(usersInGroup[i],startUpload);
+	for(var m = 0; m < usersInGroup.length; m++){
+		getCalbyUser(usersInGroup[m],startUpload);
+		colornumarr.push(m);
 	}
 }
 //console.log(jsonData);
@@ -130,7 +134,8 @@ function mouseUp(eve) {
     if(deletion==true){
       findDeletion();
     }*/
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+	console.log(usercolornum);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,usercolornum);
 }
 
 // mouseDown(eve)
@@ -166,7 +171,8 @@ function mouseMove(eve) {
     ctx.clearRect(0,0,c.width,c.height);
     drawGrid();
     // mouse position 
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
+	usercolornum++;
     var pos = getMousePos(can, eve);
 
     // do drag box
@@ -176,14 +182,14 @@ function mouseMove(eve) {
         if(endX>maxX || endY>maxY){
         	ctx.clearRect(0,0,c.width,c.height);
     		drawGrid(); 
-            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
         	maxX=endX;
         	maxY=endY;
         }
         if(endX<maxX || endY<maxY){
    	 	ctx.clearRect(0,0,c.width,c.height);
     	drawGrid();
-            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colornumarr);
         	maxX = endX;
         	maxY = endY;
 
