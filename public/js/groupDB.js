@@ -136,8 +136,8 @@ function addUserToGroup(username,groupname){
     showGroups();
 }
 
-function getUsersInGroup(username, callback){
-	var groupArray;
+function getUsersInGroup(groupname, callback){
+	var userArray;
 	db.transaction(function(tx){
          console.log(tx);
          result = tx.executeSql("SELECT users FROM GROUPTABLE WHERE groupName = '"+groupname+"'", [], function(tx,result){
@@ -146,12 +146,12 @@ function getUsersInGroup(username, callback){
 				if(length > 0)
 				{
 					var row = result.rows.item(0);
-					groupArray = row['users'].split(',');
+					userArray = row['users'].split(',');
 				}
  				
 				if(callback){
-					groupArray =  callback(groupArray);
-					return groupArray;
+					userArray =  callback(userArray);
+					return userArray;
 				}
   
          });
