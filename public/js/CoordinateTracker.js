@@ -47,6 +47,8 @@ var btimeStart = [];
 var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
+//to show the length of the data of the array; to be a certain color
+var colornumarr = [];
 
 doAll();
 var currentUser = window.location.href.split("username=");
@@ -65,20 +67,20 @@ function startUpload(allData){
     btimeEnd   = btimeEnd.concat(allData[1].split(','));
     bdayStart  = bdayStart.concat(allData[2].split(','));
     bdayEnd    = bdayEnd.concat(allData[3].split(','));
-    
+    colornumarr.push(bdayEnd.length);
     console.log(btimeEnd);
     console.log(btimeStart);
 
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
 
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
 
 }
 
 function startGroupUpload(groupUserData){
-
+	
 	var usersInGroup = groupUserData.split(',');
-	for(var i = 0; i < usersInGroup.length; i++){
-		getCalbyUser(usersInGroup[i],startUpload);
+	for(var m = 0; m < usersInGroup.length; m++){
+		getCalbyUser(usersInGroup[m],startUpload);
 	}
 }
 //console.log(jsonData);
@@ -130,7 +132,7 @@ function mouseUp(eve) {
     if(deletion==true){
       findDeletion();
     }*/
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
 }
 
 // mouseDown(eve)
@@ -166,7 +168,8 @@ function mouseMove(eve) {
     ctx.clearRect(0,0,c.width,c.height);
     drawGrid();
     // mouse position 
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
+
     var pos = getMousePos(can, eve);
 
     // do drag box
@@ -176,14 +179,14 @@ function mouseMove(eve) {
         if(endX>maxX || endY>maxY){
         	ctx.clearRect(0,0,c.width,c.height);
     		drawGrid(); 
-            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
         	maxX=endX;
         	maxY=endY;
         }
         if(endX<maxX || endY<maxY){
    	 	ctx.clearRect(0,0,c.width,c.height);
     	drawGrid();
-            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colornumarr);
         	maxX = endX;
         	maxY = endY;
 
