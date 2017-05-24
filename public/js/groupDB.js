@@ -135,6 +135,31 @@ function addUserToGroup(username,groupname){
 
     showGroups();
 }
+
+function getUsersInGroup(username, callback){
+	var groupArray;
+	db.transaction(function(tx){
+         console.log(tx);
+         result = tx.executeSql("SELECT users FROM GROUPTABLE WHERE groupName = '"+groupname+"'", [], function(tx,result){
+ 							
+ 				var length = result.rows.length;
+				if(length > 0)
+				{
+					var row = result.rows.item(0);
+					groupArray = row['users'].split(',');
+				}
+ 				
+				if(callback){
+					groupArray =  callback(groupArray);
+					return groupArray;
+				}
+  
+         });
+ 
+ 		
+     });  
+}
+
 function showGroups(){
     db.transaction(function(tx){
         tx.executeSql("SELECT groupName, users FROM GROUPTABLE", [], function(tx,result){
@@ -145,6 +170,8 @@ function showGroups(){
         });
     });
 }
+
+
 function doGroup(){
     openUserDatabase();
     createGroupTable();
