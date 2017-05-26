@@ -66,23 +66,24 @@ function createUser(){
     });
     showUsers();  
 }
-function loadUser(dataJSON){
+function loadUser(){
     doAll();
-    console.log(dataJSON.users[0].userName);
-    var userName = dataJSON.users[0].userName;
+    console.log(loadedDB);
+    var userName = loadedDB.users[0].userName;
     //var link = window.location.href.split("username=");
     //var userName = link[1];
-    var userID     = dataJSON.users[0].userID;
-    var bTimeStart = dataJSON.users[0].bTimeStart;
-    var bTimeEnd   = dataJSON.users[0].bTimeEnd;
-    var bDayStart  = dataJSON.users[0].bDayStart;
-    var bDayEnd    = dataJSON.users[0].bDayEnd;
-    var groupID    = dataJSON.users[0].groupID;
+    var userID     = loadedDB.users[0].userID;
+    var bTimeStart = loadedDB.users[0].bTimeStart;
+    var bTimeEnd   = loadedDB.users[0].bTimeEnd;
+    var bDayStart  = loadedDB.users[0].bDayStart;
+    var bDayEnd    = loadedDB.users[0].bDayEnd;
+    var groupID    = loadedDB.users[0].groupID;
     db.transaction(function(tx){
         if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
             alert("User: " +userName+ " has been loaded");
+            userRedirect();
         }
     });
     showUsers();  
@@ -351,8 +352,12 @@ function getGroupForUser(username, callback){
 }
 
 function USERtoJSON(){
+
+    var link = window.location.href.split("username=");
+    var userName = link[1];
+    
     db.transaction(function(tx){
-        result = tx.executeSql("SELECT * FROM USERTABLE",[],function(tx,result){
+        result = tx.executeSql("SELECT * FROM USERTABLE WHERE userName = '"+userName+"'" ,[],function(tx,result){
              var row = result.rows;
              dataJSON.users = row;
              console.log(dataJSON);

@@ -48,17 +48,19 @@
     </div>
     
     <form>
-      <md-button class="md-primary md-raised" ng-click = "userRedirect()">
+      <md-button class="md-primary md-raised" onclick = "userRedirect()">
         Go to user page
       </md-button>
 
-      <md-button class="md-primary md-raised" ng-click = "group">
+      <md-button class="md-primary md-raised" onclick = "group">
         Create Group
       </md-button>
           
-      <md-button class="md-primary md-raised" ng-click = "genPDF()">
+      <md-button class="md-primary md-raised" onclick = "genPDF()">
         Generate PDF
       </md-button>
+        username
+        <input aria-label="username" id= "name" type="text" name="username" value="">
       
         <!-- delete / no delete switch -->
         <div style="margin: auto">
@@ -77,12 +79,7 @@
             </md-button>
           </div>
         </div>
-    
-    </form>
-    
-    
-
-      
+    </form>  
   </body>
     
       <!-- Angular Material requires Angular.js Libraries -->
@@ -169,8 +166,10 @@
         </form>
         
       </md-dialog>
-      <script  src ="js/db.js"></script>
+      
+    
     </script>
+    <script  src ="js/db.js"></script>
 
 <br><br><br>
     
@@ -194,15 +193,15 @@
     function writeUserData() {
         var link = window.location.href.split("username=");
         var username = link[1];
-        firebase.database().ref('user/').set(dataJSON);
+        firebase.database().ref('user/'+username+'/').set(dataJSON);
     }
 
     function readUserData(){
         var link = window.location.href.split("username=");
         var username = link[1];
-        return firebase.database().ref('user/').once('value').then(function(snapshot) {
+        return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
         loadedDB = snapshot.val();
-        console.log(username);
+        console.log(loadedDB);
         });
     }
 </script>
