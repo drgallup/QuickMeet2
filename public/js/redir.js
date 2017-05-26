@@ -22,7 +22,7 @@ function userRedirect(){
         console.log(username);
         setTimeout(
             function(){
-                window.location.href = "/public/index.html?"+"username="+username;
+                window.location.href = "../public/index.html?"+"username="+username;
                 doAll();
                 console.log("we are in it: "+username);}
             ,1000);
