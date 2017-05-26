@@ -85,6 +85,14 @@ function drawSelector() {
 
 ***********************************************************************/
 
+// input:  null
+// output: new user, redirection to user page
+// necessary for calling both functions at once on login submit.
+function newUserCreation(){
+  createUser();
+  userRedirect();
+}
+
 // input: day, 0-6
 // output: String of the day eg. 1 = "Monday"
 // maps the days to strings

@@ -23,10 +23,11 @@ document.onkeydown = function(evt) {
         var b = btimeEnd.pop();
         var c = bdayStart.pop();
         var d = bdayEnd.pop();
-        post_data("/QuickMeet/default/api/"+ user +"/1" +".json", a, b, c, d);
-        // do sql push
-        //delete_data("/QuickMeet/default/api/username.json", btimeStart.pop(), btimeEnd.pop(), bdayStart.pop(), bdayEnd.pop());
-        //get_data("/QuickMeet/default/api/username.json");
+        
+        // push delete
+        var link = window.location.href.split("username=");
+        var userName = link[1];
+        removeUserCal(userName, a, b, c, d)
         
         // redraw the calendar
         ctx.clearRect(0,0,c.width,c.height);
