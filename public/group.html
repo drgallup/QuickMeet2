@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-
-<html>
-
-    <h1>QuickMeet</h1>
+<html ng-app="MyApp">
 
   <link rel="stylesheet" href="css/menu.css">
-  <div class="container" ng-app="MyApp">
-      <div ng-controller="SidebarController" class="sidebar" sidebar-directive="state">
-          <a href="#" id="navigation-toggle" ng-click="toggleState()">Menu</a>
+  <div class="container">
           <ul class="navigation">
               <li class="navigation-items"> <a href="/">Home</a> </li>
               <li class="navigation-items"> <a href="/">About</a> </li>
           </ul>
-      </div>
   </div>
+
+  <h1>QuickMeet</h1>
+
   <div id = "cal"> 
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
