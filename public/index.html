@@ -5,8 +5,8 @@
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
           <ul class="navigation">
-              <li class="navigation-items"> <a href="/">Home</a> </li>
-              <li class="navigation-items"> <a href="/">About</a> </li>
+              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/index.html">Home</a> </li>
+              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/help.html">Help</a> </li>
           </ul>
   </div>
 </header>
@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
-  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
   
   <!-- Load login on init -->
   <div data-ng-controller="PopCtrl" data-ng-init="showAlert($event)"></div>
@@ -81,7 +81,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 
   <!-- Angular Material Library -->
-  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
   
   <!-- JQuery, jsPDF and html2canvas Libraries -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -153,7 +153,7 @@
             <md-button ng-click="answer('New User')" onclick="newUserCreation()">
              New User
             </md-button>
-            <md-button ng-click="answer('Returning User')">
+            <md-button ng-click="answer('Returning User')" onclick="returningUserCreation()">
               Returning User
             </md-button>
           </md-dialog-actions>
@@ -204,7 +204,7 @@
               Cancel
             </md-button>
             <span flex></span>
-            <md-button ng-click="answer('Confirm')" onclick="createGroup()">
+            <md-button ng-click="answer('Confirm')" onclick="returningGroupCreation()">
              Create
             </md-button>
           </md-dialog-actions>
@@ -222,6 +222,7 @@
   // Initialize Firebase
   // TODO: Replace with your project's customized code snippet
   var loadedDB;
+  var grouploadedDB;
   var config = {
     apiKey: "AIzaSyBetNrKXVXpI6OrSjOpwVIm_HQSZ0p64tw",
     authDomain: "quickmeet2-c69c9.firebaseapp.com",
@@ -238,15 +239,35 @@
         var link = window.location.href.split("username=");
         var username = link[1];
         firebase.database().ref('user/'+username+'/').set(dataJSON);
+        console.log("wrote user");
     }
 
     function readUserData(){
+        
         var link = window.location.href.split("username=");
         var username = link[1];
         return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
         loadedDB = snapshot.val();
         console.log(loadedDB);
         });
+        console.log("read user");
+    }
+    function writeGroupData() {
+        var link = window.location.href.split("groupName=");
+        var groupname = link[1];
+        firebase.database().ref('groups/'+groupname+'/').set(groupDataJSON);
+        console.log("wrote groups");
+    }
+    function readGroupData(){
+        
+        var link = window.location.href.split("groupName=");
+        var groupname = link[1];
+        
+        return firebase.database().ref('groups/'+groupname+'/').once('value').then(function(snapshot) {
+        groupLoadedDB = snapshot.val();
+        console.log(groupLoadedDB);
+        });
+        console.log("read user");
     }
 </script>
 </html>

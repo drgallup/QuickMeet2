@@ -4,8 +4,8 @@
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
           <ul class="navigation">
-              <li class="navigation-items"> <a href="/">Home</a> </li>
-              <li class="navigation-items"> <a href="/">About</a> </li>
+              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/index.html">Home</a> </li>
+              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/help.html">Help</a> </li>
           </ul>
   </div>
 
@@ -14,7 +14,7 @@
   <div id = "cal"> 
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
-  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
   <body onload="displayUsers()">
     <!-- Lists days over grid-->
     <table class="header">
@@ -57,6 +57,15 @@
       <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
         Go to user page
       </md-button>
+        
+      <md-input-container>
+        <font size="4">Add User To Group:</font>
+        <input aria-label="username" id= "name" type="text" name="username" value="" md-autofocus>
+      </md-input-container>
+     
+      <md-button class="md-primary md-raised" onclick ="realHelperAddUserToGroup();">
+        Add
+      </md-button>
           
       <md-button class="md-primary md-raised" onclick = "genPDF()">
         Generate PDF
@@ -80,7 +89,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 
   <!-- Angular Material Library -->
-  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
   
   <!-- Add our Source Files here -->
   <script src="js/angularController.js"></script>
@@ -110,6 +119,11 @@
     <script src ="js/coordinateHelper.js"></script>
 
     <script src = "js/displayUsersofGroups.js"></script>
+
+    <script> 
+        var link = window.location.href.split("groupName=");
+        var groupName = link[1];
+        getUserTimesInGroup(groupName, startGroupUpload);</script>
 
 <br><br><br>
 
