@@ -1,11 +1,60 @@
 // controller.js
 
 var app = angular.module('MyApp', ['ngMaterial']);
-app.controller('appCtrl', function($scope) {
+app.controller('PopCtrl', function($scope, $mdDialog) {
+  $scope.status = ' ';
+  $scope.customFullscreen = false;
+  
+  $scope.showAlert = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: 'dialog1.login.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+  };	
+  
+  $scope.showGroup = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: 'dialog1.group.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+  };	
+  
+  function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+      $mdDialog.hide(answer);
+    };
+  }
+});
+
+app.controller('AppCtrl', function($scope) {
   $scope.data = {
-    cb1: true,
-    cb4: true,
-    cb5: false
+    cb1: false
   };
 
   $scope.message = 'false';

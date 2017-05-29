@@ -1,10 +1,22 @@
-{{extend 'layout.html'}}
+<!DOCTYPE html>
+<html ng-app="MyApp">
 
-    <h1>Group Calendar</h1>
+  <link rel="stylesheet" href="css/menu.css">
+  <div class="container">
+          <ul class="navigation">
+              <li class="navigation-items"> <a href="/">Home</a> </li>
+              <li class="navigation-items"> <a href="/">About</a> </li>
+          </ul>
+  </div>
 
-    <!-- Lists days over grid-->
+  <h1>QuickMeet</h1>
 
+  <div id = "cal"> 
   <link rel="stylesheet" href="css/calendar.css">
+      <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <body onload="displayUsers()">
+    <!-- Lists days over grid-->
     <table class="header">
       <tr>
         <td></td>
@@ -16,38 +28,89 @@
         <td>Friday</td>
         <td>Saturday</td>
       </tr>
-    </table>  
+    </table>
+
 
     <canvas id="myCanvas" width="800" height="400">
     Your browser does not support the HTML5 canvas tag.
     </canvas>
+    </div>
 
+<!--
+    <form>
+      <font size="4">username:</font>
+      <input id= "name" type="text" name="username" value="">
 
+      <input type="button" value="Submit" onClick = "createUser()">
+      <input type="submit" value="Go to your user page">
 
+      <input type="button" value="Create Group" onClick = "group()" />
+          <div layout-align="center center" ng-controller="appCtrl" ng-cloak="" ng-app="MyApp">
+            <md-switch ng-model="data.cb1" aria-label="Switch 1">
+                Switch 1: {{ data.cb1 }}
+            </md-switch>
+          </div>
+      <input type="button" value="Generate PDF" onClick = "genPDF()" />    
+    </form> -->
 
+    <form>
+      <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
+        Go to user page
+      </md-button>
+          
+      <md-button class="md-primary md-raised" onclick = "genPDF()">
+        Generate PDF
+      </md-button>
+      
+      <!-- login alert -->
+      <md-button ng-controller="PopCtrl" class="md-primary md-raised" ng-click="showAlert($event)" ng-hide=false  >
+        Login
+      </md-button>
+        
+    </form>  
+    
 
+      
+  </body>
+    
+      <!-- Angular Material requires Angular.js Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
   
-<br>
+  <!-- Add our Source Files here -->
+  <script src="js/angularController.js"></script>
 
-<font size="4">Member:</font>
+  <!-- JQuery, jsPDF and html2canvas Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+  <script src="js/html2canvas.js"></script>
 
-<ul id="list" style="list-style:none" vertical-align:top></ul>
+    <!-- Script sources: add yours here -->
+    <script src ="js/db.js"></script>
+    
+    <script src ="js/pdfGenerator.js"></script>
 
-<form class="" action="index.html" method="get">
+    <script src ="js/groupDB.js"></script>
 
+    <script src ="js/CalendarGenerator.js"></script>
 
-      <input id="member" type="text" name="member"
-       onkeydown = "if (event.keyCode == 13) {add();event.returnValue=false;event.cancel=true;}"  >
+    <script src = "js/CoordinateTracker.js"></script>
 
-      <input type="button" name="" value="add memeber" onclick="add()">
-      <input type="button" value="Return" onClick = "returnEdit()" />
-    </form>
-<br>
-<br>
-<br>
-    <script src = "{{=URL('static','js/CalendarGenerator.js')}}">
-    </script>
-    <script src ="{{=URL('static','js/BoxGenerator.js')}}">
-    </script>
-    <script src ="{{=URL('static','js/GroupCalendar.js')}}">
-    </script>
+    <script src ="js/BoxGenerator.js"></script>
+    
+    <script src ="js/undo.js"></script>
+    
+    <script src ="js/angular.js"></script>
+    
+    <script src ="js/coordinateHelper.js"></script>
+
+    <script src = "js/displayUsersofGroups.js"></script>
+
+<br><br><br>
+
+</html>
