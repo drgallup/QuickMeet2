@@ -1,0 +1,22 @@
+/*
+    about.css
+    the css file for our about page.
+*/
+
+img {
+    display: block;
+    width: 600px;
+    height: 400px;
+    margin-left: 28%;
+}
+.right {
+    position: relative;
+    right: 0px;
+    width: 300px;
+    border: 3px solid #3F51B5;
+    padding: 10px;
+   margin-top: 10px;
+    margin-left:38.5%;
+    text-align: center;
+    
+}
