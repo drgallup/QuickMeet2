@@ -1,25 +1,25 @@
 
-
+var groupDataJSON = {"groups":""};
 
 function createGroupTable(){
     db.transaction(function(tx){
         tx.executeSql("create table GROUPTABLE (groupName TEXT UNIQUE, users TEXT)"
                       ,[],function(result){
-        alert("created group table: "+ result);
+        //alert("created group table: "+ result);
         });    
     });
 }
 
 
 function createGroup(){
-    doAll();
+    //doAll();
+    doGroup();
     var users = " ";
     var groupName = document.getElementById("name").value;
     db.transaction(function(tx){
         tx.executeSql("insert into GROUPTABLE values(?,?)", 
                       [groupName,users]);
-        alert("New Group: " +groupName+ " has been made");
-
+        //alert("New Group: " +groupName+ " has been made");
     });
     showGroups();
 }
@@ -120,7 +120,7 @@ function addUserToGroup(username,groupname){
                 for(var i = 0; i < times.length; i++){
                     if(times[i] == username){
                         flag = 1;
-                        alert("user:"+username+" already added to "+ groupname);
+                        //alert("user:"+username+" already added to "+ groupname);
                         return; 
                     }
                 }
@@ -159,7 +159,24 @@ function getUsersInGroup(groupname, callback){
  		
      });  
 }
-
+function loadGroup(){
+    doGroup();
+    console.log(groupLoadedDB);
+    
+    var groupName = groupLoadedDB.users[0].userName;
+    var users = groupLoadedDB.groups[0].users;
+    
+    db.transaction(function(tx){
+        //if(length == 0){
+            tx.executeSql("insert into GROUPTABLE values(?,?)", 
+                          [groupName, users]);
+            //alert("Group: " +groupName+ " has been loaded");
+            
+            //window.location.href = "/public/index.html?"+"username="+userName;
+        //}
+    });
+    showGroups();  
+}
 function showGroups(){
     db.transaction(function(tx){
         tx.executeSql("SELECT groupName, users FROM GROUPTABLE", [], function(tx,result){
@@ -170,11 +187,51 @@ function showGroups(){
         });
     });
 }
+function GROUPtoJSON(){
+
+    var link = window.location.href.split("groupName=");
+    var groupName = link[1];
+    
+    db.transaction(function(tx){
+        result = tx.executeSql("SELECT * FROM GROUPTABLE WHERE groupName = '"+groupName+"'" ,[],function(tx,result){
+             var row = result.rows;
+             groupDataJSON.groups = row;
+             console.log(groupDataJSON);
+        });
+    });
+}
+function JSONtoGROUP(){
+    console.log(groupDataJSON.groups);
+    loadGroup(groupDataJSON);
+}
+function helperAddUserToGroup(){
+    var username = document.getElementById("name").value;
+    var link = window.location.href.split("groupName=");
+    var groupName = link[1];
+    addUserToGroup(username, groupName);
+    
+    setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
+    setTimeout(function(){
+        // redraw the calendar
+        ctx.clearRect(0,0,c.width,c.height);
+        drawGrid();
+        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    } , 200);    
+    // redraw the calendar
+        ctx.clearRect(0,0,c.width,c.height);
+        drawGrid();
+        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    
+}
+function realHelperAddUserToGroup(){
+    helperAddUserToGroup();
+    setTimeout( helperAddUserToGroup, 100);
+    //setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
+}
 
 
 function doGroup(){
     openUserDatabase();
     createGroupTable();
-    createGroup("group2");
     showGroups();
 }
