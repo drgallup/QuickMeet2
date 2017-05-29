@@ -52,7 +52,7 @@
         Go to user page
       </md-button>
 
-      <md-button class="md-primary md-raised" onclick = "group()">
+      <md-button ng-controller="PopCtrl" class="md-primary md-raised" ng-click="showGroup($event)">
         Create Group
       </md-button>
           
@@ -131,12 +131,12 @@
             <div class="md-dialog-content">
               <h2>Welcome to QuickMeet</h2>
               <p>
-                Enter your username and name, and then let us know if you already made an account.
+                Enter your username. If you don't have one, click new user.
               </p>
               
               <md-input-container>
                 <font size="4">Username:</font>
-                <input aria-label="username" id= "name" type="text" name="username" value="">
+                <input aria-label="username" id= "name" type="text" name="username" value="" md-autofocus>
               </md-input-container>
               
               <md-input-container ng-hide=true>
@@ -156,7 +156,7 @@
             <md-button ng-click="answer('New User')" onclick="newUserCreation()">
              New User
             </md-button>
-            <md-button ng-click="answer('Returning User')" md-autofocus>
+            <md-button ng-click="answer('Returning User')">
               Returning User
             </md-button>
           </md-dialog-actions>
@@ -167,6 +167,56 @@
     <script  src ="js/db.js"></script>
     </script>
     
+    <!-- Group Dialog popup HTML -->
+    <script type="text/ng-template" id="dialog1.group.html">
+      <md-dialog aria-label="Name Your Group">
+        <form ng-cloak>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>Group Creation</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <md-dialog-content>
+            <div class="md-dialog-content">
+              <h2>Create a Group</h2>
+              <p>
+                Enter the name of the group.
+              </p>
+              
+              <md-input-container>
+                <font size="4">Group Name:</font>
+                <input aria-label="group name" id= "name" type="text" name="username" value="">
+              </md-input-container>
+              
+              <md-input-container ng-hide=true>
+                <font size="4">Name:</font>
+                <input aria-label="name" type="text" value="">
+              </md-input-container>
+              
+              
+            </div>
+          </md-dialog-content>
+
+          <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+              Cancel
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="answer('Confirm')" onclick="createGroup()">
+             Create
+            </md-button>
+          </md-dialog-actions>
+        </form>
+        
+      </md-dialog>
+      
+    <script  src ="js/db.js"></script>
+    </script>
 
 <br><br><br>
     
