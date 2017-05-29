@@ -35,6 +35,8 @@
     Your browser does not support the HTML5 canvas tag.
     </canvas>
     </div>
+
+<!--
     <form>
       <font size="4">username:</font>
       <input id= "name" type="text" name="username" value="">
@@ -49,7 +51,23 @@
             </md-switch>
           </div>
       <input type="button" value="Generate PDF" onClick = "genPDF()" />    
-    </form>
+    </form> -->
+
+    <form>
+      <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
+        Go to user page
+      </md-button>
+          
+      <md-button class="md-primary md-raised" onclick = "genPDF()">
+        Generate PDF
+      </md-button>
+      
+      <!-- login alert -->
+      <md-button ng-controller="PopCtrl" class="md-primary md-raised" ng-click="showAlert($event)" ng-hide=false  >
+        Login
+      </md-button>
+        
+    </form>  
     
 
       
