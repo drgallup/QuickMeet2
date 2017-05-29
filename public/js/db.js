@@ -79,12 +79,14 @@ function loadUser(){
     var bDayEnd    = loadedDB.users[0].bDayEnd;
     var groupID    = loadedDB.users[0].groupID;
     db.transaction(function(tx){
-        if(length == 0){
+        //if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
             alert("User: " +userName+ " has been loaded");
-            userRedirect();
-        }
+            
+            window.location.href = "/public/index.html?"+"username="+userName;
+            doAll();
+        //}
     });
     showUsers();  
 }

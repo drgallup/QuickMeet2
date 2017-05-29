@@ -57,6 +57,15 @@
       <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
         Go to user page
       </md-button>
+        
+      <md-input-container>
+        <font size="4">Add User To Group:</font>
+        <input aria-label="username" id= "name" type="text" name="username" value="" md-autofocus>
+      </md-input-container>
+     
+      <md-button class="md-primary md-raised" onclick ="realHelperAddUserToGroup();">
+        Add
+      </md-button>
           
       <md-button class="md-primary md-raised" onclick = "genPDF()">
         Generate PDF
@@ -110,6 +119,11 @@
     <script src ="js/coordinateHelper.js"></script>
 
     <script src = "js/displayUsersofGroups.js"></script>
+
+    <script> 
+        var link = window.location.href.split("groupName=");
+        var groupName = link[1];
+        getUserTimesInGroup(groupName, startGroupUpload);</script>
 
 <br><br><br>
 

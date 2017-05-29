@@ -71,13 +71,13 @@ function startUpload(allData){
     console.log(btimeEnd);
     console.log(btimeStart);
 
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
+    setTimeout( drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr),1000);
 
 
 }
 
 function startGroupUpload(groupUserData){
-	
+	console.log("in callback");
 	var usersInGroup = groupUserData.split(',');
 	for(var m = 0; m < usersInGroup.length; m++){
 		getCalbyUser(usersInGroup[m],startUpload);
@@ -252,7 +252,7 @@ function findDeletion(){
             drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd); 
             console.log("Deleted");
             break;
-        } 
+        }
     }
 }
 
@@ -317,6 +317,9 @@ function findLocation (){
 
   console.log("Posted data");
   showUsers();
+  
+  setTimeout(USERtoJSON,100);
+  setTimeout(writeUserData, 200);
   
   //passing variables from local to global for use in drawBox()
     
