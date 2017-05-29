@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <!-- -->
 <html ng-app="MyApp">
-
-    <h1>QuickMeet</h1>
-
+<header>
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
       <div ng-controller="SidebarController" class="sidebar" sidebar-directive="state">
@@ -14,12 +12,19 @@
           </ul>
       </div>
   </div>
+</header>
+
+    <h1>QuickMeet</h1>
   
   <script src = "js/redir.js"></script>
 
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  
+  <!-- Load login on init -->
+  <div data-ng-controller="PopCtrl" data-ng-init="showAlert($event)"></div>
+  
   <body id="popupContainer" onload="displayGroups()">
     <!-- Lists days over grid-->
     <div id = "cal">
@@ -43,16 +48,21 @@
     </div>
     
     <form>
-      <md-button class="md-primary md-raised" ng-click = "userRedirect()">
+      <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
         Go to user page
       </md-button>
 
-      <md-button class="md-primary md-raised" ng-click = "group">
+      <md-button ng-controller="PopCtrl" class="md-primary md-raised" ng-click="showGroup($event)">
         Create Group
       </md-button>
           
-      <md-button class="md-primary md-raised" ng-click = "genPDF()">
+      <md-button class="md-primary md-raised" onclick = "genPDF()">
         Generate PDF
+      </md-button>
+      
+      <!-- login alert -->
+      <md-button ng-controller="PopCtrl" class="md-primary md-raised" ng-click="showAlert($event)" ng-hide=false  >
+        Login
       </md-button>
       
         <!-- delete / no delete switch -->
@@ -64,20 +74,7 @@
             </div>
         </div>
         
-        <!-- alert -->
-        <div ng-controller="PopCtrl" class="md-padding" ng-cloak>
-          <div class="dialog-demo-content" layout="row" layout-wrap layout-margin layout-align="center">
-            <md-button class="md-primary md-raised" ng-click="showAlert($event)"   >
-              Login
-            </md-button>
-          </div>
-        </div>
-    
-    </form>
-    
-    
-
-      
+    </form>  
   </body>
     
       <!-- Angular Material requires Angular.js Libraries -->
@@ -117,7 +114,8 @@
     
     <script src ="js/coordinateHelper.js"></script>
     
-    <script type="text/ng-template" id="dialog1.tmpl.html"><md-dialog aria-label="Login Page">
+    <script type="text/ng-template" id="dialog1.login.html">
+      <md-dialog aria-label="Login Page">
         <form ng-cloak>
           <md-toolbar>
             <div class="md-toolbar-tools">
@@ -133,24 +131,29 @@
             <div class="md-dialog-content">
               <h2>Welcome to QuickMeet</h2>
               <p>
-                Enter your username and name, and then let us know if you already made an account.
+                Enter your username. If you don't have one, click new user.
               </p>
               
               <md-input-container>
                 <font size="4">Username:</font>
-                <input aria-label="username" id= "name" type="text" name="username" value="">
+                <input aria-label="username" id= "name" type="text" name="username" value="" md-autofocus>
               </md-input-container>
               
-              <md-input-container>
+              <md-input-container ng-hide=true>
                 <font size="4">Name:</font>
                 <input aria-label="name" type="text" value="">
               </md-input-container>
+              
               
             </div>
           </md-dialog-content>
 
           <md-dialog-actions layout="row">
-            <md-button ng-click="answer('New User')">
+            <md-button ng-click="cancel()">
+              Cancel
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="answer('New User')" onclick="newUserCreation()">
              New User
             </md-button>
             <md-button ng-click="answer('Returning User')">
@@ -158,7 +161,61 @@
             </md-button>
           </md-dialog-actions>
         </form>
+        
       </md-dialog>
+      
+    <script  src ="js/db.js"></script>
+    </script>
+    
+    <!-- Group Dialog popup HTML -->
+    <script type="text/ng-template" id="dialog1.group.html">
+      <md-dialog aria-label="Name Your Group">
+        <form ng-cloak>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>Group Creation</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <md-dialog-content>
+            <div class="md-dialog-content">
+              <h2>Create a Group</h2>
+              <p>
+                Enter the name of the group.
+              </p>
+              
+              <md-input-container>
+                <font size="4">Group Name:</font>
+                <input aria-label="group name" id= "name" type="text" name="username" value="">
+              </md-input-container>
+              
+              <md-input-container ng-hide=true>
+                <font size="4">Name:</font>
+                <input aria-label="name" type="text" value="">
+              </md-input-container>
+              
+              
+            </div>
+          </md-dialog-content>
+
+          <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+              Cancel
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="answer('Confirm')" onclick="createGroup()">
+             Create
+            </md-button>
+          </md-dialog-actions>
+        </form>
+        
+      </md-dialog>
+      
+    <script  src ="js/db.js"></script>
     </script>
 
 <br><br><br>
@@ -183,15 +240,15 @@
     function writeUserData() {
         var link = window.location.href.split("username=");
         var username = link[1];
-        firebase.database().ref('user/').set(dataJSON);
+        firebase.database().ref('user/'+username+'/').set(dataJSON);
     }
 
     function readUserData(){
         var link = window.location.href.split("username=");
         var username = link[1];
-        return firebase.database().ref('user/').once('value').then(function(snapshot) {
+        return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
         loadedDB = snapshot.val();
-        console.log(username);
+        console.log(loadedDB);
         });
     }
 </script>
