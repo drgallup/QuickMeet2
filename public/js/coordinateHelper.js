@@ -73,7 +73,7 @@ function drawSelector() {
     var height = Math.abs(h);
                
     ctx.beginPath();
-    ctx.fillStyle = "rgba(128,0,0,1)";
+    ctx.fillStyle = "#3F51B5";
     ctx.fillRect(startX + offsetX, startY + offsetY, width, height);
     ctx.lineWidth = 1;
    
