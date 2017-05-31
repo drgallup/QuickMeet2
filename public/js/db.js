@@ -1,6 +1,6 @@
 //quickmeet2.0 public/db.js
 
-
+var GLOBALUserName
 var db = null;
 var dataJSON = {"users":""};
 /* input: void
@@ -30,7 +30,7 @@ function createUserTable(){
 */
 function createUser(){
     doAll();
-    var userName = document.getElementById("name").value;
+    var userName = GLOBALUserName;
     //var link = window.location.href.split("username=");
     //var userName = link[1];
     var userID = genUserID();
@@ -78,16 +78,22 @@ function loadUser(){
     var bDayStart  = loadedDB.users[0].bDayStart;
     var bDayEnd    = loadedDB.users[0].bDayEnd;
     var groupID    = loadedDB.users[0].groupID;
+    
+    /*for(var g = 0; g < bTimeStart.length; g++){
+        addUserCal(userName, bTimeStart[g],bTimeEnd[g],bDayStart[g],bDayEnd[g])
+    }*/
+    
+    //getCalbyUser(userName,startUpload);
     db.transaction(function(tx){
         //if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
             alert("User: " +userName+ " has been loaded");
             
-            window.location.href = "/public/index.html?"+"username="+userName;
-            doAll();
+            //window.location.href = "/public/index.html?"+"username="+userName;
+            //doAll();
         //}
-    });
+    }); 
     showUsers();  
 }
 /* input: void

@@ -1,6 +1,6 @@
 
 var groupDataJSON = {"groups":""};
-
+var GLOBALGroupName;
 function createGroupTable(){
     db.transaction(function(tx){
         tx.executeSql("create table GROUPTABLE (groupName TEXT UNIQUE, users TEXT)"
@@ -19,7 +19,7 @@ function createGroup(){
     //doAll();
     doGroup();
     var users = " ";
-    var groupName = document.getElementById("name").value;
+    var groupName = GLOBALGroupName;
     db.transaction(function(tx){
         tx.executeSql("insert into GROUPTABLE values(?,?)", 
                       [groupName,users]);
@@ -191,7 +191,7 @@ function loadGroup(){
     doGroup();
     console.log(groupLoadedDB);
     
-    var groupName = groupLoadedDB.users[0].userName;
+    var groupName = groupLoadedDB.groups[0].groupName;
     var users = groupLoadedDB.groups[0].users;
     
     db.transaction(function(tx){
@@ -245,7 +245,7 @@ Example: JSONtoGROUP()
 */
 function JSONtoGROUP(){
     console.log(groupDataJSON.groups);
-    loadGroup(groupDataJSON);
+    loadGroup();
 }
 /*
 Input:
@@ -254,21 +254,17 @@ Example: helperAddUserToGroup()
 */
 function helperAddUserToGroup(){
     var username = document.getElementById("name").value;
+  
     var link = window.location.href.split("groupName=");
     var groupName = link[1];
-    addUserToGroup(username, groupName);
     
+    addUserToGroup(username, groupName);
     setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
-    setTimeout(function(){
-        // redraw the calendar
-        ctx.clearRect(0,0,c.width,c.height);
-        drawGrid();
-        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
-    } , 200);    
+    /*setTimeout(function(){
+            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    } , 200);  */  
     // redraw the calendar
-        ctx.clearRect(0,0,c.width,c.height);
-        drawGrid();
-        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+
     
 }
 /*
@@ -277,9 +273,34 @@ Output:
 Example: realHelperAddUserToGroup()
 */
 function realHelperAddUserToGroup(){
-    helperAddUserToGroup();
-    setTimeout( helperAddUserToGroup, 100);
-    //setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
+    
+    var username = document.getElementById("name").value;
+    GLOBALUserName = username;
+    setTimeout(readUserData,100);
+    setTimeout(function(){
+                JSONtoUSER();
+                var link = window.location.href.split("groupName=");
+                var groupName = link[1];
+                
+                helperAddUserToGroup();}
+               ,200);
+   
+    setTimeout(function(){
+                            addGroupToUser(username,groupName);
+                            GROUPtoJSON();
+                         },300);
+
+    setTimeout( helperAddUserToGroup, 400);
+    setTimeout( function(){ 
+                    var link = window.location.href.split("groupName=");
+                    var groupName = link[1];
+                    getUsersInGroup(groupName,setUserList)
+                    userNum++;
+                    colornumarr.push(userNum);
+                    
+                    writeGroupData();
+                }
+               , 500);
 }
 /*
 Input: Nothing

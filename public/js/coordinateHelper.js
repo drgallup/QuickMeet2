@@ -89,9 +89,11 @@ function drawSelector() {
 // output: new user, redirection to user page
 // necessary for calling both functions at once on login submit.
 function newUserCreation(){
-  //createUser();
-  userRedirect();
+  GLOBALUserName = document.getElementById("name").value;
+  setTimeout(createUser,100);
+  setTimeout(userRedirect,200);
 }
+//working properly, finally
 function returningUserCreation(){
     setTimeout(readUserData,100);
     setTimeout(JSONtoUSER,200);
@@ -99,12 +101,23 @@ function returningUserCreation(){
 }
 
 function newGroupCreation(){
-  groupRedirect();
+  GLOBALGroupName = document.getElementById("name").value;
+  setTimeout(createGroup,100);
+  setTimeout(groupRedirect,200);
+  setTimeout(GROUPtoJSON,300)
+  setTimeout(writeGroupData,400);
 }
+
 function returningGroupCreation(){
     setTimeout(readGroupData,100);
     setTimeout(JSONtoGROUP,200);
-    setTimeout(groupRedirect,300);
+    setTimeout(function(){
+            var link = window.location.href.split("groupName=");
+            var groupName = link[1];
+            getUserTimesInGroup(groupName, startGroupUpload)
+                    
+    },300);
+    //setTimeout(groupRedirect,300);
 }
 
 // input: day, 0-6
