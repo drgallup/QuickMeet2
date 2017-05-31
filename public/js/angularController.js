@@ -1,10 +1,18 @@
 // controller.js
 
+// app used for all controllers in index.html and group.html
 var app = angular.module('MyApp', ['ngMaterial']);
+
+// PopCtrl
+// input:  scope
+// output: dialog
+// contains functions for the login page, the group creation page,
+// and the help page popups.
 app.controller('PopCtrl', function($scope, $mdDialog) {
   $scope.status = ' ';
   $scope.customFullscreen = false;
   
+  // login dialog
   $scope.showAlert = function(ev) {
     $mdDialog.show({
       controller: DialogController,
@@ -21,10 +29,28 @@ app.controller('PopCtrl', function($scope, $mdDialog) {
     });
   };	
   
+  // group dialog
   $scope.showGroup = function(ev) {
     $mdDialog.show({
       controller: DialogController,
       templateUrl: 'dialog1.group.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+  };	
+  
+  // help dialog
+  $scope.showHelp = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: 'dialog1.help.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
