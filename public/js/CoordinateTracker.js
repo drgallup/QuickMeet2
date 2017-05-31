@@ -81,6 +81,16 @@ function startUpload(allData){
 
 }
 
+function resetData(){
+	btimeStart = [];
+    btimeEnd   = [];
+    bdayStart  = [];
+    bdayEnd    = [];
+	colornumarr = [];
+	userNum = 0;
+	
+}
+
 function startGroupUpload(groupUserData){
 	console.log("in callback");
 	var usersInGroup = groupUserData.split(',');
