@@ -22,6 +22,7 @@
   <!-- Load login on init -->
   <div data-ng-controller="PopCtrl" data-ng-init="showAlert($event)"></div>
   
+  <section layout="row" flex-offset="5">
   <body id="popupContainer" onload="displayGroups()">
     <!-- Lists days over grid-->
     <div id = "cal">
@@ -43,6 +44,26 @@
     Your browser does not support the HTML5 canvas tag.
     </canvas>
     </div>
+    <md-sidenav
+        class="md-sidenav-left"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-md')"
+        md-whiteframe="4" flex-offset="5">
+
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Groups</h1>
+      </md-toolbar>
+      <md-content layout-padding ng-controller="UserCtrl">
+      </md-content>
+
+
+      <h2 ng-controller="ListGroups">
+        <div ng-repeat="x in listOfGroups">
+          {{x}}
+        </div>
+      </h2>
+    </md-sidenav>
+    </section>
     
     <form>
       <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
@@ -105,7 +126,6 @@
     
     <script src ="js/undo.js"></script>
 
-    <script src = "js/displayGroupsofUser.js"></script>
     
     <!-- <script src ="js/angular.js"></script> -->
     
