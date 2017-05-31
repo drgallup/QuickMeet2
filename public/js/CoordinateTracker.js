@@ -140,6 +140,7 @@ function mouseUp(eve) {
         //endY = pos.y;
         //drawSelector(); 
     }
+	colornumarr.push(0);
     //console.log("Inside mouseup");
     ctx.clearRect(0,0,c.width,c.height);
     drawGrid();
