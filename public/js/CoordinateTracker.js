@@ -215,6 +215,15 @@ function mouseMove(eve) {
     drawTooltip(pos);
 }
 
+// input:  mouse out of canvas
+// output: redraw canvas without tooltip
+// removes tooltip when user navigates away from canvas
+can.onmouseout = function () {
+  ctx.clearRect(0,0,c.width,c.height);
+  drawGrid();
+  drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colornumarr);
+}
+
 // findDeletion()
 // input:   global variables startX, startY, endX, endY (mouse pos)
 //          day[] (pixel map for days), hour[] (pixel map for times)
