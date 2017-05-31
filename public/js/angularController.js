@@ -65,7 +65,7 @@ app.controller('AppCtrl', function($scope) {
  
 });
 
-app.controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+app.controller('UserCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.close = function () {
       // Component lookup should always be available since we are not using `ng-if`
       $mdSidenav('right').close()
@@ -76,16 +76,65 @@ app.controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     };
   })
 
-app.controller("List", function($scope) {
-    setTimeout(function(){
-      $scope.listOfGroups = getGroupList();}, 3000);
+app.controller('GroupCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+    $scope.close = function () {
+      // Component lookup should always be available since we are not using `ng-if`
+      $mdSidenav('right').close()
+        .then(function () {
+          $log.debug("close LEFT is done");
+        });
 
-    console.log($scope.listOfGroups);
+    };
+  })
+
+app.controller("ListGroups", function($scope, $timeout) 
+{
+    displayGroups();
+    setTimeout(function()
+    {
+      $scope.listOfGroups = getGroupList();
+    }, 3000);
+
     $scope.displayListOfGroups = function ()
     {
         $scope.listOfGroups = getGroupList();
-        $scope.listOfGroups.reload();
     }
+  
+    $scope.intervalFunction = function()
+    {
+        $timeout(function() 
+        {
+          $scope.displayListOfGroups();
+          $scope.intervalFunction();
+        }, 1000)
+    };
+
+    $scope.intervalFunction();
+});
+
+app.controller("ListUsers", function($scope, $timeout) 
+{
+    displayUsersOfGroup();
+    setTimeout(function()
+    {
+      $scope.listOfUsers = getUserList();
+    }, 3000);
+
+    $scope.displayListOfUsers = function ()
+    {
+        $scope.listOfUsers = getUserList();
+    }
+
+    $scope.intervalFunction = function()
+    {
+        $timeout(function() 
+        {
+          $scope.displayListOfUsers();
+          $scope.intervalFunction();
+        }, 1000)
+    };
+
+    $scope.intervalFunction();
   
 });
 
@@ -113,10 +162,43 @@ function getGroupList()
 
 /*
 Input: an array of group id's
-Output: list of group id's 
+Output: none 
 Needed to add list of groups 
 */
 function setGroupList(groupArray) 
 {
     listGroups = groupArray;
+}
+
+
+/*
+Input: nothing, just call this
+Output: table appended to body
+This how to generate a list of users the group has
+*/
+var listUsers;
+function displayUsersOfGroup()
+{
+   var link = window.location.href.split("groupName=");
+    var groupName = link[1];
+    var x = getUsersInGroup(groupName, setUserList);
+}
+/*
+Input: nothing 
+Output: list of user id's 
+Needed because callbacks
+*/
+function getUserList()
+{
+    return listUsers;
+}
+
+/*
+Input: an array of user id's
+Output: none
+Needed to add list of groups 
+*/
+function setUserList(groupArray) 
+{
+    listUsers = groupArray;
 }
