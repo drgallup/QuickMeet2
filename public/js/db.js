@@ -79,12 +79,14 @@ function loadUser(){
     var bDayEnd    = loadedDB.users[0].bDayEnd;
     var groupID    = loadedDB.users[0].groupID;
     db.transaction(function(tx){
-        if(length == 0){
+        //if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
             alert("User: " +userName+ " has been loaded");
-            userRedirect();
-        }
+            
+            window.location.href = "/public/index.html?"+"username="+userName;
+            doAll();
+        //}
     });
     showUsers();  
 }
@@ -285,8 +287,7 @@ function removeGroupFromUser(userName,groupID){
 
 
 /* input:userName,groupID to delete
-   output: editted USERTABLE
-   What it does: removes  specific groupID from user table
+   output: pass an array of string calendar data to callback
    Special callback EX: getCalbyUser("username",getdata);
 */
 
@@ -324,7 +325,8 @@ function getCalbyUser(username, callback){
  }
  /*
  Input: Username and callback function that needs the list of groups the user is in
- OUtput: and array of strings showing the groups the user is in
+ Output: passes an array of strings to the callback function
+ Why: kyle needs it for displaying groups. 
  Example: getGroupForUser("Petar", getdata );
  */
 function getGroupForUser(username, callback){

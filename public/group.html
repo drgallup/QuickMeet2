@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="MyApp">
-
+<header>
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
           <ul class="navigation">
@@ -8,14 +8,16 @@
               <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/help.html">Help</a> </li>
           </ul>
   </div>
-
+</header>
   <h1>QuickMeet</h1>
 
+<section layout="row" flex-offset="5">
   <div id = "cal"> 
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-  <body onload="displayUsers()">
+  
+  <body onload="displayUsersOfGroup()">
     <!-- Lists days over grid-->
     <table class="header">
       <tr>
@@ -35,27 +37,39 @@
     Your browser does not support the HTML5 canvas tag.
     </canvas>
     </div>
+    <md-sidenav
+        class="md-sidenav-left"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-md')"
+        md-whiteframe="4" flex-offset="5">
 
-<!--
-    <form>
-      <font size="4">username:</font>
-      <input id= "name" type="text" name="username" value="">
+      <md-toolbar class="md-theme-indigo">
+        <h2 class="md-toolbar-tools">Users</h2>
+      </md-toolbar>
+      <md-content layout-padding ng-controller="GroupCtrl">
+      </md-content>
 
-      <input type="button" value="Submit" onClick = "createUser()">
-      <input type="submit" value="Go to your user page">
 
-      <input type="button" value="Create Group" onClick = "group()" />
-          <div layout-align="center center" ng-controller="appCtrl" ng-cloak="" ng-app="MyApp">
-            <md-switch ng-model="data.cb1" aria-label="Switch 1">
-                Switch 1: {{ data.cb1 }}
-            </md-switch>
-          </div>
-      <input type="button" value="Generate PDF" onClick = "genPDF()" />    
-    </form> -->
+      <h3 ng-controller="ListUsers">
+        <div ng-repeat="x in listOfUsers">
+          {{x}}
+        </div>
+      </h3>
+    </md-sidenav>
+    </section>
 
     <form>
       <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
         Go to user page
+      </md-button>
+        
+      <md-input-container>
+        <font size="4">Add User To Group:</font>
+        <input aria-label="username" id= "name" type="text" name="username" value="" md-autofocus>
+      </md-input-container>
+     
+      <md-button class="md-primary md-raised" onclick ="realHelperAddUserToGroup();">
+        Add
       </md-button>
           
       <md-button class="md-primary md-raised" onclick = "genPDF()">
@@ -109,7 +123,11 @@
     
     <script src ="js/coordinateHelper.js"></script>
 
-    <script src = "js/displayUsersofGroups.js"></script>
+
+    <script> 
+        var link = window.location.href.split("groupName=");
+        var groupName = link[1];
+        getUserTimesInGroup(groupName, startGroupUpload);</script>
 
 <br><br><br>
 

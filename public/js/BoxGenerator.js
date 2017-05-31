@@ -8,7 +8,8 @@ var ctx = c.getContext("2d");
 var colors = ["rgba(0,114,229,0.5)","rgba(0,255,0,0.5)",
               "rgba(255,255,0,0.5)","rgba(255,0,255,0.5)","rgba(255,102,0,0.5)",
               "rgba(102,102,102,0.5)","rgba(102,51,0,0.5)"];
-var userlength = 0;//length of the data for each user in the array
+var prevUserNum = 0;
+ctx.fillStyle = "rgba(128,0,0,0.5)";
 function drawBox(tStart, tEnd, dStart, dEnd, usernum){
     
     /*NOTES FOR DB: tStart and tEnd are the FIRST and LAST indeces in the array hourTemp calculated in the findlocation() function in coordinateTracker.js. (example: if you click from 7:00am to 8:00am, hourTemp = [0,1,2,3,4,5,6,7])*/
@@ -27,20 +28,28 @@ function drawBox(tStart, tEnd, dStart, dEnd, usernum){
         //length is the difference in times
         var Length = ((tEnd[i]-tStart[i])*tileHeight/7);
         //console.log("Y coor" + Y_coordinate);
-		if(usernum==null){
-					ctx.fillStyle = "rgba(128,0,0,0.5)";
+		if(usernum[i] == 0){
+			ctx.fillStyle = colors[usernum[i] % 7];
+		}
+		else if(usernum[i] > 0){
+			// console.log("user: " + usernum[i]);
+			// console.log("prev: " + prevUserNum);
+			if(usernum [i] != prevUserNum){
+/* 				console.log("switch color"); */
+				ctx.fillStyle = colors[usernum[i] % 7];
+				prevUserNum = usernum[i];
+				
 			}
-		else{
-				if(usernum[userlength] = i ){
-					userlength++;
-				}
-				ctx.fillStyle = colors[usernum[userlength] % 7];
-			}
+				
+		}else{
+			ctx.fillStyle = "rgba(128,0,0,0.5)";
+		}
         ctx.fillRect(X_coordinate, Y_coordinate, Width, Length);
 		//console.log(usernum[i]);
     }
-	userlength = 0;
-    
+/* 	console.log(usernum[i]);
+	console.log("End"); */
+    prevUserNum = 0;
 }
 /*
 function drawBox(tStart, tEnd, dStart, dEnd, user){

@@ -47,9 +47,9 @@ var btimeStart = [];
 var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
-//to show the length of the data of the array; to be a certain color
+//to associate each index in the  array with a user
 var colornumarr = [];
-
+var userNum = 0;// differentiate users
 doAll();
 var currentUser = window.location.href.split("username=");
 var allData = getCalbyUser(currentUser[1],startUpload);
@@ -67,21 +67,38 @@ function startUpload(allData){
     btimeEnd   = btimeEnd.concat(allData[1].split(','));
     bdayStart  = bdayStart.concat(allData[2].split(','));
     bdayEnd    = bdayEnd.concat(allData[3].split(','));
-    colornumarr.push(bdayEnd.length);
+	for(var userNumIndex = 0; userNumIndex < btimeStart.length; userNumIndex ++){
+		colornumarr.push(userNum);
+		console.log(userNum);
+	}
+    //colornumarr.push(bdayEnd.length);
+	userNum++;
     console.log(btimeEnd);
-    console.log(btimeStart);
+    //console.log(btimeStart);
 
-    drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
+    setTimeout( drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr),100);
 
 
 }
 
-function startGroupUpload(groupUserData){
+function resetData(){
+	btimeStart = [];
+    btimeEnd   = [];
+    bdayStart  = [];
+    bdayEnd    = [];
+	colornumarr = [];
+	userNum = 0;
 	
+}
+
+function startGroupUpload(groupUserData){
+	console.log("in callback");
 	var usersInGroup = groupUserData.split(',');
 	for(var m = 0; m < usersInGroup.length; m++){
 		getCalbyUser(usersInGroup[m],startUpload);
+		
 	}
+	userNum = 0;
 }
 //console.log(jsonData);
 
@@ -123,6 +140,7 @@ function mouseUp(eve) {
         //endY = pos.y;
         //drawSelector(); 
     }
+	colornumarr.push(0);
     //console.log("Inside mouseup");
     ctx.clearRect(0,0,c.width,c.height);
     drawGrid();
@@ -252,7 +270,7 @@ function findDeletion(){
             drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd); 
             console.log("Deleted");
             break;
-        } 
+        }
     }
 }
 
@@ -317,6 +335,9 @@ function findLocation (){
 
   console.log("Posted data");
   showUsers();
+  
+  setTimeout(USERtoJSON,100);
+  setTimeout(writeUserData, 200);
   
   //passing variables from local to global for use in drawBox()
     

@@ -89,8 +89,22 @@ function drawSelector() {
 // output: new user, redirection to user page
 // necessary for calling both functions at once on login submit.
 function newUserCreation(){
-  createUser();
+  //createUser();
   userRedirect();
+}
+function returningUserCreation(){
+    setTimeout(readUserData,100);
+    setTimeout(JSONtoUSER,200);
+    setTimeout(userRedirect,300);
+}
+
+function newGroupCreation(){
+  groupRedirect();
+}
+function returningGroupCreation(){
+    setTimeout(readGroupData,100);
+    setTimeout(JSONtoGROUP,200);
+    setTimeout(groupRedirect,300);
 }
 
 // input: day, 0-6

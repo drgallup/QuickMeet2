@@ -1,25 +1,29 @@
 
-
+var groupDataJSON = {"groups":""};
 
 function createGroupTable(){
     db.transaction(function(tx){
         tx.executeSql("create table GROUPTABLE (groupName TEXT UNIQUE, users TEXT)"
                       ,[],function(result){
-        alert("created group table: "+ result);
+        //alert("created group table: "+ result);
         });    
     });
 }
 
-
+/*
+Input: Needs field to filled
+Output: Creates a row in the group table
+Example: createGroup()
+*/
 function createGroup(){
-    doAll();
+    //doAll();
+    doGroup();
     var users = " ";
     var groupName = document.getElementById("name").value;
     db.transaction(function(tx){
         tx.executeSql("insert into GROUPTABLE values(?,?)", 
                       [groupName,users]);
-        alert("New Group: " +groupName+ " has been made");
-
+        //alert("New Group: " +groupName+ " has been made");
     });
     showGroups();
 }
@@ -90,6 +94,11 @@ function removeUserFromGroup(userName,groupName){
         });
 		showGroups();
 }
+/*
+Input: String of the groupname
+Output: Edits table to get rid of that group
+Example: deleteGroup("Group Name")
+*/
 function deleteGroup(groupname){
     db.transaction(function(tx){
         tx.executeSql("DELETE FROM GROUPTABLE WHERE groupName = '"+groupname+"'");
@@ -97,6 +106,11 @@ function deleteGroup(groupname){
         console.log("We are in delete group");
         showGroups();
 }
+/*
+Input: Nothing
+Output: Delete all groups
+Example: deleteAllGroups()
+*/
 function deleteAllGroups(){
     db.transaction(function(tx){
         tx.executeSql("DELETE FROM GROUPTABLE");
@@ -104,6 +118,11 @@ function deleteAllGroups(){
     console.log("Group table cleared");
     showGroups();
 }
+/*
+Input: username as string, groupname as string.
+Output: groupname in table adds username to their users field
+Example: addUserToGroup("user1","groupname")
+*/
 function addUserToGroup(username,groupname){
     var flag = 0;
     var moduser = username;
@@ -120,7 +139,7 @@ function addUserToGroup(username,groupname){
                 for(var i = 0; i < times.length; i++){
                     if(times[i] == username){
                         flag = 1;
-                        alert("user:"+username+" already added to "+ groupname);
+                        //alert("user:"+username+" already added to "+ groupname);
                         return; 
                     }
                 }
@@ -135,7 +154,11 @@ function addUserToGroup(username,groupname){
 
     showGroups();
 }
-
+/*
+Input: groupname as string, callback as function
+Output: pass the users as an array of strings to the callback function
+Example: getUsersInGroup("group5", )
+*/
 function getUsersInGroup(groupname, callback){
 	var userArray;
 	db.transaction(function(tx){
@@ -159,7 +182,34 @@ function getUsersInGroup(groupname, callback){
  		
      });  
 }
-
+/*
+Input:
+Output:
+Example: loadGroup()
+*/
+function loadGroup(){
+    doGroup();
+    console.log(groupLoadedDB);
+    
+    var groupName = groupLoadedDB.users[0].userName;
+    var users = groupLoadedDB.groups[0].users;
+    
+    db.transaction(function(tx){
+        //if(length == 0){
+            tx.executeSql("insert into GROUPTABLE values(?,?)", 
+                          [groupName, users]);
+            //alert("Group: " +groupName+ " has been loaded");
+            
+            //window.location.href = "/public/index.html?"+"username="+userName;
+        //}
+    });
+    showGroups();  
+}
+/*
+Input: Nothing
+Output: Show the groups and the users in each group
+Example: showGroups()
+*/
 function showGroups(){
     db.transaction(function(tx){
         tx.executeSql("SELECT groupName, users FROM GROUPTABLE", [], function(tx,result){
@@ -170,11 +220,75 @@ function showGroups(){
         });
     });
 }
+/*
+Input:
+Output:
+Example: GROUPtoJSON()
+*/
+function GROUPtoJSON(){
 
+    var link = window.location.href.split("groupName=");
+    var groupName = link[1];
+    
+    db.transaction(function(tx){
+        result = tx.executeSql("SELECT * FROM GROUPTABLE WHERE groupName = '"+groupName+"'" ,[],function(tx,result){
+             var row = result.rows;
+             groupDataJSON.groups = row;
+             console.log(groupDataJSON);
+        });
+    });
+}
+/*
+Input:
+Output:
+Example: JSONtoGROUP()
+*/
+function JSONtoGROUP(){
+    console.log(groupDataJSON.groups);
+    loadGroup(groupDataJSON);
+}
+/*
+Input:
+Output:
+Example: helperAddUserToGroup()
+*/
+function helperAddUserToGroup(){
+    var username = document.getElementById("name").value;
+    var link = window.location.href.split("groupName=");
+    var groupName = link[1];
+    addUserToGroup(username, groupName);
+    
+    setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
+    setTimeout(function(){
+        // redraw the calendar
+        ctx.clearRect(0,0,c.width,c.height);
+        drawGrid();
+        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    } , 200);    
+    // redraw the calendar
+        ctx.clearRect(0,0,c.width,c.height);
+        drawGrid();
+        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+    
+}
+/*
+Input:
+Output:
+Example: realHelperAddUserToGroup()
+*/
+function realHelperAddUserToGroup(){
+    helperAddUserToGroup();
+    setTimeout( helperAddUserToGroup, 100);
+    //setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
+}
+/*
+Input: Nothing
+Output: Make table/ database
+Example: doGroup()
+*/
 
 function doGroup(){
     openUserDatabase();
     createGroupTable();
-    createGroup("group2");
     showGroups();
 }
