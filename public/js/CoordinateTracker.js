@@ -47,9 +47,9 @@ var btimeStart = [];
 var btimeEnd = [];
 var bdayStart = [];
 var bdayEnd = [];
-//to show the length of the data of the array; to be a certain color
+//to associate each index in the  array with a user
 var colornumarr = [];
-
+var userNum = 0;// differentiate users
 doAll();
 var currentUser = window.location.href.split("username=");
 var allData = getCalbyUser(currentUser[1],startUpload);
@@ -67,11 +67,16 @@ function startUpload(allData){
     btimeEnd   = btimeEnd.concat(allData[1].split(','));
     bdayStart  = bdayStart.concat(allData[2].split(','));
     bdayEnd    = bdayEnd.concat(allData[3].split(','));
-    colornumarr.push(bdayEnd.length);
+	for(var userNumIndex = 0; userNumIndex < btimeStart.length; userNumIndex ++){
+		colornumarr.push(userNum);
+		console.log(userNum);
+	}
+    //colornumarr.push(bdayEnd.length);
+	userNum++;
     console.log(btimeEnd);
-    console.log(btimeStart);
+    //console.log(btimeStart);
 
-    setTimeout( drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr),1000);
+    setTimeout( drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr),100);
 
 
 }
@@ -81,7 +86,9 @@ function startGroupUpload(groupUserData){
 	var usersInGroup = groupUserData.split(',');
 	for(var m = 0; m < usersInGroup.length; m++){
 		getCalbyUser(usersInGroup[m],startUpload);
+		
 	}
+	userNum = 0;
 }
 //console.log(jsonData);
 
