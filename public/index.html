@@ -6,12 +6,12 @@
   <div class="container">
           <ul class="navigation">
               <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/index.html">Home</a> </li>
-              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/help.html">Help</a> </li>
+              <li class="navigation-items"> <a ng-controller="PopCtrl" ng-click="showHelp($event)">Help</a> </li>
           </ul>
   </div>
 </header>
 
-    <h1>QuickMeet</h1>
+  
   
   <script src = "js/redir.js"></script>
 
@@ -20,9 +20,11 @@
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
   
   <!-- Load login on init -->
-  <div data-ng-controller="PopCtrl" data-ng-init="showAlert($event)"></div>
+  <!-- <div data-ng-controller="PopCtrl" data-ng-init="showAlert($event)"></div> -->
   
-  <section layout="row" flex-offset="5">
+  <section layout="row" flex-offset="5" align="center">
+  <div>
+  <h1>QuickMeet</h1>
   <body id="popupContainer" onload="displayGroups()">
     <!-- Lists days over grid-->
     <div id = "cal">
@@ -44,27 +46,6 @@
     Your browser does not support the HTML5 canvas tag.
     </canvas>
     </div>
-    <md-sidenav
-        class="md-sidenav-left"
-        md-component-id="left"
-        md-is-locked-open="$mdMedia('gt-md')"
-        md-whiteframe="4" flex-offset="5">
-
-      <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Groups</h1>
-      </md-toolbar>
-      <md-content layout-padding ng-controller="UserCtrl">
-      </md-content>
-
-
-      <h2 ng-controller="ListGroups">
-        <div ng-repeat="x in listOfGroups">
-          {{x}}
-        </div>
-      </h2>
-    </md-sidenav>
-    </section>
-    
     <form>
       <md-button class="md-primary md-raised" onclick = "userRedirect()" ng-hide=true>
         Go to user page
@@ -91,8 +72,29 @@
                 </md-switch>
             </div>
         </div>
-        
     </form>  
+    </div>
+    <md-sidenav
+        class="md-sidenav-left"
+        style="margin-top: 75px; padding-bottom: 100px"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-md')"
+        md-whiteframe="4" flex-offset="10">
+
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Groups</h1>
+      </md-toolbar>
+      <md-content layout-padding ng-controller="UserCtrl">
+      </md-content>
+
+
+      <h2 ng-controller="ListGroups">
+        <div ng-repeat="x in listOfGroups">
+          {{x}}
+        </div>
+      </h2>
+    </md-sidenav>
+    </section>
   </body>
     
       <!-- Angular Material requires Angular.js Libraries -->
@@ -131,6 +133,7 @@
     
     <script src ="js/coordinateHelper.js"></script>
     
+    <!-- Login HTML file -->
     <script type="text/ng-template" id="dialog1.login.html">
       <md-dialog aria-label="Login Page">
         <form ng-cloak>
@@ -234,6 +237,63 @@
       
     <script  src ="js/db.js"></script>
     </script>
+    
+    
+    
+    <script type="text/ng-template" id="dialog1.help.html">
+    
+    <md-dialog aria-label="Help">
+        <form ng-cloak>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>How to use QuickMeet</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <md-dialog-content>
+              <div class="md-dialog-content">
+                  
+                <link rel="stylesheet" href="css/help.css"></link>
+                <div class="right">
+                    <p>Fill in the events of your personal calendar</p>
+                </div> 
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+                <div class="right">
+                    <p>To create a group calendar, enter a group name and click the create group button</p>
+                </div>  
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+                <div class="right">
+                    <p>Add or delete users to customize your group calendar</p>
+                </div> 
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+                <div class="right">
+                    <p>To generate viable meeting times, enter the length of you desired meeting time in minutes into the submission field</p>
+                </div> 
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+              </div>
+          </md-dialog-content>
+
+          <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+              Cancel
+            </md-button>
+          </md-dialog-actions>
+        </form>
+        
+      </md-dialog>
+      </script>
 
 <br><br><br>
     
