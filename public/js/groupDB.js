@@ -257,18 +257,20 @@ function helperAddUserToGroup(){
     var link = window.location.href.split("groupName=");
     var groupName = link[1];
     addUserToGroup(username, groupName);
-    
+/*     
     setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
     setTimeout(function(){
         // redraw the calendar
         ctx.clearRect(0,0,c.width,c.height);
         drawGrid();
         drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
-    } , 200);    
+    } , 200);     */
     // redraw the calendar
-        ctx.clearRect(0,0,c.width,c.height);
+	resetData();
+	setTimeout(getUserTimesInGroup(groupName,startGroupUpload),400);
+/*         ctx.clearRect(0,0,c.width,c.height);
         drawGrid();
-        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd); */
     
 }
 /*
@@ -278,7 +280,7 @@ Example: realHelperAddUserToGroup()
 */
 function realHelperAddUserToGroup(){
     helperAddUserToGroup();
-    setTimeout( helperAddUserToGroup, 100);
+    //setTimeout( helperAddUserToGroup, 100);
     //setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
 }
 /*

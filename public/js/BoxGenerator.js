@@ -28,6 +28,7 @@ function drawBox(tStart, tEnd, dStart, dEnd, usernum){
         //length is the difference in times
         var Length = ((tEnd[i]-tStart[i])*tileHeight/7);
         //console.log("Y coor" + Y_coordinate);
+		//console.log(usernum);
 		if(usernum[i] == 0){
 			ctx.fillStyle = colors[usernum[i] % 7];
 		}
