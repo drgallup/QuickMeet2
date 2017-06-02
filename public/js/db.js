@@ -1,6 +1,6 @@
 //quickmeet2.0 public/db.js
 
-
+var GLOBALUserName
 var db = null;
 var dataJSON = {"users":""};
 /* input: void
@@ -30,7 +30,7 @@ function createUserTable(){
 */
 function createUser(){
     doAll();
-    var userName = document.getElementById("name").value;
+    var userName = GLOBALUserName;
     //var link = window.location.href.split("username=");
     //var userName = link[1];
     var userID = genUserID();
@@ -78,18 +78,58 @@ function loadUser(){
     var bDayStart  = loadedDB.users[0].bDayStart;
     var bDayEnd    = loadedDB.users[0].bDayEnd;
     var groupID    = loadedDB.users[0].groupID;
+    
+    /*for(var g = 0; g < bTimeStart.length; g++){
+        addUserCal(userName, bTimeStart[g],bTimeEnd[g],bDayStart[g],bDayEnd[g])
+    }*/
+    
+    //getCalbyUser(userName,startUpload);
     db.transaction(function(tx){
         //if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
             alert("User: " +userName+ " has been loaded");
             
-            window.location.href = "/public/index.html?"+"username="+userName;
-            doAll();
+            //window.location.href = "/public/index.html?"+"username="+userName;
+            //doAll();
         //}
-    });
+    }); 
     showUsers();  
 }
+
+
+function loadUserParam(userJSON, index, numOfUsers){
+    doAll();
+    doGroup();
+    //setTimeout(function(){
+    console.log("in loaduser Param",userJSON);
+    //for(var userIndex = 0; userIndex < 2; userIndex){
+        //console.log(userIndex);
+        setTimeout(function(){
+                
+            var userName   = userJSON[index][0].userName;
+            var userID     = userJSON[index][0].userID;
+            var bTimeStart = userJSON[index][0].bTimeStart;
+            var bTimeEnd   = userJSON[index][0].bTimeEnd;
+            var bDayStart  = userJSON[index][0].bDayStart;
+            var bDayEnd    = userJSON[index][0].bDayEnd;
+            var groupID    = userJSON[index][0].groupID;
+            
+            console.log(userName, groupID);
+            db.transaction(function(tx){
+                    tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
+                                  [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
+                    //alert("User: " +userName+ " has been loaded");
+            });    
+        },200);
+    
+        setTimeout(function(){
+            if(index < numOfUsers-1){
+                loadUserParam(userJSON, index+1, numOfUsers);
+            }
+        },300);
+}
+
 /* input: void
    output: uniqueID, extra field for identification
    What it does: generates a userID that is random and unique

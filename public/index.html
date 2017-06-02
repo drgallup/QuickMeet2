@@ -227,7 +227,7 @@
               Cancel
             </md-button>
             <span flex></span>
-            <md-button ng-click="answer('Confirm')" onclick="returningGroupCreation()">
+            <md-button ng-click="answer('Confirm')" onclick="newGroupCreation()">
              Create
             </md-button>
           </md-dialog-actions>
@@ -302,7 +302,7 @@
   // Initialize Firebase
   // TODO: Replace with your project's customized code snippet
   var loadedDB;
-  var grouploadedDB;
+  var groupLoadedDB;
   var config = {
     apiKey: "AIzaSyBetNrKXVXpI6OrSjOpwVIm_HQSZ0p64tw",
     authDomain: "quickmeet2-c69c9.firebaseapp.com",
@@ -324,8 +324,8 @@
 
     function readUserData(){
         
-        var link = window.location.href.split("username=");
-        var username = link[1];
+        var username = document.getElementById("name").value;
+        GLOBALUserName = username;
         return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
         loadedDB = snapshot.val();
         console.log(loadedDB);
