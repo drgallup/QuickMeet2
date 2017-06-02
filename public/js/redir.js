@@ -6,8 +6,8 @@ function groupRedirect(){
         window.location.href ="/group.html?"+"groupName="+groupName;
         //good for live version
         //window.location.href = "/group.html?"+"groupName="+groupName;
-        setTimeout(getUserTimesInGroup(groupName, startGroupUpload),1000);
-        setTimeout(getUserTimesInGroup(groupName, startGroupUpload),2000);
+        setTimeout(getUserTimesInGroup(groupName, startGroupUpload),time10);
+        setTimeout(getUserTimesInGroup(groupName, startGroupUpload),time20);
 }
 function userRedirect(){
         
@@ -23,7 +23,7 @@ function userRedirect(){
                 window.location.href = "/index.html?"+"username="+username;
                 doAll();
                 console.log("we are in it: "+username);}
-            ,100);
+            ,time1);
         console.log("fu bard"); 
         //good for REMOTE HOSTING
         //window.location.href = "/index.html?"+"username="+username;
