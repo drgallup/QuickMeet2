@@ -19,7 +19,7 @@ function createUserTable(){
         tx.executeSql("create table USERTABLE (userID REAL UNIQUE,  userName TEXT, bTimeStart TEXT, \
                                               bTimeEnd TEXT, bDayStart TEXT, bDayEnd TEXT, groupID TEXT)"
                       ,[],function(result){
-        alert("created user table: "+ result);
+        //alert("created user table: "+ result);
     });
             
     });

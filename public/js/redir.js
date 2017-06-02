@@ -2,8 +2,8 @@
 function groupRedirect(){
         console.log("fubar");
         var groupName = GLOBALGroupName;
-        //good for LOCAL HOSTING
-        window.location.href ="/public/group.html?"+"groupName="+groupName;
+        //good for LOCAL 
+        window.location.href ="/group.html?"+"groupName="+groupName;
         //good for live version
         //window.location.href = "/group.html?"+"groupName="+groupName;
         setTimeout(getUserTimesInGroup(groupName, startGroupUpload),1000);
@@ -20,7 +20,7 @@ function userRedirect(){
         console.log(username);
         setTimeout(
             function(){
-                window.location.href = "/public/index.html?"+"username="+username;
+                window.location.href = "/index.html?"+"username="+username;
                 doAll();
                 console.log("we are in it: "+username);}
             ,100);

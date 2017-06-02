@@ -95,6 +95,7 @@ function newUserCreation(){
 }
 //working properly, finally
 function returningUserCreation(){
+    GLOBALUserName = document.getElementById("name").value;
     setTimeout(readUserData,100);
     setTimeout(JSONtoUSER,200);
     setTimeout(userRedirect,300);
@@ -117,13 +118,11 @@ function returningGroupCreation(){
             var groupName = link[1];
             console.log("groupname:"+ groupName);
             getUsersInGroup(groupName, loadGroupAnew);
-            resetData();
-            console.log();
-        
+                   
     },1000);
-    setTimeout( function(){
+    setTimeout( function(){resetData(); 
                            getUserTimesInGroup(groupName, startGroupUpload);
-                          }, 2000);
+                          }, 3000);
     /*
     setTimeout(readGroupData,100);
     setTimeout(JSONtoGROUP,200);
