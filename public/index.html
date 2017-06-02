@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
           <ul class="navigation">
-              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/index.html">Home</a> </li>
+              <li class="navigation-items"> <a href="/public/index.html">Home</a> </li>
               <li class="navigation-items"> <a ng-controller="PopCtrl" ng-click="showHelp($event)">Help</a> </li>
           </ul>
   </div>
@@ -227,6 +227,9 @@
               Cancel
             </md-button>
             <span flex></span>
+            <md-button ng-click="answer('Confirm')" onclick="returningGroupCreation()">
+             Load Group
+            </md-button>
             <md-button ng-click="answer('Confirm')" onclick="newGroupCreation()">
              Create
             </md-button>
@@ -324,7 +327,10 @@
 
     function readUserData(){
         
-        var username = document.getElementById("name").value;
+        var username;
+        if (document.getElementById("name").value!= undefined){
+           username =  document.getElementById("name").value;
+        }
         GLOBALUserName = username;
         return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
         loadedDB = snapshot.val();

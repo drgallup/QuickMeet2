@@ -28,11 +28,13 @@ document.onkeydown = function(evt) {
         var link = window.location.href.split("username=");
         var userName = link[1];
         removeUserCal(userName, a, b, c, d)
-        
+        setTimeout(USERtoJSON,100);
+        setTimeout(writeUserData, 200);
+          
         // redraw the calendar
         ctx.clearRect(0,0,c.width,c.height);
         drawGrid();
-        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
+        drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colornumarr);
       }
       break;
   }

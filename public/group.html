@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
           <ul class="navigation">
-              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/index.html">Home</a> </li>
+              <li class="navigation-items"> <a href="/public/index.html">Home</a> </li>
               <li class="navigation-items"> <a ng-controller="PopCtrl" ng-click="showHelp($event)">Help</a> </li>
           </ul>
   </div>
@@ -15,11 +15,11 @@
   <link rel="stylesheet" href="css/calendar.css">
       <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-  <section layout="row" flex-offset="5" align="center">
+  <section layout="row" flex-offset="5" align="center" >
   <div>
   <h1>QuickMeet</h1>
   <div id = "cal"> 
-  <body onload="displayUsersOfGroup()">
+  <body onload="displayUsersOfGroup()" >
     <!-- Lists days over grid-->
     <table class="header">
       <tr>
@@ -46,7 +46,7 @@
         
       <md-input-container>
         <font size="4">Add User To Group:</font>
-        <input aria-label="username" id= "name" type="text" name="username" value="" md-autofocus>
+        <input aria-label="username" id= "name1" type="text" name="username" value="" md-autofocus>
       </md-input-container>
      
       <md-button class="md-primary md-raised" onclick ="realHelperAddUserToGroup();">
@@ -110,7 +110,7 @@
     <script src ="js/pdfGenerator.js"></script>
 
     <script src ="js/groupDB.js"></script>
-
+    <script src = "js/redir.js"> </script>
     <script src ="js/CalendarGenerator.js"></script>
 
     <script src = "js/CoordinateTracker.js"></script>
@@ -119,9 +119,116 @@
     
     <script src ="js/undo.js"></script>
     
-    <script src ="js/angular.js"></script>
-    
     <script src ="js/coordinateHelper.js"></script>
+    
+    <!-- Login HTML file -->
+    <script type="text/ng-template" id="dialog1.login.html">
+      <md-dialog aria-label="Login Page">
+        <form ng-cloak>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>Login Page</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <md-dialog-content>
+            <div class="md-dialog-content">
+              <h2>Welcome to QuickMeet</h2>
+              <p>
+                Enter your username. If you don't have one, click new user.
+              </p>
+              
+              <md-input-container>
+                <font size="4">Username:</font>
+                <input aria-label="username" id= "name" type="text" name="username" value="" md-autofocus>
+              </md-input-container>
+              
+              <md-input-container ng-hide=true>
+                <font size="4">Name:</font>
+                <input aria-label="name" type="text" value="">
+              </md-input-container>
+              
+              
+            </div>
+          </md-dialog-content>
+
+          <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+              Cancel
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="answer('New User')" onclick="newUserCreation()">
+             New User
+            </md-button>
+            <md-button ng-click="answer('Returning User')" onclick="returningUserCreation()">
+              Returning User
+            </md-button>
+          </md-dialog-actions>
+        </form>
+        
+      </md-dialog>
+      
+    <script  src ="js/db.js"></script>
+    </script>
+
+    <!-- help dialog -->
+    <script type="text/ng-template" id="dialog1.help.html">
+    <md-dialog aria-label="Help">
+        <form ng-cloak>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>How to use QuickMeet</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <md-dialog-content>
+              <div class="md-dialog-content">
+                  
+                <link rel="stylesheet" href="css/help.css"></link>
+                <div class="right">
+                    <p>Fill in the events of your personal calendar</p>
+                </div> 
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+                <div class="right">
+                    <p>To create a group calendar, enter a group name and click the create group button</p>
+                </div>  
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+                <div class="right">
+                    <p>Add or delete users to customize your group calendar</p>
+                </div> 
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+                <div class="right">
+                    <p>To generate viable meeting times, enter the length of you desired meeting time in minutes into the submission field</p>
+                </div> 
+                <div>   
+                  <img  src="img/genCalMaking.gif" alt="gif1" title="gif1" />
+                </div>
+              </div>
+          </md-dialog-content>
+
+          <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+              Cancel
+            </md-button>
+          </md-dialog-actions>
+        </form>
+        
+      </md-dialog>
+      </script>
 
 
     <script> 
@@ -134,6 +241,7 @@
   // TODO: Replace with your project's customized code snippet
   var loadedDB;
   var groupLoadedDB;
+  setTimeout(returningGroupCreation,2000); 
   var config = {
     apiKey: "AIzaSyBetNrKXVXpI6OrSjOpwVIm_HQSZ0p64tw",
     authDomain: "quickmeet2-c69c9.firebaseapp.com",
@@ -188,11 +296,11 @@
             //console.log("read user in timeout", userJSONArray[0]);
             return userJSONArray;},200);
     }
-    function writeGroupData() {
+   function writeGroupData() {
         var link = window.location.href.split("groupName=");
         var groupname = link[1];
         firebase.database().ref('groups/'+groupname+'/').set(groupDataJSON);
-        console.log("wrote groups:"+groupDataJSON.groups);
+        console.log("wrote groups");
     }
     function readGroupData(){
         
@@ -201,9 +309,9 @@
         
         return firebase.database().ref('groups/'+groupname+'/').once('value').then(function(snapshot) {
         groupLoadedDB = snapshot.val();
-        console.log(groupLoadedDB.groups);
+        console.log(groupLoadedDB);
         });
-        console.log("read group");
+        console.log("read user");
     }
     </script>
 <br><br><br>

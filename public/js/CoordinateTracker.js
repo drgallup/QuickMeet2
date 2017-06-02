@@ -286,6 +286,7 @@ function findDeletion(){
             var link = window.location.href.split("username=");
             var userName = link[1];
             removeUserCal(userName, btimeStart[a], btimeEnd[a], bdayStart[a], bdayEnd[a]);
+            
             //post_data("/QuickMeet/default/api/" + user + "/1/" + ".json", btimeStart[a], btimeEnd[a], bdayStart[a], bdayEnd[a]);
 
             
@@ -297,6 +298,8 @@ function findDeletion(){
             ctx.clearRect(0,0,c.width,c.height);
             drawGrid();
             console.log("Deleted");
+            setTimeout(USERtoJSON,100);
+            setTimeout(writeUserData, 200);
             return btimeStart, btimeEnd, bdayStart, bdayEnd; 
         }
     }

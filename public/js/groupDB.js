@@ -253,7 +253,7 @@ Output:
 Example: helperAddUserToGroup()
 */
 function helperAddUserToGroup(){
-    var username = document.getElementById("name").value;
+    var username = document.getElementById("name1").value;
   
     var link = window.location.href.split("groupName=");
     var groupName = link[1];
@@ -271,7 +271,7 @@ Example: realHelperAddUserToGroup()
 */
 function realHelperAddUserToGroup(){
     
-    var username = document.getElementById("name").value;
+    var username = document.getElementById("name1").value;
     GLOBALUserName = username;
     setTimeout(readUserData,100);
     setTimeout(function(){
