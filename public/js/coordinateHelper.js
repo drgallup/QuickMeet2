@@ -90,49 +90,39 @@ function drawSelector() {
 // necessary for calling both functions at once on login submit.
 function newUserCreation(){
   GLOBALUserName = document.getElementById("name").value;
-  setTimeout(createUser,100);
-  setTimeout(userRedirect,200);
+  setTimeout(createUser,time1);
+  setTimeout(userRedirect,time2);
 }
 //working properly, finally
 function returningUserCreation(){
     GLOBALUserName = document.getElementById("name").value;
-    setTimeout(readUserData,100);
-    setTimeout(JSONtoUSER,200);
-    setTimeout(userRedirect,300);
+    setTimeout(readUserData,time1);
+    setTimeout(JSONtoUSER,time2);
+    setTimeout(userRedirect,time3);
 }
 
 function newGroupCreation(){
   GLOBALGroupName = document.getElementById("name").value;
-  setTimeout(createGroup,100);
-  setTimeout(groupRedirect,200);
-  setTimeout(GROUPtoJSON,300)
-  setTimeout(writeGroupData,400);
+  setTimeout(createGroup,time1);
+  setTimeout(groupRedirect,time2);
+  setTimeout(GROUPtoJSON,time3)
+  setTimeout(writeGroupData,time4);
 }
 
 function returningGroupCreation(){
-    console.log("returning group creation");
-    setTimeout(readGroupData,100);
-    setTimeout(JSONtoGROUP,200);
+    //consle.log("returning group creation");
+    setTimeout(readGroupData,time1);
+    setTimeout(JSONtoGROUP,time2);
     setTimeout(function(){
         var link = window.location.href.split("groupName=");
             var groupName = link[1];
-            console.log("groupname:"+ groupName);
+            //consle.log("groupname:"+ groupName);
             getUsersInGroup(groupName, loadGroupAnew);
                    
-    },1000);
+    },time10);
     setTimeout( function(){resetData(); 
                            getUserTimesInGroup(groupName, startGroupUpload);
-                          }, 3000);
-    /*
-    setTimeout(readGroupData,100);
-    setTimeout(JSONtoGROUP,200);
-    setTimeout(function(){
-            var link = window.location.href.split("groupName=");
-            var groupName = link[1];
-            getUserTimesInGroup(groupName, startGroupUpload)
-                    
-    },300);*/
-    //setTimeout(groupRedirect,300);
+                          }, time30);
 }
 
 // input: day, 0-6

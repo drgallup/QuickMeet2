@@ -241,7 +241,7 @@
   // TODO: Replace with your project's customized code snippet
   var loadedDB;
   var groupLoadedDB;
-  setTimeout(returningGroupCreation,2000); 
+  setTimeout(returningGroupCreation,time20); 
   var config = {
     apiKey: "AIzaSyBetNrKXVXpI6OrSjOpwVIm_HQSZ0p64tw",
     authDomain: "quickmeet2-c69c9.firebaseapp.com",
@@ -294,7 +294,7 @@
 
         setTimeout(function(){
             //console.log("read user in timeout", userJSONArray[0]);
-            return userJSONArray;},200);
+            return userJSONArray;},time2);
     }
    function writeGroupData() {
         var link = window.location.href.split("groupName=");

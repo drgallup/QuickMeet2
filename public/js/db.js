@@ -3,6 +3,15 @@
 var GLOBALUserName
 var db = null;
 var dataJSON = {"users":""};
+var time1 = 100;
+var time2 = 200;
+var time3 = 300;
+var time4 = 400;
+var time5 = 500;
+var time10 = 1000;
+var time20 = 2000;
+var time30 = 3000;
+
 /* input: void
    output: DB opened
    What it does: opens the USERTABLE
@@ -43,32 +52,31 @@ function createUser(){
         alert("Username cannot be that short");
         return;
     }
-    console.log("making new user:  " + userName);
+    //console.log("making new user:  " + userName);
     var length = 0;
     db.transaction(function(tx){
         tx.executeSql("SELECT userName FROM USERTABLE WHERE userName ='"+userName+"'", [], function(tx,result){
                 length = result.rows.length;
-                console.log(length);
+                //console.log(length);
                 if(length > 0 ){
                     alert("Username: "+ userName +" already exists.\nIf you are "+userName+", click go to page.");
                 }
         });
 
     });
-    console.log(length);
         
     db.transaction(function(tx){
         if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
-            alert("New User: " +userName+ " has been made");
+            //alert("New User: " +userName+ " has been made");
         }
     });
     showUsers();  
 }
 function loadUser(){
     doAll();
-    console.log(loadedDB);
+    //console.log(loadedDB);
     var userName = loadedDB.users[0].userName;
     //var link = window.location.href.split("username=");
     //var userName = link[1];
@@ -102,7 +110,7 @@ function loadUserParam(userJSON, index, numOfUsers){
     doAll();
     doGroup();
     //setTimeout(function(){
-    console.log("in loaduser Param",userJSON);
+    //console.log("in loaduser Param",userJSON);
     //for(var userIndex = 0; userIndex < 2; userIndex){
         //console.log(userIndex);
         setTimeout(function(){
@@ -115,7 +123,7 @@ function loadUserParam(userJSON, index, numOfUsers){
             var bDayEnd    = userJSON[index][0].bDayEnd;
             var groupID    = userJSON[index][0].groupID;
             
-            console.log(userName, groupID);
+            //console.log(userName, groupID);
             db.transaction(function(tx){
                     tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                                   [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
@@ -141,7 +149,7 @@ function genUserID(){
         tx.executeSql("SELECT * userID FROM USERTABLE", [userID],function(tx,result){
     
             for(var i = 0; i < result.rows.length-1;i++){
-                console.log("hello",i);
+                //console.log("hello",i);
                 var row = result.rows.item(i);
                 if(row['userID'] == userID){
                     userID = Math.floor((Math.random() * 10000 ) + 1);
@@ -162,7 +170,7 @@ function showUsers(){
                        bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE", [], function(tx,result){
             for(var i = 0; i< result.rows.length;i++){
                 var row = result.rows.item(i);
-                console.log(row['userID'], row['userName'], row['bTimeStart'], row['bTimeEnd'], row['bDayStart'], row['bDayEnd'], row['groupID']);
+                //console.log(row['userID'], row['userName'], row['bTimeStart'], row['bTimeEnd'], row['bDayStart'], row['bDayEnd'], row['groupID']);
             }
         });
     });
@@ -173,10 +181,10 @@ function showUsers(){
 */
 function deleteAllUsers(){
     db.transaction(function(tx){
-        console.log(tx);
+        //console.log(tx);
         tx.executeSql("DELETE FROM USERTABLE");
     });
-    console.log("We are in deleteAllUsers");
+    //console.log("We are in deleteAllUsers");
     showUsers();
 
 }
@@ -186,10 +194,10 @@ function deleteAllUsers(){
 */
 function deleteUser(userName){
      db.transaction(function(tx){
-        console.log(tx);
+        //console.log(tx);
         tx.executeSql("DELETE FROM USERTABLE WHERE userName = '"+userName+"'");
     });
-        console.log("We are in deleteUser");
+        //console.log("We are in deleteUser");
         showUsers();
 
 }
@@ -199,11 +207,11 @@ function deleteUser(userName){
 */
 function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 	db.transaction(function(tx){
-			console.log(tx);
+			//console.log(tx);
 			tx.executeSql("SELECT bDayEnd FROM USERTABLE WHERE userName = '"+username+"'", [], function(tx,result){
                 var row = result.rows.item(0);
                 var times = row['bDayEnd'];
-                console.log(times.length);
+                //console.log(times.length);
                 
                 if(times.length > 0 ){
                     bTimeStart =","   + bTimeStart;
@@ -211,7 +219,7 @@ function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
                     bDayStart = ","   + bDayStart;
                     bDayEnd = 	","   + bDayEnd;
                 }else{
-                    console.log("We see it is empty, and insert as normal");
+                    //console.log("We see it is empty, and insert as normal");
                 }
 			});
 			
@@ -223,7 +231,7 @@ function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
                                             bDayEnd      = bDayEnd    || '"+bDayEnd   +"'  \
                                             WHERE userName = '"+username+"'");
         });
-        console.log("We are in addUsersCal");
+        //console.log("We are in addUsersCal");
         showUsers();
 }
 /* input:userName,groupID
@@ -232,11 +240,11 @@ function addUserCal(username, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 */
 function addGroupToUser(userName,groupID){
     db.transaction(function(tx){
-        console.log(tx);
+        //console.log(tx);
         tx.executeSql("SELECT groupID FROM USERTABLE WHERE userName = '"+userName+"'", [], function(tx,result){
                 var row = result.rows.item(0);
                 var group = row['groupID']
-                console.log(group.length);
+                //console.log(group.length);
                 if(group.length > 0){groupID ="," + groupID;}
         });
     });
@@ -256,7 +264,7 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
 	var upbds;
 	var upbde;
     db.transaction(function(tx){
-    console.log(tx);
+    //console.log(tx);
     tx.executeSql("SELECT userName, bTimeStart, \
                    bTimeEnd, bDayStart, bDayEnd \
                    FROM USERTABLE WHERE userName = '"+ userName+"'", [], function(tx,result){
@@ -279,7 +287,7 @@ function removeUserCal(userName, bTimeStart, bTimeEnd, bDayStart, bDayEnd){
         });
         
     });
-	console.log(upbts,upbte,upbds,upbde);
+	//console.log(upbts,upbte,upbds,upbde);
 	db.transaction(function(tx){
         tx.executeSql("UPDATE USERTABLE SET bTimeStart   = '"+upbts  +"', \
                                             bTimeEnd     = '"+upbte  +"', \
@@ -306,7 +314,7 @@ function removeGroupFromUser(userName,groupID){
 				for(var i = 0; i < upgroupID.length; i++){
 					if(upgroupID[i] == groupID){
 				        newGroupList = upgroupID.splice(i,1);//splice deletes index i
-                        console.log("items to remove",  newGroupList );
+                        //console.log("items to remove",  newGroupList );
 					}// looks like no need for edge cases
 				}
                 
@@ -314,9 +322,9 @@ function removeGroupFromUser(userName,groupID){
 
         });
     });
-	console.log(upgroupID);//this prints empty
+	//console.log(upgroupID);//this prints empty
 	db.transaction(function(tx){
-        console.log("set to", upgroupID);  
+        //console.log("set to", upgroupID);  
         tx.executeSql("UPDATE USERTABLE SET groupID   = '"+ upgroupID +"' \
                                             WHERE userName ='"+ userName+"'");
         });
@@ -335,7 +343,7 @@ function getCalbyUser(username, callback){
  	var result;
  	var arra;
      db.transaction(function(tx){
-         console.log(tx);
+         //console.log(tx);
          result = tx.executeSql("SELECT userName, bTimeStart, bTimeEnd, bDayStart, bdayEnd \
  						FROM USERTABLE \
  						WHERE userName ='"+username+"'", [], function(tx,result){
@@ -352,8 +360,8 @@ function getCalbyUser(username, callback){
  				
 				if(callback){
 					arra =  callback(arra);
-					console.log("here");
-					console.log(arra);
+					//console.log("here");
+					//console.log(arra);
 					return arra;
 				}
   
@@ -372,7 +380,7 @@ function getCalbyUser(username, callback){
 function getGroupForUser(username, callback){
 	var groupArray;
 	db.transaction(function(tx){
-         console.log(tx);
+         //console.log(tx);
          result = tx.executeSql("SELECT groupID, bdayEnd FROM USERTABLE WHERE userName ='"+username+"'", [], function(tx,result){
  							
  				var length = result.rows.length;
@@ -402,12 +410,12 @@ function USERtoJSON(){
         result = tx.executeSql("SELECT * FROM USERTABLE WHERE userName = '"+userName+"'" ,[],function(tx,result){
              var row = result.rows;
              dataJSON.users = row;
-             console.log(dataJSON);
+             //console.log(dataJSON);
         });
     });
 }
 function JSONtoUSER(){
-    console.log(dataJSON.users);
+    //console.log(dataJSON.users);
     loadUser(dataJSON);
 }
 /* input:data
@@ -415,7 +423,7 @@ function JSONtoUSER(){
    What it does: callback for some operations
 */
 function getdata(data){
-	console.log(data);
+	//console.log(data);
 	return data;
 }
 /* input:void
