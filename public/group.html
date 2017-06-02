@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html ng-app="MyApp">
 <header>
@@ -127,7 +128,84 @@
         var link = window.location.href.split("groupName=");
         var groupName = link[1];
         getUserTimesInGroup(groupName, startGroupUpload);</script>
+      <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script>
+  // Initialize Firebase--couldnt do in seperate file due to includes not working
+  // TODO: Replace with your project's customized code snippet
+  var loadedDB;
+  var groupLoadedDB;
+  var config = {
+    apiKey: "AIzaSyBetNrKXVXpI6OrSjOpwVIm_HQSZ0p64tw",
+    authDomain: "quickmeet2-c69c9.firebaseapp.com",
+    databaseURL: "https://quickmeet2-c69c9.firebaseio.com",
+    storageBucket: "bkt1.appspot.com",
+    messagingSenderId: "admin",
+  };
+  firebase.initializeApp(config);
+  console.log("success");
+    // Get a reference to the database service
+    var database = firebase.database();
 
+    function writeUserData() {
+        var link = window.location.href.split("username=");
+        var username = link[1];
+        firebase.database().ref('user/'+username+'/').set(dataJSON);
+        console.log("wrote user");
+    }
+
+    function readUserData(){
+        
+        var username = document.getElementById("name").value;
+        GLOBALUserName = username;
+        return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
+        loadedDB = snapshot.val();
+        console.log(loadedDB);
+        });
+        console.log("read user");
+    }
+        
+    function readUserDataParam(userArray,callback){
+        var userJSONArray  = [];
+        //GLOBALUserName = username;
+        //console.log("lenght of name array ",userArray);
+        for(var userIndex = 1; userIndex < userArray.length; userIndex++){
+                //console.log(userArray[userIndex])
+                firebase.database().ref('user/'+userArray[userIndex]+'/').once('value').then(
+                    function(snapshot) {
+                        
+                        var USERJSON = snapshot.val().users;
+                        userJSONArray.push(USERJSON);
+                        //console.log("users snap for user",userArray[userIndex], userJSONArray[0]);
+                        //console.log(userJSONArray[userIndex]);
+                });
+            //console.log("index: ", userIndex,userJSONArray);
+        }
+        
+        callback(userJSONArray,0,userArray.length);
+        //console.log("read user:",    userJSONArray[0]);
+
+        setTimeout(function(){
+            //console.log("read user in timeout", userJSONArray[0]);
+            return userJSONArray;},200);
+    }
+    function writeGroupData() {
+        var link = window.location.href.split("groupName=");
+        var groupname = link[1];
+        firebase.database().ref('groups/'+groupname+'/').set(groupDataJSON);
+        console.log("wrote groups:"+groupDataJSON.groups);
+    }
+    function readGroupData(){
+        
+        var link = window.location.href.split("groupName=");
+        var groupname = link[1];
+        
+        return firebase.database().ref('groups/'+groupname+'/').once('value').then(function(snapshot) {
+        groupLoadedDB = snapshot.val();
+        console.log(groupLoadedDB.groups);
+        });
+        console.log("read group");
+    }
+    </script>
 <br><br><br>
 
 </html>

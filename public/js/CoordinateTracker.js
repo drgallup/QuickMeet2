@@ -100,6 +100,21 @@ function startGroupUpload(groupUserData){
 	}
 	userNum = 0;
 }
+function loadGroupAnew(data){
+    var userArray;
+    doAll();
+    console.log(data);
+    //setTimeout( GLOBALUserName = data[lengthusers],100)
+    //setTimeout( console.log("GLOBALUserName"+GLOBALUserName),200)
+    userArray = setTimeout(readUserDataParam(data,loadUserParam),100);
+    //setTimeout(JSONtoUSER,400); 
+    setTimeout(function(){console.log("in load anew:" + userArray);
+    /*for(var userIndex = 0; userIndex < userArray.length; userIndex++){
+        loadUserParam(userArray[userIndex]);
+    }*/
+    showUsers();
+    return data;},200);
+}
 //console.log(jsonData);
 
 

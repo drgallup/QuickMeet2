@@ -1,8 +1,7 @@
 //link the 'CREATE GROUP' button in the main page, redirect user to group calendar
 function groupRedirect(){
         console.log("fubar");
-        var groupName = document.getElementById("name").value;
-        createGroup(groupName);
+        var groupName = GLOBALGroupName;
         //good for LOCAL HOSTING
         window.location.href ="/public/group.html?"+"groupName="+groupName;
         //good for live version
@@ -11,10 +10,10 @@ function groupRedirect(){
         setTimeout(getUserTimesInGroup(groupName, startGroupUpload),2000);
 }
 function userRedirect(){
-        console.log("fubar");
-        var username = document.getElementById("name").value;
+        
+        var username = GLOBALUserName;
         doAll();
-        createUser();
+        //createUser();
         //var link = window.location.href.split("username=");
         //var username = link[1];
         //good for LOCAL HOSTING
@@ -24,7 +23,7 @@ function userRedirect(){
                 window.location.href = "/public/index.html?"+"username="+username;
                 doAll();
                 console.log("we are in it: "+username);}
-            ,1000);
+            ,100);
         console.log("fu bard"); 
         //good for REMOTE HOSTING
         //window.location.href = "/index.html?"+"username="+username;
