@@ -100,6 +100,21 @@ function startGroupUpload(groupUserData){
 	}
 	userNum = 0;
 }
+function loadGroupAnew(data){
+    var userArray;
+    doAll();
+    console.log(data);
+    //setTimeout( GLOBALUserName = data[lengthusers],100)
+    //setTimeout( console.log("GLOBALUserName"+GLOBALUserName),200)
+    userArray = setTimeout(readUserDataParam(data,loadUserParam),100);
+    //setTimeout(JSONtoUSER,400); 
+    setTimeout(function(){console.log("in load anew:" + userArray);
+    /*for(var userIndex = 0; userIndex < userArray.length; userIndex++){
+        loadUserParam(userArray[userIndex]);
+    }*/
+    showUsers();
+    return data;},200);
+}
 //console.log(jsonData);
 
 
@@ -213,6 +228,15 @@ function mouseMove(eve) {
         drawSelector();
     }
     drawTooltip(pos);
+}
+
+// input:  mouse out of canvas
+// output: redraw canvas without tooltip
+// removes tooltip when user navigates away from canvas
+can.onmouseout = function () {
+  ctx.clearRect(0,0,c.width,c.height);
+  drawGrid();
+  drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colornumarr);
 }
 
 // findDeletion()
