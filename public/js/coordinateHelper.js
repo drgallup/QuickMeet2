@@ -102,19 +102,21 @@ function returningUserCreation(){
 }
 
 function newGroupCreation(){
+  //createGroupTable();
+  //doGroup();
   GLOBALGroupName = document.getElementById("name").value;
-  setTimeout(createGroup,time1);
-  setTimeout(groupRedirect,time2);
-  setTimeout(GROUPtoJSON,time3)
-  setTimeout(writeGroupData,time4);
+  setTimeout(createGroup,time2);
+  setTimeout(groupRedirect,time3);
+  setTimeout(GROUPtoJSON,time4)
+  setTimeout(writeGroupData,time5);
 }
 
 function returningGroupCreation(){
     //consle.log("returning group creation");
-    setTimeout(readGroupData,time1);
-    setTimeout(JSONtoGROUP,time2);
+    setTimeout(readGroupData,time2);
+    setTimeout(JSONtoGROUP,time4);
     setTimeout(function(){
-        var link = window.location.href.split("groupName=");
+            var link = window.location.href.split("groupName=");
             var groupName = link[1];
             //consle.log("groupname:"+ groupName);
             getUsersInGroup(groupName, loadGroupAnew);
@@ -124,7 +126,11 @@ function returningGroupCreation(){
                            getUserTimesInGroup(groupName, startGroupUpload);
                           }, time30);
 }
-
+function helperReturningGroupCreation(){
+    GLOBALGroupName = document.getElementById("name").value;
+    setTimeout(groupRedirect,time1);
+    setTimeout(returningGroupCreation,time2);
+}
 // input: day, 0-6
 // output: String of the day eg. 1 = "Monday"
 // maps the days to strings

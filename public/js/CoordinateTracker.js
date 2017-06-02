@@ -96,7 +96,6 @@ function startGroupUpload(groupUserData){
 	var usersInGroup = groupUserData.split(',');
 	for(var m = 0; m < usersInGroup.length; m++){
 		getCalbyUser(usersInGroup[m],startUpload);
-		
 	}
 	userNum = 0;
 }
@@ -106,14 +105,14 @@ function loadGroupAnew(data){
     console.log(data);
     //setTimeout( GLOBALUserName = data[lengthusers],100)
     //setTimeout( console.log("GLOBALUserName"+GLOBALUserName),200)
-    userArray = setTimeout(readUserDataParam(data,loadUserParam),100);
+    userArray = setTimeout(readUserDataParam(data,loadUserParam),time1);
     //setTimeout(JSONtoUSER,400); 
     setTimeout(function(){console.log("in load anew:" + userArray);
     /*for(var userIndex = 0; userIndex < userArray.length; userIndex++){
         loadUserParam(userArray[userIndex]);
     }*/
     showUsers();
-    return data;},200);
+    return data;},time2);
 }
 //console.log(jsonData);
 

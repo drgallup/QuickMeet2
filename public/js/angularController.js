@@ -3,6 +3,18 @@
 // app used for all controllers in index.html and group.html
 var app = angular.module('MyApp', ['ngMaterial']);
 
+/*
+Input: nothing, just call this
+Output: table appended to body
+This how to generate a list of users the group has
+*/
+var listUsers;
+function displayUsersOfGroup()
+{
+   var link = window.location.href.split("groupName=");
+    var groupName = link[1];
+    var x = getUsersInGroup(groupName, setUserList);
+}
 // PopCtrl
 // input:  scope
 // output: dialog
@@ -197,18 +209,6 @@ function setGroupList(groupArray)
 }
 
 
-/*
-Input: nothing, just call this
-Output: table appended to body
-This how to generate a list of users the group has
-*/
-var listUsers;
-function displayUsersOfGroup()
-{
-   var link = window.location.href.split("groupName=");
-    var groupName = link[1];
-    var x = getUsersInGroup(groupName, setUserList);
-}
 /*
 Input: nothing 
 Output: list of user id's 

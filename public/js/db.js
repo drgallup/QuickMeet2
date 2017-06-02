@@ -8,6 +8,7 @@ var time2 = 200;
 var time3 = 300;
 var time4 = 400;
 var time5 = 500;
+var time6 = 600;
 var time10 = 1000;
 var time20 = 2000;
 var time30 = 3000;
@@ -96,7 +97,7 @@ function loadUser(){
         //if(length == 0){
             tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
                           [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
-            alert("User: " +userName+ " has been loaded");
+            //alert("User: " +userName+ " has been loaded");
             
             //window.location.href = "/public/index.html?"+"username="+userName;
             //doAll();
@@ -132,7 +133,7 @@ function loadUserParam(userJSON, index, numOfUsers){
         },200);
     
         setTimeout(function(){
-            if(index < numOfUsers-1){
+            if(index < numOfUsers){
                 loadUserParam(userJSON, index+1, numOfUsers);
             }
         },300);
@@ -170,7 +171,7 @@ function showUsers(){
                        bTimeEnd, bDayStart, bDayEnd, groupID FROM USERTABLE", [], function(tx,result){
             for(var i = 0; i< result.rows.length;i++){
                 var row = result.rows.item(i);
-                //console.log(row['userID'], row['userName'], row['bTimeStart'], row['bTimeEnd'], row['bDayStart'], row['bDayEnd'], row['groupID']);
+                console.log(row['userID'], row['userName'], row['bTimeStart'], row['bTimeEnd'], row['bDayStart'], row['bDayEnd'], row['groupID']);
             }
         });
     });
