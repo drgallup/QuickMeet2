@@ -23,7 +23,7 @@ function createGroup(){
     db.transaction(function(tx){
         tx.executeSql("insert into GROUPTABLE values(?,?)", 
                       [groupName,users]);
-        //alert("New Group: " +groupName+ " has been made");
+        alert("New Group: " +groupName+ " has been made");
     });
     showGroups();
 }
@@ -215,7 +215,7 @@ function showGroups(){
         tx.executeSql("SELECT groupName, users FROM GROUPTABLE", [], function(tx,result){
             for(var i = 0; i< result.rows.length;i++){
                 var row = result.rows.item(i);
-                //console.log(row['groupName']+"  "+row['users']);
+                console.log(row['groupName']+"  "+row['users']);
             }
         });
     });
@@ -280,14 +280,14 @@ function realHelperAddUserToGroup(){
                 var groupName = link[1];
                 
                 helperAddUserToGroup();}
-               ,time2);
+               ,time3);
    
     setTimeout(function(){
                             addGroupToUser(username,groupName);
                             GROUPtoJSON();
-                         },time3);
+                         },time4);
 
-    setTimeout( helperAddUserToGroup, time4);
+    setTimeout( helperAddUserToGroup, time5);
     setTimeout( function(){ 
                     var link = window.location.href.split("groupName=");
                     var groupName = link[1];
@@ -295,9 +295,9 @@ function realHelperAddUserToGroup(){
                     userNum++;
                     colornumarr.push(userNum);
                     
-                    writeGroupData();
+                    setTimeout(writeGroupData,time1);
                 }
-               , time5);
+               , time6);
 }
 /*
 Input: Nothing

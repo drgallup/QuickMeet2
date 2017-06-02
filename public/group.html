@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
           <ul class="navigation">
-              <li class="navigation-items"> <a href="/public/index.html">Home</a> </li>
+              <li class="navigation-items"> <a href="/index.html">Home</a> </li>
               <li class="navigation-items"> <a ng-controller="PopCtrl" ng-click="showHelp($event)">Help</a> </li>
           </ul>
   </div>
@@ -112,6 +112,7 @@
     <script src ="js/groupDB.js"></script>
     <script src = "js/redir.js"> </script>
     <script src ="js/CalendarGenerator.js"></script>
+    <script src ="js/angularController.js"></script>
 
     <script src = "js/CoordinateTracker.js"></script>
 
@@ -255,16 +256,24 @@
     var database = firebase.database();
 
     function writeUserData() {
+        //setTimeout(function(){
         var link = window.location.href.split("username=");
         var username = link[1];
         firebase.database().ref('user/'+username+'/').set(dataJSON);
         console.log("wrote user");
-    }
+        //},time2);
+    }   
 
     function readUserData(){
         
-        var username = document.getElementById("name").value;
-        GLOBALUserName = username;
+        var username;
+        /*if (document.getElementById("name").value!= null){
+           username =  document.getElementById("name").value;
+        }else if (document.getElementById("name1").value!= null){
+            username =  document.getElementById("name1").value;
+        }
+        GLOBALUserName = username;*/
+        username = GLOBALUserName;
         return firebase.database().ref('user/'+username+'/').once('value').then(function(snapshot) {
         loadedDB = snapshot.val();
         console.log(loadedDB);
