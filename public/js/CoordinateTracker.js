@@ -159,12 +159,13 @@ function mouseUp(eve) {
     //console.log("Inside mouseup");
     ctx.clearRect(0,0,c.width,c.height);
     drawGrid();
-   // if(deletion==false){
+    // test for the delete switch
+   if(angular.element(document.querySelector('[ng-controller="AppCtrl"]')).scope().data.cb1==false){
       findLocation();
-    /*}
-    if(deletion==true){
+   } else
+    if(angular.element(document.querySelector('[ng-controller="AppCtrl"]')).scope().data.cb1==true){
       findDeletion();
-    }*/
+    }
     drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd,colornumarr);
 }
 
@@ -229,6 +230,15 @@ function mouseMove(eve) {
     drawTooltip(pos);
 }
 
+// input:  mouse out of canvas
+// output: redraw canvas without tooltip
+// removes tooltip when user navigates away from canvas
+can.onmouseout = function () {
+  ctx.clearRect(0,0,c.width,c.height);
+  drawGrid();
+  drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd, colornumarr);
+}
+
 // findDeletion()
 // input:   global variables startX, startY, endX, endY (mouse pos)
 //          day[] (pixel map for days), hour[] (pixel map for times)
@@ -272,9 +282,13 @@ function findDeletion(){
         if((btimeStart[a]<=timeStart) && (timeEnd<=btimeEnd[a]) && (bdayStart[a]<=dayStart) && (dayEnd<=bdayEnd[a])){
 
             //alert(a + " true");
-            post_data("/QuickMeet/default/api/" + user + "/1/" + ".json", btimeStart[a], btimeEnd[a], bdayStart[a], bdayEnd[a]);
+            //// push delete
+            var link = window.location.href.split("username=");
+            var userName = link[1];
+            removeUserCal(userName, btimeStart[a], btimeEnd[a], bdayStart[a], bdayEnd[a]);
+            //post_data("/QuickMeet/default/api/" + user + "/1/" + ".json", btimeStart[a], btimeEnd[a], bdayStart[a], bdayEnd[a]);
 
-
+            
             btimeStart.splice(a,1);
             btimeEnd.splice(a,1);
             bdayStart.splice(a,1);
@@ -282,9 +296,8 @@ function findDeletion(){
             counter = counter + 1;
             ctx.clearRect(0,0,c.width,c.height);
             drawGrid();
-            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd); 
             console.log("Deleted");
-            break;
+            return btimeStart, btimeEnd, bdayStart, bdayEnd; 
         }
     }
 }
