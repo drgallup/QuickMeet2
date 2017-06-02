@@ -1,12 +1,16 @@
 
 <!DOCTYPE html>
-<html ng-app="MyApp">
+<html ng-app="MyApp" onload="returningGroupCreation()">
 <header>
   <link rel="stylesheet" href="css/menu.css">
   <div class="container">
           <ul class="navigation">
               <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/index.html">Home</a> </li>
+<<<<<<< HEAD
               <li class="navigation-items"> <a ng-controller="PopCtrl" ng-click="showHelp($event)">Help</a> </li>
+=======
+              <li class="navigation-items"> <a href="http://127.0.0.1:54042/public/help.html">Help</a> </li>
+>>>>>>> parent of cc2a2dd... read/write working for groups
           </ul>
   </div>
 </header>
@@ -162,31 +166,6 @@
         console.log(loadedDB);
         });
         console.log("read user");
-    }
-        
-    function readUserDataParam(userArray,callback){
-        var userJSONArray  = [];
-        //GLOBALUserName = username;
-        //console.log("lenght of name array ",userArray);
-        for(var userIndex = 1; userIndex < userArray.length; userIndex++){
-                //console.log(userArray[userIndex])
-                firebase.database().ref('user/'+userArray[userIndex]+'/').once('value').then(
-                    function(snapshot) {
-                        
-                        var USERJSON = snapshot.val().users;
-                        userJSONArray.push(USERJSON);
-                        //console.log("users snap for user",userArray[userIndex], userJSONArray[0]);
-                        //console.log(userJSONArray[userIndex]);
-                });
-            //console.log("index: ", userIndex,userJSONArray);
-        }
-        
-        callback(userJSONArray,0,userArray.length);
-        //console.log("read user:",    userJSONArray[0]);
-
-        setTimeout(function(){
-            //console.log("read user in timeout", userJSONArray[0]);
-            return userJSONArray;},200);
     }
     function writeGroupData() {
         var link = window.location.href.split("groupName=");
