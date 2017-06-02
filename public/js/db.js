@@ -96,6 +96,40 @@ function loadUser(){
     }); 
     showUsers();  
 }
+
+
+function loadUserParam(userJSON, index, numOfUsers){
+    doAll();
+    doGroup();
+    //setTimeout(function(){
+    console.log("in loaduser Param",userJSON);
+    //for(var userIndex = 0; userIndex < 2; userIndex){
+        //console.log(userIndex);
+        setTimeout(function(){
+                
+            var userName   = userJSON[index][0].userName;
+            var userID     = userJSON[index][0].userID;
+            var bTimeStart = userJSON[index][0].bTimeStart;
+            var bTimeEnd   = userJSON[index][0].bTimeEnd;
+            var bDayStart  = userJSON[index][0].bDayStart;
+            var bDayEnd    = userJSON[index][0].bDayEnd;
+            var groupID    = userJSON[index][0].groupID;
+            
+            console.log(userName, groupID);
+            db.transaction(function(tx){
+                    tx.executeSql("insert into USERTABLE values(?,?,?,?,?,?,?)", 
+                                  [userID, userName, bTimeStart,bTimeEnd, bDayStart, bDayEnd, groupID]);
+                    //alert("User: " +userName+ " has been loaded");
+            });    
+        },200);
+    
+        setTimeout(function(){
+            if(index < numOfUsers-1){
+                loadUserParam(userJSON, index+1, numOfUsers);
+            }
+        },300);
+}
+
 /* input: void
    output: uniqueID, extra field for identification
    What it does: generates a userID that is random and unique

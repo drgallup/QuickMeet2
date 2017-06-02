@@ -259,12 +259,9 @@ function helperAddUserToGroup(){
     var groupName = link[1];
     
     addUserToGroup(username, groupName);
-    setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 100);
-    /*setTimeout(function(){
-            drawBox(btimeStart, btimeEnd, bdayStart, bdayEnd);
-    } , 200);  */  
-    // redraw the calendar
-
+    resetData();
+    setTimeout( getUserTimesInGroup(groupName, startGroupUpload), 200);
+    
     
 }
 /*

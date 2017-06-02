@@ -109,6 +109,22 @@ function newGroupCreation(){
 }
 
 function returningGroupCreation(){
+    console.log("returning group creation");
+    setTimeout(readGroupData,100);
+    setTimeout(JSONtoGROUP,200);
+    setTimeout(function(){
+        var link = window.location.href.split("groupName=");
+            var groupName = link[1];
+            console.log("groupname:"+ groupName);
+            getUsersInGroup(groupName, loadGroupAnew);
+            resetData();
+            console.log();
+        
+    },1000);
+    setTimeout( function(){
+                           getUserTimesInGroup(groupName, startGroupUpload);
+                          }, 2000);
+    /*
     setTimeout(readGroupData,100);
     setTimeout(JSONtoGROUP,200);
     setTimeout(function(){
@@ -116,7 +132,7 @@ function returningGroupCreation(){
             var groupName = link[1];
             getUserTimesInGroup(groupName, startGroupUpload)
                     
-    },300);
+    },300);*/
     //setTimeout(groupRedirect,300);
 }
 
