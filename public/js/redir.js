@@ -2,7 +2,7 @@
 function groupRedirect(){
         console.log("fubar");
         var groupName = GLOBALGroupName;
-        //good for LOCAL HOSTING
+        //good for LOCAL 
         window.location.href ="/public/group.html?"+"groupName="+groupName;
         //good for live version
         //window.location.href = "/group.html?"+"groupName="+groupName;
